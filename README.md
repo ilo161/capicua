@@ -45,7 +45,7 @@
 ## Technologies & Technical Challenges
     
 ### Board
-#### Technical Challenges
+### <ins>Technical Challenges</ins>
 
 #### The board set up animations will be technically challenging because game pieces will be shuffled and distributed to multiple player with animation. We also anticpate challenges with the viewbox when the length of the sides of the game pieces exceeds the dimensions of the visible board. Another challenge we foresee is syncing our game logic with our animations.
 
@@ -54,21 +54,21 @@
 
 #### A capicua occurs when a player's winning bone can be played on either side of the board.(A capicua triggers a graphical effect). Please note that our games involves high levels of flashing lights and background music.
         
-#### Technical Challenges
+### Technical Challenges
 
 #### Developing the Artificial Intelligence will prove significant difficulty to align with our game logic.
 
 ### Multiplayer functionality
 #### Abilty to allow a 2 player game or a 4 player team battle.
 
-#### Technical Challenges
+### Technical Challenges
 
 #### Learning how to use Web Sockets for the joined online experience. Implementing external peripherals such as microphones for voice chat. Implementing a countdown timer to encourage continuous gameplay.
 
 ### Audio player
 #### A docked audio player for that authentic carribean music experience.
 
-#### Technical Challenges
+### Technical Challenges
 
 #### Harmonizing with voice chat. Disallowing music to be louder than incomming voice data to other players but then restoring volume to the music when voice chat stops.
 
