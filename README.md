@@ -80,10 +80,10 @@ A capicua occurs when a player's winning bone can be played on either side of th
 * All members of the team went through the MERN cirriculum.
 
 ## Group Members & Work Breakdown
-<ins>Chris Lopez</ins> - Official Flex
-<ins>Sergio Medina</ins> - Project Lead and secondary Flex
-<ins>Steven Suazo</ins> - Backend
-<ins>Yangel Aquilera</ins> - Frontend
+* <ins>Chris Lopez</ins> - Official Flex
+* <ins>Sergio Medina</ins> - Project Lead and secondary Flex
+* <ins>Steven Suazo</ins> - Backend
+* <ins>Yangel Aquilera</ins> - Frontend
 
 
 
