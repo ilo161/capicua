@@ -1,4 +1,4 @@
-# capicua
+# Capicua
 
 ## Background and Overview
 
@@ -12,13 +12,13 @@
  * Create a toggle for an authentic carribean musical experience(audio player).
 
  ## Functionality & MVP
-  
-  ### Board
-    * Board Setup Graphics 
-        * Placing Bones/Dominoes
-    * Background/Graphics
-        * Fire graphics on the screen when player is on fire
-            * Fire is achieved with a certain streak of placed bones
+
+### Board
+* Board Setup Graphics 
+    * Placing Bones/Dominoes
+* Background/Graphics
+    * Fire graphics on the screen when player is on fire
+        * Fire is achieved with a certain streak of placed bones
 
   ### Gameplay
     * Play to win by Points (80 || 120 || 200)
