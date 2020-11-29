@@ -47,28 +47,28 @@
 ### Board
 ### <ins>Technical Challenges</ins>
 
-#### The board set up animations will be technically challenging because game pieces will be shuffled and distributed to multiple player with animation. We also anticpate challenges with the viewbox when the length of the sides of the game pieces exceeds the dimensions of the visible board. Another challenge we foresee is syncing our game logic with our animations.
+The board set up animations will be technically challenging because game pieces will be shuffled and distributed to multiple player with animation. We also anticpate challenges with the viewbox when the length of the sides of the game pieces exceeds the dimensions of the visible board. Another challenge we foresee is syncing our game logic with our animations.
 
 ### Gameplay
 #### Gameplay begins with players drawing 7 bones/dominoes. First player is decided by whom has the highest double(i.e. double 6 ... 5...4...3..etc.). The following player(s) may only play a bone if one of their bones has the same number of dots as either end of the gameboard. Otherwise... player must draw from the pile of remaining bones, if not bones are available, player skips their turn. A player or team wins when they have no remaining bones in their hand. The opponents dots on all remaining bones are added to the score of the winner.
 
 #### A capicua occurs when a player's winning bone can be played on either side of the board.(A capicua triggers a graphical effect). Please note that our games involves high levels of flashing lights and background music.
         
-### Technical Challenges
+### <ins>Technical Challenges</ins>
 
 #### Developing the Artificial Intelligence will prove significant difficulty to align with our game logic.
 
 ### Multiplayer functionality
 #### Abilty to allow a 2 player game or a 4 player team battle.
 
-### Technical Challenges
+### <ins>Technical Challenges</ins>
 
 #### Learning how to use Web Sockets for the joined online experience. Implementing external peripherals such as microphones for voice chat. Implementing a countdown timer to encourage continuous gameplay.
 
 ### Audio player
 #### A docked audio player for that authentic carribean music experience.
 
-### Technical Challenges
+### <ins>Technical Challenges</ins>
 
 #### Harmonizing with voice chat. Disallowing music to be louder than incomming voice data to other players but then restoring volume to the music when voice chat stops.
 
