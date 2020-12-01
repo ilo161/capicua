@@ -4,6 +4,8 @@ const User = require("../../models/User");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const validateSignupInput = require('../../validation/signup');
+const validateLoginInput = require('../../validation/login');
 
 
 router.get("/test", (req, res) => {
@@ -11,13 +13,13 @@ router.get("/test", (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  // const { errors, isValid } = validateSignupInput(req.body);
+  const { errors, isValid } = validateSignupInput(req.body);
 
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
-  // Check to see if usernamer is available
+  // Check to see if username is available
   User.findOne({ username: req.body.username })
     .then(user => {
       if (user) {
@@ -44,13 +46,11 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  // const { errors, isValid } = validateLoginInput(req.body);
+  const { errors, isValid } = validateLoginInput(req.body);
 
-  // console.log(errors);
-
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
   const username = req.body.username;
   const password = req.body.password;
