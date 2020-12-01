@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# admin keys
+keys.js
+
 # production
 /build
 
