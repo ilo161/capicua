@@ -48,86 +48,86 @@ class Game{
         this.skipCounter = 0;
     }
  
-    createBoneYard() {
-        //This function will create all of the 27 pieces of the game and assign it to the graveyard pile
-        let i;
-        let j;
-        for (i = 0; i < 7; i++) {
-            for (j = i; j < 7; j++) {
-                // // if (!this.bones.bones.includes([i, j])) {
-                    this.bones.bones.push(new Bone([i, j]));
-                // };
-            }
-        }
-        return this.bones
-    }
+    // createBoneYard() {
+    //     //This function will create all of the 27 pieces of the game and assign it to the graveyard pile
+    //     let i;
+    //     let j;
+    //     for (i = 0; i < 7; i++) {
+    //         for (j = i; j < 7; j++) {
+    //             // // if (!this.bones.bones.includes([i, j])) {
+                    // this.bones.bones.push(new Bone([i, j]));
+    //             // };
+    //         }
+    //     }
+    //     return this.bones
+    // }
 
-    shuffleBoneYard(boneyard){
-        //This function will shuffle all 27 bones. In a randomized order
+    // shuffleBoneYard(boneyard){
+    //     //This function will shuffle all 27 bones. In a randomized order
 
 
-            for(let i = boneyard.length - 1; i > 0; i--){
-                const randomMathFloorIdx = Math.floor(Math.random() * i)
-                const lastIdx = boneyard[i]
-                const temp = boneyard[randomMathFloorIdx]  
-                boneyard[i] = temp;
-                boneyard[randomMathFloorIdx] = lastIdx
-            }
-                return boneyard
-        }
+    //         for(let i = boneyard.length - 1; i > 0; i--){
+    //             const randomMathFloorIdx = Math.floor(Math.random() * i)
+    //             const lastIdx = boneyard[i]
+    //             const temp = boneyard[randomMathFloorIdx]  
+    //             boneyard[i] = temp;
+    //             boneyard[randomMathFloorIdx] = lastIdx
+    //         }
+    //             return boneyard
+    //     }
 
-    startingHand(){
-        //this function will iterate through the players in the game and distribute 7 bones to each player at random
-        //after a random bone is chosen it is removed from the gray yard
-        this.players.forEach((player) => {
-            let playerHand = [];
-            for(let i = 0; playerHand.length < 7; i++){  
-                playerHand.push(this.bones.bones.pop());
-            }
+    // startingHand(){
+    //     //this function will iterate through the players in the game and distribute 7 bones to each player at random
+
+    //     this.players.forEach((player) => {
+    //         let playerHand = [];
+    //         for(let i = 0; playerHand.length < 7; i++){  
+    //             playerHand.push(this.bones.bones.pop());
+    //         }
             
-            player.hand = playerHand;
-            console.log(`${player.username} below`)
-                player.hand.forEach(boneObj => {
-                    console.log(boneObj.boneVal)
+    //         player.hand = playerHand;
+    //         console.log(`${player.username} below`)
+    //             player.hand.forEach(boneObj => {
+    //                 console.log(boneObj.boneVal)
 
-                })
-        });
-    }
+    //             })
+    //     });
+    // }
 
-    restartBoneYard(){
-        this.bones.bones = []
-        this.players.forEach(player => {
-            player.hand = []
-        })
-        this.createBoneYard();
-        this.shuffleBoneYard(this.bones.bones);
-        this.startingHand();
+    // restartBoneYard(){
+    //     this.bones.bones = []
+    //     this.players.forEach(player => {
+    //         player.hand = []
+    //     })
+    //     this.createBoneYard();
+    //     this.shuffleBoneYard(this.bones.bones);
+    //     this.startingHand();
         
-        if(this.sevenDoubles()){
-            this.restartBoneYard()
-        }
-    }
+    //     if(this.sevenDoubles()){
+    //         this.restartBoneYard()
+    //     }
+    // }
 
-    sevenDoubles() {
-        debugger
-        let doubleBoneCounter = 0
-        this.bones.bones.forEach(boneObj => {
-            if (boneObj.isDouble()) {
-                doubleBoneCounter++;
-            }
-        })
-        return doubleBoneCounter === 7 ? true : false;
-    }
+    // sevenDoubles() {
+    //     debugger
+    //     let doubleBoneCounter = 0
+    //     this.bones.bones.forEach(boneObj => {
+    //         if (boneObj.isDouble()) {
+    //             doubleBoneCounter++;
+    //         }
+    //     })
+    //     return doubleBoneCounter === 7 ? true : false;
+    // }
 
-    //not tested
-    highestDouble(bone, currentPlayerIdx, currentHigh, boneIdx) {
 
-      if (bone.isDouble() && bone.topNumber >= currentHigh[0][0]){
-        currentHigh = ([bone.boneVal, currentPlayerIdx, boneIdx])
-        return currentHigh;
-      }
-      return currentHigh;
-    }
+    // highestDouble(bone, currentPlayerIdx, currentHigh, boneIdx) {
+
+    //   if (bone.isDouble() && bone.topNumber >= currentHigh[0][0]){
+    //     currentHigh = ([bone.boneVal, currentPlayerIdx, boneIdx])
+    //     return currentHigh;
+    //   }
+    //   return currentHigh;
+    // }
 
     firstMove(){
         debugger
@@ -136,12 +136,12 @@ class Game{
         let playerWithHighestDouble = ([[0, 0], null, null]);
         /////Board is empty
         if (this.board.length === 0) {
-            this.players.forEach((player, playerIdx) => {
-                player.hand.forEach((bone, boneIdx) => {
-                    playerWithHighestDouble = this.highestDouble(bone, playerIdx,
-                        playerWithHighestDouble, boneIdx)
-                })
-            })
+            // this.players.forEach((player, playerIdx) => {
+            //     player.hand.forEach((bone, boneIdx) => {
+            //         playerWithHighestDouble = this.highestDouble(bone, playerIdx,
+            //             playerWithHighestDouble, boneIdx)
+            //     })
+            // })
             this.currentPlayer = this.players[playerWithHighestDouble[1]]
             let boneIndex = playerWithHighestDouble[2]
             let boneToPlay = this.currentPlayer.hand.splice(boneIndex,1)
@@ -191,42 +191,43 @@ class Game{
     }
 
     //ISEMPTY-BONEYARD TESTED AND TRUE
-    isEmpty(){
-        debugger
-        console.log("# 3/4 - isEmpty?()")
+    // isEmpty(){
+    //     debugger
+    //     console.log("# 3/4 - isEmpty?()")
 
-         if (this.bones.bones.length === 0){
-          return true;
-        } else {
-          return false;
-        } 
-    }
+    //      if (this.bones.bones.length === 0){
+    //       return true;
+    //     } else {
+    //       return false;
+    //     } 
+    // }
+
     // BONEYARD METHOD ^^^^^^
 
     //SKIP TURN -- GAME CLASS -- TESTED AND TRUE
-    skipTurn(){
-        debugger
-        console.log("# 3/4 - skipTurn()")
+    // skipTurn(){
+    //     debugger
+    //     console.log("# 3/4 - skipTurn()")
 
-        if (this.previousPlayer != this.currentPlayer){
-            this.skipCounter += 1
-        }
+    //     if (this.previousPlayer != this.currentPlayer){
+    //         this.skipCounter += 1
+    //     }
         
 
 
-        let idxCurrPlayer ;
-        // for( let player of this.players){
-            idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
-        // }
+    //     let idxCurrPlayer ;
+    //     // for( let player of this.players){
+    //         idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
+    //     // }
 
-        this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
+    //     this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
 
-        debugger
-        console.log("NEW CURRENT PLAYER");
-        console.log(this.currentPlayer.username);
-        console.log(this.currentPlayer.hand.length);
-        console.log("*************");
-    }
+    //     debugger
+    //     console.log("NEW CURRENT PLAYER");
+    //     console.log(this.currentPlayer.username);
+    //     console.log(this.currentPlayer.hand.length);
+    //     console.log("*************");
+    // }
     //^^ SKIP TURN -- GAME CLASS - TESTED AND TRUE
 
 
@@ -329,6 +330,7 @@ class Game{
 
                        
                         bone[0].boneReverse()
+
 
                         
 
