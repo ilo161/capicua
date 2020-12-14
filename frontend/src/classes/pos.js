@@ -1,5 +1,5 @@
 class Pos{
-    constructor(x, y, canvaCoordinates, bone){
+    constructor(x, y, canvasCoordinates, bone){
         this.x = x
         this.y = y
         this.canvasCoordinates = this.canvasCoordinates

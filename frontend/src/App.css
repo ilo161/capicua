@@ -38,9 +38,16 @@
 } */
 
 
-.boardgamecontainer{
+.board-game-container{
   
   height: 500px;
   width: 500px;
   background-color: darkgreen;
+  margin: 0 auto;
+}
+
+.bone{
+  border: 1px solid red;
+  width: 20px;
+  height: 20px;
 }
