@@ -1,6 +1,7 @@
 import React from "react";
 import { Stage, Layer} from 'react-konva';
 import Bone from "./bone"
+import Hand from "./hand"
 
 import { allDominos } from "./allDominos"
 
@@ -32,7 +33,10 @@ class Board extends React.Component {
 
         const {board} = this.props;
             // const bone1 =  <Bone src={allDominos["01"]} x={200} y={100}/>
-            const allDominosArr = Object.values(allDominos);
+            // const allDominosArr = Object.values(allDominos);
+
+            // we need the keys of the master obj
+            const allDominosArr = Object.keys(allDominos);
 
             const boneValToString = (boneVal) => {
                 let firstNumStr = boneVal[0].toString();
@@ -55,6 +59,7 @@ class Board extends React.Component {
             
 
                 if(bone.isDouble()){
+                    debugger
                     return <Bone src={allDominos[boneStrArr[0]]} />
                 }
                 else if(allDominosArr.includes(boneStrArr[0])){
@@ -66,20 +71,28 @@ class Board extends React.Component {
                 }
 
             })
-
+            // [src,src,src,src,src,src,src]
+           let renderedHand = board.currentPlayer.hand.map(bone => {
+               // ["34","43"]
+               const singleBoneVal =  boneValToString(bone.boneVal)[0]
+                debugger
+                return <Bone src={allDominos[singleBoneVal]}/>
+                
+            })
+            debugger
            
             // the arena is simple to show the current pieces in play
-        return(
-            <div>
-               <Stage className="board-game-container" width={500} height={500}>
-                    <Layer>
-
-                        {arena}
-
-                    </Layer>
-                </Stage> 
-            </div>
-        )
+        return (
+          <div>
+            <Stage className="board-game-container" width={500} height={500}>
+              <Layer>
+                {arena}
+                {renderedHand}
+                {/* width: height: x={500/2} y={500/2} */}
+              </Layer>
+            </Stage>
+          </div>
+        );
     }
 }
 

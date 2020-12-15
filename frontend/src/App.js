@@ -16,14 +16,8 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        {/* <Drawing></Drawing> */}
-        {/* { twoPlayers} */}
-        {/* <Bone src={domino34} /> */}
-        {/* <Bone /> */}
           <Game/>
-        {/* <Board/> */}
-        {/* <Hueso/> */}
- 
+    
       </header>
     </div>
   );

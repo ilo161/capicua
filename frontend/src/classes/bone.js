@@ -1,7 +1,8 @@
 class Bone {
     constructor(boneVal){
         [this.topNumber, this.bottomNumber] = boneVal
-        this.boneVal = boneVal
+        this.boneVal = boneVal;
+        this.isRotated = false;
     }
 
     isDouble() {
@@ -14,6 +15,7 @@ class Bone {
         this.boneVal = this.boneVal.reverse();
         this.topNumber = botTemp;
         this.bottomNumber = topTemp;
+        this.isRotated = true;
     }
 }
 

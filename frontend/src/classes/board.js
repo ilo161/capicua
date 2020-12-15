@@ -168,6 +168,7 @@ class Board {
         // this.arena.push(this.currentPlayer.hand.splice(this.currentPlayer.playerInput,1)[0])
         debugger
         // mandatoryBoneIdxToPlay is  playerIdx => boneIdxInHandOfDouble
+        // <Bone updateGame={...}/>
         this.arena.push(this.currentPlayer.hand.splice(mandatoryBoneIdxToPlay[1],1)[0])
 
 
