@@ -6,7 +6,8 @@ class Bone extends React.Component {
         super(props)
 
         this.state = {
-             image: null
+             image: null,
+             draggable: null
         };
 
 
@@ -33,7 +34,8 @@ class Bone extends React.Component {
     // after setState react-konva will update canvas and redraw the layer
     // because "image" property is changed
     this.setState({
-      image: this.image
+      image: this.image,
+      draggable: this.props.draggable
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
@@ -41,14 +43,16 @@ class Bone extends React.Component {
   };
   render() {
     // debugger
+
+    //old width=25 and height = 45
     return (
       <Image
         x={this.props.x}
         y={this.props.y}
         image={this.state.image}
-        width={25}
-        height={45}
-        draggable={true}
+        width={30}
+        height={60}
+        draggable={this.state.draggable}
         ref={node => {
           this.imageNode = node;
         }}

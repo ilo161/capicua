@@ -243,6 +243,7 @@ class Game{
         else if (this.board.length > 0 && (this.inSession === true && this.canMove(player))){
             console.log("AI Think Player can play a bone")
             let randomMathFloorIdx = Math.floor(Math.random() * (player.hand.length - 1))
+            
             if (randomMathFloorIdx === undefined){
                 debugger
                 randomMathFloorIdx = 0
