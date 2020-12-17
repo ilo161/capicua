@@ -28,7 +28,6 @@ class Game extends React.Component {
 
         return (
             <div className="board-container">
-                <p>Hello World</p>
                 <Board board={this.state.board}/>
             </div>
         )
