@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import axios from "axios";
 import './index.css';
 import App from './App';
 // import { Provider } from 'react-redux';
@@ -13,8 +14,10 @@ ReactDOM.render(
     {/* <Game /> */}
   </React.StrictMode>,
   document.getElementById('root')
-);
-
-window.axios = axios;
-
-
+  );
+  
+  // let socket = io.connect("http://localhost:4000");
+  window.axios = axios;
+  
+  
+// Make connection
