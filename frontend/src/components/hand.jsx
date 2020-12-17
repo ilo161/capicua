@@ -15,9 +15,7 @@ class Hand extends React.Component {
     // }
 
     render(){
-        const {board, allDominos, boneValToString} = this.props;
-
-        
+        const {board, allDominos, boneValToString, offSetCenter} = this.props;
 
         // this will need to be changed to the axios player ID. 
         // SOLELY FOR TESTING...
@@ -36,7 +34,12 @@ class Hand extends React.Component {
 
                 const pos = initialX + (width * idx);
 
-                return <Bone x={pos} draggable={true} key={reactKeyVal} className="space" src={allDominos[singleBoneVal]}/>    
+                return <Bone 
+                x={pos} 
+                offSetCenter={offSetCenter}
+                draggable={true}
+                key={reactKeyVal}
+                src={allDominos[singleBoneVal]}/>    
             })
         }
          return(

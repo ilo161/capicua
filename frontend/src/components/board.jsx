@@ -92,7 +92,7 @@ class Board extends React.Component {
                     </Group>
                     <Group x={startBoxforHand} y={540}>
 
-                        <Hand board={board} allDominos={allDominos}  boneValToString={boneValToString}  />
+                        <Hand offSetCenter={offSetCenter} board={board} allDominos={allDominos}  boneValToString={boneValToString}  />
                     </Group>
                 </Layer>
             </Stage>

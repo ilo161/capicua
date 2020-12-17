@@ -7,7 +7,8 @@ class Bone extends React.Component {
 
         this.state = {
              image: null,
-             draggable: null
+             draggable: null,
+             offSetCenter: null
         };
 
 
@@ -35,12 +36,28 @@ class Bone extends React.Component {
     // because "image" property is changed
     this.setState({
       image: this.image,
-      draggable: this.props.draggable
+      draggable: this.props.draggable,
+      offSetCenter: this.props.offSetCenter
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
     // this.imageNode.getLayer().batchDraw();
   };
+
+  mouseUpCoord(e) {
+        // if(e.target.attrs.y > 150 && e.target.attrs.x > 150){
+        //     e.target.attrs.draggable = false;
+        // }
+        debugger
+        
+        console.log(`Center: ${e.target.attrs.offSetCenter}`)
+        console.log(`X: ${e.target.attrs.x}`)
+        console.log(`Y: ${e.target.attrs.y}`)
+
+        // console.log(e.target)
+    }
+
+
   render() {
     // debugger
 
@@ -49,10 +66,13 @@ class Bone extends React.Component {
       <Image
         x={this.props.x}
         y={this.props.y}
+        offSetCenter={this.state.offSetCenter}
         image={this.state.image}
         width={30}
         height={60}
         draggable={this.state.draggable}
+        
+        onDragEnd={this.mouseUpCoord}
         ref={node => {
           this.imageNode = node;
         }}
