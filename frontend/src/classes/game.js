@@ -243,6 +243,7 @@ class Game{
         else if (this.board.length > 0 && (this.inSession === true && this.canMove(player))){
             console.log("AI Think Player can play a bone")
             let randomMathFloorIdx = Math.floor(Math.random() * (player.hand.length - 1))
+            
             if (randomMathFloorIdx === undefined){
                 debugger
                 randomMathFloorIdx = 0
@@ -287,77 +288,77 @@ class Game{
     }
     
     makeMove(bone){
-        console.log("start of #makeMove")
+        // console.log("start of #makeMove")
         
-        console.log("--------")
-        console.log("board length")
-        console.log(this.board.length)
-        console.log("--------")
-        // player picks left side of board but bone is reverse
+        // console.log("--------")
+        // console.log("board length")
+        // console.log(this.board.length)
+        // console.log("--------")
+        // // player picks left side of board but bone is reverse
                     //  onMouseUP....
         // let goingLeft = (bone.x < (stage.width / 2) ? true : false )
         if (this.board.length === 0){
             this.board.push(bone);
             console.log(this.board.length)
-        } else {
-                console.log('board no longer empty')
-                let goingLeft = false;
+        // } else {
+        //         console.log('board no longer empty')
+        //         let goingLeft = false;
 
-                if (this.flagLeft) {
-                    goingLeft = true;
-                }
+        //         if (this.flagLeft) {
+        //             goingLeft = true;
+        //         }
                 //players places bone in beginning
                 //player selects left (x coordinate on canvas i less than 50% width)
                 // debugger
-                let actualBone = bone[0]
-                // debugger
-                if (goingLeft) {
-                    //grab first bone
-                    let tempBone = this.board[0][0]
-                    // let actualBone = bone[0]
+                // let actualBone = bone[0]
+                // // debugger
+                // if (goingLeft) {
+                //     //grab first bone
+                //     let tempBone = this.board[0][0]
+                //     // let actualBone = bone[0]
 
-                    console.log("--- temp bone below")
-                    console.log(bone[0].boneVal)
-                    console.log(tempBone.boneVal)
-                    console.log("length of hand curr player")
-                    console.log(this.currentPlayer.hand.length)
+                //     console.log("--- temp bone below")
+                //     console.log(bone[0].boneVal)
+                //     console.log(tempBone.boneVal)
+                //     console.log("length of hand curr player")
+                //     console.log(this.currentPlayer.hand.length)
                     
                 
                         // debugger
-                    if (actualBone.boneVal[1] != tempBone.boneVal[0] && actualBone.boneVal[0] === tempBone.boneVal[0]) {
-                        // debugger
-                        console.log("boneVal Activated A")
+                    // if (actualBone.boneVal[1] != tempBone.boneVal[0] && actualBone.boneVal[0] === tempBone.boneVal[0]) {
+                    //     // debugger
+                    //     console.log("boneVal Activated A")
 
                        
-                        bone[0].boneReverse()
+                    //     bone[0].boneReverse()
 
 
                         
 
 
-                        console.log("bone is reversed and placed in start")
+                    //     console.log("bone is reversed and placed in start")
 
-                        this.board.unshift(bone)
+                    //     this.board.unshift(bone)
 
                         if (this.currentPlayer.hand.length === 0) {
                             this.isWinner();
                         }
 
                         // debugger
-                    } else if (actualBone.boneVal[1] === tempBone.boneVal[0]){
-                            // if bone does not need flipping -> place in board
+                    // } else if (actualBone.boneVal[1] === tempBone.boneVal[0]){
+                    //         // if bone does not need flipping -> place in board
                             
-                                console.log("boneVal Activated B")
-                                this.board.unshift(bone)
+                    //             console.log("boneVal Activated B")
+                    //             this.board.unshift(bone)
 
-                                if (this.currentPlayer.hand.length === 0) {
-                                    this.isWinner();
-                                }
+                    //             if (this.currentPlayer.hand.length === 0) {
+                    //                 this.isWinner();
+                    //             }
 
-                                // debugger
-                                console.log("bone placed. newState of Board ^^^")
+                    //             // debugger
+                    //             console.log("bone placed. newState of Board ^^^")
 
-                            } else {
+                    //         } else {
                                 //deselect bone
                                 console.log("about to recurse 2")
                                 // this.currentPlayer.hand.push(bone)
@@ -376,33 +377,33 @@ class Game{
                         
                         
                         // if (bone[0] != tempBone[1] && bone[1] === tempBone[1]) {
-                            if (bone.boneVal[0] != tempBone.boneVal[1] && bone.boneVal[1] === tempBone.boneVal[1]) {
-                                console.log("boneVal Activated C")
+                            // if (bone.boneVal[0] != tempBone.boneVal[1] && bone.boneVal[1] === tempBone.boneVal[1]) {
+                            //     console.log("boneVal Activated C")
                                
 
-                                bone[0].boneReverse()
-                                // debugger
+                            //     bone[0].boneReverse()
+                            //     // debugger
 
-                                console.log("right side placed and reversed")
+                            //     console.log("right side placed and reversed")
 
-                                this.board.push(bone)
+                            //     this.board.push(bone)
 
                                 if(this.currentPlayer.hand.length === 0){
                                     this.isWinner();
                                 }
                                 // debugger
-                            } else if (bone.boneVal[0] === tempBone.boneVal[1]){
-                                // if bone does not need flipping -> place in board
-                                // if (this.validMove(bone)) {
-                                        console.log("boneVal Activated D")
-                                    // if(bone.boneVal[0] === tempBone.boneVal[1]){
-                                        this.board.push(bone)
+                            // } else if (bone.boneVal[0] === tempBone.boneVal[1]){
+                            //     // if bone does not need flipping -> place in board
+                            //     // if (this.validMove(bone)) {
+                            //             console.log("boneVal Activated D")
+                            //         // if(bone.boneVal[0] === tempBone.boneVal[1]){
+                            //             this.board.push(bone)
 
-                                        if (this.currentPlayer.hand.length === 0) {
-                                            this.isWinner();
-                                        }
-                                        // debugger
-                                        console.log("bone placed. END of newState of Board ^^^")
+                            //             if (this.currentPlayer.hand.length === 0) {
+                            //                 this.isWinner();
+                            //             }
+                            //             // debugger
+                            //             console.log("bone placed. END of newState of Board ^^^")
 
                             } else {
                                 //deselect bone
