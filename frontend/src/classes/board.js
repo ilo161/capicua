@@ -151,50 +151,14 @@ class Board {
 
     //Ensures currentPlayer plays highest Double
     firstMoveAndCorrectBone(mandatoryBoneIdxToPlay){
-       
-
-        // this.currentPlayer.getPlayerInput(mandatoryBoneIdxToPlay[1])
-
-
-
-        // while(this.currentPlayer.playerInput !== mandatoryBoneIdxToPlay[1]){
-        //     console.log("Please Try Again")
-        //     this.currentPlayer.getPlayerInput(5)
-        // }
-
-        // console.log("correct Bone")
-
-        // code below for console input. here
-        // this.arena.push(this.currentPlayer.hand.splice(this.currentPlayer.playerInput,1)[0])
-        debugger
-        // mandatoryBoneIdxToPlay is  playerIdx => boneIdxInHandOfDouble
-        this.arena.push(this.currentPlayer.hand.splice(mandatoryBoneIdxToPlay[1],1)[0])
-
-
-        this.renderArena()
-        
-
+        this.arena.push(this.currentPlayer.hand.splice(mandatoryBoneIdxToPlay[1],1)[0]);
+        this.renderArena();
     }
 
     runningGame(){
          const mandatoryBoneIdxToPlay = this.init()
          this.firstMoveAndCorrectBone(mandatoryBoneIdxToPlay)
 
-         
-
-
-        // this.firstMoveAI()
-
-        // debugger
-
-        // while(!this.inSession === false){
-        //     debugger
-        //     console.log("HI!")
-        //     //next Player Assigned here
-        //     this.nextPlayerAssignTurn()
-            
-        //     // const playerInput = this.currentPlayer.getPlayerInput();
-        // }
     }
 
     //Changes currentPlayer to the next player
@@ -212,7 +176,72 @@ class Board {
         console.log("*************");
     }
 
-    
+    makeMove(xPos, center, bone){
+
+        // extracting the far left number on the arena
+        const arenaLeftBoneVal = this.arena[0].boneVal[0];
+        // extracting the far right number on the arena
+        const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
+        
+        // Player plays left side
+        if(xPos < center){
+            //we use this return of play in update Game in Game.jsx
+           return this.playerPlaysLeft(arenaLeftBoneVal, bone);
+        } else {
+            // Player plays right side
+            return this.playerPlaysRight(arenaRightBoneVal, bone)
+
+        }
+    }
+
+    playerPlaysLeft(arenaLeftBoneVal, bone){
+        //check bottom number of player hand bone first
+        // second test checks top number of player hand bone second
+        if(bone.boneVal[1] != arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+            bone.boneReverse();
+            this.arena.unshift(bone);
+            console.log("played left successfully");
+            console.log("rotate SVG -90 degrees");
+
+            return true;
+        } else if(bone.boneVal[1] === arenaLeftBoneVal){
+            //bone bottom val playable on left - as is. just rotate svg -90
+            this.arena.unshift(bone);
+            console.log("played left successfully");
+            console.log("rotate SVG -90 degrees");
+
+            return true;
+        } else {
+            // left play not playable - make player draw
+            //******************************* */
+            //******************************* */
+            //******************************* */
+            return false
+        }
+    }
+
+    playerPlaysRight(arenaRightBoneVal, bone){
+        if(bone.boneVal[0] != arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+                bone.boneReverse();
+                this.arena.push(bone);
+                console.log("played right successfully");
+                console.log("rotate SVG -90 degrees");
+
+                return true;
+            } else if(bone.boneVal[0] === arenaRightBoneVal){
+                this.arena.push(bone);
+                console.log("played right successfully");
+                console.log("rotate SVG -90 degrees");
+
+                return true;
+            } else {
+                // right play not playable - make player draw
+                //******************************* */
+                //******************************* */
+                //******************************* */
+                return false;
+            }
+    }
 
     /*
     ********************************RUNNING GAMEPLAY FUNCTIONS END HERE**************

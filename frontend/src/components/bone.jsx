@@ -6,7 +6,9 @@ class Bone extends React.Component {
         super(props)
 
         this.state = {
-             image: null
+             image: null,
+             draggable: null,
+             offSetCenter: null
         };
 
 
@@ -33,22 +35,44 @@ class Bone extends React.Component {
     // after setState react-konva will update canvas and redraw the layer
     // because "image" property is changed
     this.setState({
-      image: this.image
+      image: this.image,
+      draggable: this.props.draggable,
+      offSetCenter: this.props.offSetCenter
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
     // this.imageNode.getLayer().batchDraw();
   };
+
+  mouseUpCoord(e) {
+        // if(e.target.attrs.y > 150 && e.target.attrs.x > 150){
+        //     e.target.attrs.draggable = false;
+        // }
+        debugger
+        
+        console.log(`Center: ${e.target.attrs.offSetCenter}`)
+        console.log(`X: ${e.target.attrs.x}`)
+        console.log(`Y: ${e.target.attrs.y}`)
+
+        // console.log(e.target)
+    }
+
+
   render() {
     // debugger
+
+    //old width=25 and height = 45
     return (
       <Image
         x={this.props.x}
         y={this.props.y}
+        offSetCenter={this.state.offSetCenter}
         image={this.state.image}
-        width={25}
-        height={45}
-        draggable={true}
+        width={30}
+        height={60}
+        draggable={this.state.draggable}
+        
+        onDragEnd={this.mouseUpCoord}
         ref={node => {
           this.imageNode = node;
         }}
