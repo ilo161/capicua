@@ -9,7 +9,6 @@
 /coverage
 
 # admin keys
-keys.js
 keys_dev.js
 
 # production
