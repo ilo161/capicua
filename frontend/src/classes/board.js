@@ -199,7 +199,7 @@ class Board {
     playerPlaysLeft(arenaLeftBoneVal, bone){
         //check bottom number of player hand bone first
         // second test checks top number of player hand bone second
-        if(bone.boneVal[1] != arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+        if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
             bone.boneReverse();
             this.arena.unshift(bone);
             console.log("played left successfully");
@@ -223,7 +223,7 @@ class Board {
     }
 
     playerPlaysRight(arenaRightBoneVal, bone){
-        if(bone.boneVal[0] != arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+        if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
                 bone.boneReverse();
                 this.arena.push(bone);
                 console.log("played right successfully");

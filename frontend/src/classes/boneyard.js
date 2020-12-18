@@ -12,8 +12,7 @@ class Boneyard {
     getUniqueDominoNums(){
         let dominoStrs = []
 
-        let i;
-        let j;
+        
         for (let i = 0; i < 7; i++) {
             for (let j = i; j < 7; j++) {
                 dominoStrs.push(`${i}${j}`)
