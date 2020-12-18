@@ -22,7 +22,7 @@ class Hand extends React.Component {
         let renderedHand = [];
 
         if (board){
-            debugger
+
             renderedHand = board.currentPlayer.hand.map((bone,idx) => {
                // ["34"]
                const singleBoneVal =  boneValToString(bone.boneVal)[0]

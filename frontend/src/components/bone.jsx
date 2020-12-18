@@ -48,7 +48,7 @@ class Bone extends React.Component {
         // if(e.target.attrs.y > 150 && e.target.attrs.x > 150){
         //     e.target.attrs.draggable = false;
         // }
-        debugger
+
         
         console.log(`Center: ${e.target.attrs.offSetCenter}`)
         console.log(`X: ${e.target.attrs.x}`)
@@ -59,7 +59,7 @@ class Bone extends React.Component {
 
 
   render() {
-    // debugger
+
 
     //old width=25 and height = 45
     return (

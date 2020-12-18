@@ -109,7 +109,7 @@ class Game{
     // }
 
     // sevenDoubles() {
-    //     debugger
+
     //     let doubleBoneCounter = 0
     //     this.bones.bones.forEach(boneObj => {
     //         if (boneObj.isDouble()) {
@@ -130,7 +130,7 @@ class Game{
     // }
 
     firstMove(){
-        debugger
+
 
         // static highDouble is double 0's and null player
         let playerWithHighestDouble = ([[0, 0], null, null]);
@@ -157,7 +157,7 @@ class Game{
         // let lastBone = this.board[this.board.length - 1]        // [3,4]
         let firstBone = this.board[0][0]                           // [2,2]
         let lastBone = this.board[this.board.length - 1][0]        // [3,4]
-        debugger
+
         //   if (bone.boneVal[1] != tempBone.boneVal[0] && bone.boneVal[0] === tempBone.boneVal[0]) {
         let checksLeft = ((bone.boneVal[0] === firstBone.boneVal[0] )|| (bone.boneVal[0] === lastBone.boneVal[1]))
         // let checksRight = ((bone[1] === firstBone[0]) || (bone[1] === lastBone[1]))
@@ -177,7 +177,7 @@ class Game{
         console.log("#1 - canMove()")
 
         //playerhand comes in as an array of bones [[1,2],[2,3]]
-        debugger
+        
         let canMakeMove = player.hand.some((bone) =>{
     
             return this.validMove(bone);
@@ -192,7 +192,7 @@ class Game{
 
     //ISEMPTY-BONEYARD TESTED AND TRUE
     // isEmpty(){
-    //     debugger
+    //     
     //     console.log("# 3/4 - isEmpty?()")
 
     //      if (this.bones.bones.length === 0){
@@ -206,7 +206,7 @@ class Game{
 
     //SKIP TURN -- GAME CLASS -- TESTED AND TRUE
     // skipTurn(){
-    //     debugger
+    //     
     //     console.log("# 3/4 - skipTurn()")
 
     //     if (this.previousPlayer != this.currentPlayer){
@@ -222,7 +222,7 @@ class Game{
 
     //     this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
 
-    //     debugger
+
     //     console.log("NEW CURRENT PLAYER");
     //     console.log(this.currentPlayer.username);
     //     console.log(this.currentPlayer.hand.length);
@@ -245,14 +245,14 @@ class Game{
             let randomMathFloorIdx = Math.floor(Math.random() * (player.hand.length - 1))
             
             if (randomMathFloorIdx === undefined){
-                debugger
+                
                 randomMathFloorIdx = 0
             }
             this.skipCounter = 0
             let removedBone = player.hand.splice(randomMathFloorIdx, 1)
 
             console.log("removed Bone below")
-            debugger
+
             // console.log(removedBone)
             // console.log(removedBone[0])
             this.makeMove(removedBone);
@@ -275,7 +275,7 @@ class Game{
         // })
         this.board.forEach(box => {
             console.log("?")
-            debugger
+
             console.log(box[0].boneVal)
             })
         
@@ -309,9 +309,9 @@ class Game{
         //         }
                 //players places bone in beginning
                 //player selects left (x coordinate on canvas i less than 50% width)
-                // debugger
+
                 // let actualBone = bone[0]
-                // // debugger
+               
                 // if (goingLeft) {
                 //     //grab first bone
                 //     let tempBone = this.board[0][0]
@@ -324,9 +324,9 @@ class Game{
                 //     console.log(this.currentPlayer.hand.length)
                     
                 
-                        // debugger
+
                     // if (actualBone.boneVal[1] != tempBone.boneVal[0] && actualBone.boneVal[0] === tempBone.boneVal[0]) {
-                    //     // debugger
+
                     //     console.log("boneVal Activated A")
 
                        
@@ -344,7 +344,7 @@ class Game{
                             this.isWinner();
                         }
 
-                        // debugger
+
                     // } else if (actualBone.boneVal[1] === tempBone.boneVal[0]){
                     //         // if bone does not need flipping -> place in board
                             
@@ -355,7 +355,7 @@ class Game{
                     //                 this.isWinner();
                     //             }
 
-                    //             // debugger
+
                     //             console.log("bone placed. newState of Board ^^^")
 
                     //         } else {
@@ -382,7 +382,7 @@ class Game{
                                
 
                             //     bone[0].boneReverse()
-                            //     // debugger
+                            //     // 
 
                             //     console.log("right side placed and reversed")
 
@@ -391,7 +391,7 @@ class Game{
                                 if(this.currentPlayer.hand.length === 0){
                                     this.isWinner();
                                 }
-                                // debugger
+
                             // } else if (bone.boneVal[0] === tempBone.boneVal[1]){
                             //     // if bone does not need flipping -> place in board
                             //     // if (this.validMove(bone)) {
@@ -402,7 +402,7 @@ class Game{
                             //             if (this.currentPlayer.hand.length === 0) {
                             //                 this.isWinner();
                             //             }
-                            //             // debugger
+
                             //             console.log("bone placed. END of newState of Board ^^^")
 
                             } else {
@@ -417,7 +417,7 @@ class Game{
 
 
             }
-            // debugger
+
             (this.flagLeft ? false :true); 
             console.log("Made a move")
 
@@ -430,7 +430,7 @@ class Game{
             this.previousPlayer = this.currentPlayer;
             console.log("BRAND NEW RUNNING GAME LOOP")
             console.log(this.currentPlayer.username)
-            debugger
+
             this.playerTurn(this.currentPlayer)
 
             this.gameOver()
@@ -441,7 +441,7 @@ class Game{
 
     // TESTED AND TRUE -- GAME CLASS
     gameOver(){
-        debugger
+        
 
         console.log("#LAST - In Game over")
         // console.log(this.currentPlayer.hand.length)
@@ -463,7 +463,7 @@ class Game{
                 })
                 // let playerTotal = player.hand.myFlatten().reduce((a, b) => a + b, 0);
                 let playerTotal = squishThis.myFlatten().reduce((a, b) => a + b, 0);
-                debugger
+                
                 if (playerTotal < min){
                     min = playerTotal
                 }
@@ -476,7 +476,7 @@ class Game{
             allScores.forEach(score => {
                 totalWinningPoints += score;
             })
-            debugger
+            
             this.players[winningPlayerIdx].points += (totalWinningPoints - allScores[winningPlayerIdx])
         }
         else if (this.currentPlayer.hand.length === 0 ){
@@ -508,7 +508,7 @@ class Game{
    }
    // TESTED AND TRUE -- GAME CLASS
     isWinner() {
-        debugger
+        
      console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
      this.inSession = false;
 
@@ -521,7 +521,7 @@ class Game{
    
 
     draw(player) {
-        debugger
+        
         console.log("curr player below")
         // console.log(player)
         console.log("# 2/3 - draw()")
@@ -532,7 +532,7 @@ class Game{
             this.skipTurn()
 
         } else{
-            debugger
+            
             console.log("about to draw")
             // Draw from the boneyard
             // player.hand.push(this.boneyard.pop())

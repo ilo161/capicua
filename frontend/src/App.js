@@ -5,6 +5,15 @@ import './stylesheets/App.css';
 import Game from "./components/game"
 import bodega from "./assets/img/La_Bodega.jpg"
 import Chatbox from "./components/chatBox";
+// for heroku deployment
+const path = require('path');
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('frontend/build'));
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  })
+}
 
 
 
