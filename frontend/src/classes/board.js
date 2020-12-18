@@ -178,15 +178,15 @@ class Board {
         console.log("*************");
     }
 
-    makeMove(xPos, center, bone){
-
+    makeMove(xPosPlay, center, bone){
+        debugger
         // extracting the far left number on the arena
         const arenaLeftBoneVal = this.arena[0].boneVal[0];
         // extracting the far right number on the arena
         const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
         
         // Player plays left side
-        if(xPos < center){
+        if(xPosPlay < center){
             //we use this return of play in update Game in Game.jsx
            return this.playerPlaysLeft(arenaLeftBoneVal, bone);
         } else {
@@ -203,7 +203,7 @@ class Board {
             bone.boneReverse();
             this.arena.unshift(bone);
             console.log("played left successfully");
-            console.log("rotate SVG -90 degrees");
+            console.log("rotate SVG +90 degrees");
 
             return true;
         } else if(bone.boneVal[1] === arenaLeftBoneVal){
@@ -227,7 +227,7 @@ class Board {
                 bone.boneReverse();
                 this.arena.push(bone);
                 console.log("played right successfully");
-                console.log("rotate SVG -90 degrees");
+                console.log("rotate SVG +90 degrees");
 
                 return true;
             } else if(bone.boneVal[0] === arenaRightBoneVal){

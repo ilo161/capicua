@@ -10,7 +10,7 @@ class Game extends React.Component {
         const board = new BoardObject(axiosPlayerObj)
         this.state = {board: board}
 
-        
+        this.updateGame = this.updateGame.bind(this);
     }
 
     componentDidMount(){
@@ -18,8 +18,17 @@ class Game extends React.Component {
 
     }
 
-    updateGame(boneIndex, side) { {/* connected to Tile Component line 8 */}
-        
+    updateGame(xPosPlay, center, boneIdx) { {/* connected to Tile Component line 8 */}
+
+        // console.log(`OG === ${this.state.board.currentPlayer.hand[boneIdx].boneVal}`)
+        // const originIdx = this.state.board.currentPlayer.hand[boneIdx]
+        // const bonePlay = originIdx.slice(0)
+        // bonePlay.boneReverse()  
+        // console.log(`NEWG === ${bonePlay.boneVal}`)
+        // console.log(`OG2 === ${this.state.board.currentPlayer.hand[boneIdx].boneVal}`)
+        debugger
+               //three arguments xPos, center, bone)
+        // this.state.board.makeMove(xPosPlay, center)
         this.setState({ board: this.state.board });
     }
 
@@ -28,7 +37,7 @@ class Game extends React.Component {
 
         return (
             <div className="board-container">
-                <Board board={this.state.board}/>
+                <Board board={this.state.board} updateGame={this.updateGame}/>
             </div>
         )
     }

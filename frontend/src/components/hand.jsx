@@ -36,6 +36,8 @@ class Hand extends React.Component {
 
                 return <Bone 
                 x={pos} 
+                updateGame={this.props.updateGame}
+                boneIdx={idx}
                 offSetCenter={offSetCenter}
                 draggable={true}
                 key={reactKeyVal}
