@@ -39,8 +39,8 @@
 
 
 .board-game-container{
-  height: 500px;
-  width: 500px;
+  height: 600px;
+  width: 600px;
   background-color: darkgreen;
   /* background-image: url("La-Bodega2.png"); */
   border: 5px solid brown;
