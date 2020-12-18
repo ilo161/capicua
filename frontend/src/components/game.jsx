@@ -1,7 +1,8 @@
 import React from "react";
 import Board from "./board"
+import BoardObject from "../classes/board"
+// const BoardObject = require("../classes/board")
 
-const BoardObject = require("../classes/board")
 const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 
 class Game extends React.Component {

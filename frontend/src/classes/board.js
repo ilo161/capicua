@@ -1,5 +1,7 @@
-const Boneyard = require("./boneyard")
-const Player = require("./player")
+// const Boneyard = require("./boneyard")
+// const Player = require("./player")
+import Boneyard from "./boneyard"
+import Player from "./player"
 
 class Board {
     constructor(axiosPlayerData){
@@ -299,5 +301,5 @@ class Board {
 // let axiosPlayerObj = [{username: "TinyPigOink!"}]
 // let b1 = new Board(axiosPlayerObj)
 
-
-module.exports = Board;
+export default Board
+// module.exports = Board;
