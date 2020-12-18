@@ -11,7 +11,7 @@ class Board {
 
         this.inSession = true;
         this.runningGame()
-        // debugger
+
 
     }
 
@@ -44,7 +44,9 @@ class Board {
 
         //check if player is AI
         if (this.players[playerAndBoneIdx[0]].isAI){
-            debugger
+            // ****************
+            // ****************
+            // ****************
             //works...
         }
 
@@ -63,7 +65,7 @@ class Board {
     */
 
     restartBoneYard(){
-        debugger
+
         //empty boneyard and make new bones
         this.boneyard = new Boneyard(this);
     }
@@ -116,7 +118,7 @@ class Board {
             })
 
         this.currentPlayer = this.players[playerWithHighestDouble[1]]
-        // debugger
+
         //                  => playerIdx => boneIdxInHand
         return [playerWithHighestDouble[1], playerWithHighestDouble[2]]
 

@@ -9,13 +9,13 @@ class Game extends React.Component {
         super(props)
         const board = new BoardObject(axiosPlayerObj)
         this.state = {board: board}
-        // debugger
+
         
     }
 
     componentDidMount(){
         console.log(this.state.board)
-        debugger
+
     }
 
     updateGame(boneIndex, side) { {/* connected to Tile Component line 8 */}

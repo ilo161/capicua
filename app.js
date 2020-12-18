@@ -7,6 +7,7 @@ const User = require("./models/User");
 const bodyParser = require("body-parser");
 
 
+
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to mongoDB"))
@@ -20,7 +21,7 @@ app.get("/", (req, res) => {
     username: "Demo",
     password: "password"
   })
-  // debugger;
+
   user.save()
   res.send("Hello World!");
 });

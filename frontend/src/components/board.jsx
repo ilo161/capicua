@@ -57,7 +57,7 @@ class Board extends React.Component {
         
 
             if(bone.isDouble()){
-                debugger
+
                 return <Bone key={reactKeyVal}
                 draggable={false}
                 src={allDominos[boneStrArr[0]]} />
@@ -80,7 +80,7 @@ class Board extends React.Component {
 
             
            
-            debugger
+
            
             // the arena is simple to show the current pieces in play
         return (
@@ -145,7 +145,7 @@ class Board extends React.Component {
 //     // <Bone className="domino-size" value={dValue} dValue={domino} src={dominoFile} draggable="true" x={190}  />
 //     // })
 //   })
-//   debugger
+
 
 // // TEstbone.props.dValue ==> array [3,1]
 // //   console.log(newFileNames)
