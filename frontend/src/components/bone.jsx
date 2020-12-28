@@ -10,7 +10,8 @@ class Bone extends React.Component {
              draggable: null,
              offSetCenter: null,
              updateGame: null,
-             boneIdx: null
+             boneIdx: null,
+             rotation: null
         };
 
 
@@ -44,7 +45,8 @@ class Bone extends React.Component {
       draggable: this.props.draggable,
       offSetCenter: this.props.offSetCenter,
       updateGame: this.props.updateGame,
-      boneIdx: this.props.boneIdx
+      boneIdx: this.props.boneIdx,
+      rotation: this.props.rotation
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
@@ -60,20 +62,26 @@ class Bone extends React.Component {
   }
 
   // decides where the player wants to play
-  mouseUpCoord(e) {
+  mouseUpCoord(e, updateGame) {
         // if(e.target.attrs.y > 150 && e.target.attrs.x > 150){
         //     e.target.attrs.draggable = false;
         // }  
-        debugger
-        const xPosPlay = e.target.attrs.x
+        // 
+        const xPosPlay = e.target.attrs.x 
         const center = e.target.attrs.offSetCenter
-        const boneIdx = e.target.attrs.boneIdx
+        //orig below
+        // const boneIdx = e.target.attrs.boneIdx
+        const boneIdx = e.target.index
         
         console.log(`BoneIdxIs: ${e.target.attrs.boneIdx}`)
+
         console.log(`Center: ${e.target.attrs.offSetCenter}`)
         console.log(`X: ${e.target.attrs.x}`)
         console.log(`Y: ${e.target.attrs.y}`)
-        this.state.updateGame(xPosPlay, center, boneIdx)
+        //works below
+        // this.state.updateGame(xPosPlay, center, boneIdx)
+        
+        updateGame(xPosPlay, center, boneIdx)
         // console.log(e.target)
     }
 
@@ -96,6 +104,7 @@ class Bone extends React.Component {
         updateGame={this.state.updateGame}
         onMouseDown={this.mouseDownStartCoord}
         onDragEnd={(e) => this.mouseUpCoord(e, this.state.updateGame)}
+        rotation={this.state.rotation}
         ref={node => {
           this.imageNode = node;
         }}
