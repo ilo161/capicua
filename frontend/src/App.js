@@ -1,31 +1,24 @@
-
 import './stylesheets/App.css';
-
+import './stylesheets/reset.css';
 
 import Game from "./components/game"
 import bodega from "./assets/img/La_Bodega.jpg"
-import Chatbox from "./components/chatBox";
+import React, { Component } from 'react'
+// import './App.css'
+import Chat from '../src/components/Chat/Chat'
 
-
-
-function App() {
-  
-
-  return (
-    <div className="App">
-      <header className="App-header">
-
-          <Game/>
-
-          <Chatbox/>
-        
-      
-
-      </header>
-      {/* <div className="bodega-img"></div> */}
-      <img src={bodega} alt="bodega" className="bodega-img" ></img>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <header>
+          <Game />
+          <Chat />
+        </header>
+        <img src={bodega} alt="bodega" className="bodega-img" ></img>
+      </div>
+        )
+  }
 }
 
-export default App;
+export default App

@@ -84,8 +84,8 @@ class Board extends React.Component {
            
             // the arena is simple to show the current pieces in play
         return (
-          <div>
-            <Stage className="board-game-container" width={boardDimen} height={boardDimen}>
+            <div className="board-game-container">
+            <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
                     <Group x={285} y={270}>
                         {arena}

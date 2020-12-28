@@ -1,34 +1,31 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import "../../stylesheets/chat.css"
 
-class ChatInput extends Component {
-  static propTypes = {
-    onSubmitMessage: PropTypes.func.isRequired,
-  }
+class ChatContext extends Component {
   state = {
-    message: '',
+    message: "",
   }
 
   render() {
     return (
       <form
-        action="."
         onSubmit={e => {
           e.preventDefault()
           this.props.onSubmitMessage(this.state.message)
-          this.setState({ message: '' })
+          this.setState({ message: "" })
         }}
       >
         <input
+          className="input-textarea"
           type="text"
           placeholder={'Enter message...'}
           value={this.state.message}
           onChange={e => this.setState({ message: e.target.value })}
         />
-        <input type="submit" value={'Send'} />
+        <input className="send-button" type="submit" value={'Send'} />
       </form>
     )
   }
 }
 
-export default ChatInput
+export default ChatContext
