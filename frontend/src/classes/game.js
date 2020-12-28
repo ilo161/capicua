@@ -418,7 +418,7 @@
 
 //             }
 
-//             (this.flagLeft ? false :true); 
+//             (this.flagLeft ? false : true); 
 //             console.log("Made a move")
 
 

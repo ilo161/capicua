@@ -60,7 +60,8 @@ class Board extends React.Component {
 
                 return <Bone key={reactKeyVal}
                 draggable={false}
-                src={allDominos[boneStrArr[0]]} />
+                src={allDominos[boneStrArr[0]]}
+                rotation={0} />
             }
             else if(allDominosArr.includes(boneStrArr[0])){
                 //rotate once -90 degrees
@@ -81,7 +82,7 @@ class Board extends React.Component {
             
            
 
-           
+
             // the arena is simple to show the current pieces in play
         return (
           <div>
@@ -92,7 +93,7 @@ class Board extends React.Component {
                     </Group>
                     <Group x={startBoxforHand} y={540}>
 
-                        <Hand offSetCenter={offSetCenter} board={board} allDominos={allDominos}  boneValToString={boneValToString}  />
+                        <Hand offSetCenter={offSetCenter} board={board} updateGame={this.props.updateGame} allDominos={allDominos}  boneValToString={boneValToString}  />
                     </Group>
                 </Layer>
             </Stage>
