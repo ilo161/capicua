@@ -10,7 +10,6 @@ class Game extends React.Component {
         super(props)
         const board = new BoardObject(axiosPlayerObj)
         this.state = {board: board}
-
         this.updateGame = this.updateGame.bind(this);
     }
 
@@ -20,17 +19,25 @@ class Game extends React.Component {
     }
 
     updateGame(xPosPlay, center, boneIdx) { {/* connected to Tile Component line 8 */}
+        
+        const currentBone = this.state.board.currentPlayer.hand.splice(boneIdx,1)[0];
+        this.setState({ state: this.state });
+        const verifyMove = this.state.board.makeMove(xPosPlay, center, currentBone);
 
-        // console.log(`OG === ${this.state.board.currentPlayer.hand[boneIdx].boneVal}`)
-        // const originIdx = this.state.board.currentPlayer.hand[boneIdx]
-        // const bonePlay = originIdx.slice(0)
-        // bonePlay.boneReverse()  
-        // console.log(`NEWG === ${bonePlay.boneVal}`)
-        // console.log(`OG2 === ${this.state.board.currentPlayer.hand[boneIdx].boneVal}`)
-        debugger
-               //three arguments xPos, center, bone)
-        // this.state.board.makeMove(xPosPlay, center)
-        this.setState({ board: this.state.board });
+        if(verifyMove){
+            this.setState({ board: this.state.board });
+
+        }else {
+
+            this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
+            this.setState({ board: this.state.board });
+
+            // this.forceUpdate();
+        }
+        //three arguments xPos, center, bone)
+        console.log(this.state.board.renderArena())
+        console.log("Arena ^..hand below")
+        console.log(this.state.board.currentPlayer.hand)
     }
 
     render(){

@@ -11,6 +11,7 @@ class Board {
         this.currentPlayer = undefined;
         this.aIFirstMove = undefined;
 
+
         this.inSession = true;
         this.runningGame()
 
@@ -181,7 +182,7 @@ class Board {
     }
 
     makeMove(xPosPlay, center, bone){
-        debugger
+        // 
         // extracting the far left number on the arena
         const arenaLeftBoneVal = this.arena[0].boneVal[0];
         // extracting the far right number on the arena
@@ -189,9 +190,11 @@ class Board {
         
         // Player plays left side
         if(xPosPlay < center){
+            
             //we use this return of play in update Game in Game.jsx
            return this.playerPlaysLeft(arenaLeftBoneVal, bone);
         } else {
+            
             // Player plays right side
             return this.playerPlaysRight(arenaRightBoneVal, bone)
 
@@ -199,9 +202,13 @@ class Board {
     }
 
     playerPlaysLeft(arenaLeftBoneVal, bone){
+        // 
         //check bottom number of player hand bone first
         // second test checks top number of player hand bone second
-        if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+        //orig below
+        // if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+        if((bone.boneVal[1] !== arenaLeftBoneVal) && (bone.boneVal[0] === arenaLeftBoneVal)){
+            
             bone.boneReverse();
             this.arena.unshift(bone);
             console.log("played left successfully");
@@ -209,6 +216,7 @@ class Board {
 
             return true;
         } else if(bone.boneVal[1] === arenaLeftBoneVal){
+            
             //bone bottom val playable on left - as is. just rotate svg -90
             this.arena.unshift(bone);
             console.log("played left successfully");
@@ -216,6 +224,7 @@ class Board {
 
             return true;
         } else {
+            
             // left play not playable - make player draw
             //******************************* */
             //******************************* */
@@ -225,7 +234,11 @@ class Board {
     }
 
     playerPlaysRight(arenaRightBoneVal, bone){
-        if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+        
+        //orig below
+        // if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+        if((bone.boneVal[0] !== arenaRightBoneVal) && (bone.boneVal[1] === arenaRightBoneVal)){
+            
                 bone.boneReverse();
                 this.arena.push(bone);
                 console.log("played right successfully");
@@ -233,12 +246,14 @@ class Board {
 
                 return true;
             } else if(bone.boneVal[0] === arenaRightBoneVal){
+                
                 this.arena.push(bone);
                 console.log("played right successfully");
                 console.log("rotate SVG -90 degrees");
 
                 return true;
             } else {
+                
                 // right play not playable - make player draw
                 //******************************* */
                 //******************************* */

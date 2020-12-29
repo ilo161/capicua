@@ -43,6 +43,7 @@ class Hand extends React.Component {
                 key={reactKeyVal}
                 src={allDominos[singleBoneVal]}/>    
             })
+
         }
          return(
                    <>          

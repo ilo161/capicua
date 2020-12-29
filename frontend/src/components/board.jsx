@@ -60,7 +60,8 @@ class Board extends React.Component {
 
                 return <Bone key={reactKeyVal}
                 draggable={false}
-                src={allDominos[boneStrArr[0]]} />
+                src={allDominos[boneStrArr[0]]}
+                rotation={0} />
             }
             else if(allDominosArr.includes(boneStrArr[0])){
                 //rotate once -90 degrees
