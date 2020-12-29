@@ -1,5 +1,7 @@
-const Boneyard = require("./boneyard")
-const Player = require("./player")
+// const Boneyard = require("./boneyard")
+// const Player = require("./player")
+import Boneyard from "./boneyard"
+import Player from "./player"
 
 class Board {
     constructor(axiosPlayerData){
@@ -9,9 +11,10 @@ class Board {
         this.currentPlayer = undefined;
         this.aIFirstMove = undefined;
 
+
         this.inSession = true;
         this.runningGame()
-        // debugger
+
 
     }
 
@@ -44,7 +47,9 @@ class Board {
 
         //check if player is AI
         if (this.players[playerAndBoneIdx[0]].isAI){
-            debugger
+            // ****************
+            // ****************
+            // ****************
             //works...
         }
 
@@ -63,7 +68,7 @@ class Board {
     */
 
     restartBoneYard(){
-        debugger
+
         //empty boneyard and make new bones
         this.boneyard = new Boneyard(this);
     }
@@ -116,7 +121,7 @@ class Board {
             })
 
         this.currentPlayer = this.players[playerWithHighestDouble[1]]
-        // debugger
+
         //                  => playerIdx => boneIdxInHand
         return [playerWithHighestDouble[1], playerWithHighestDouble[2]]
 
@@ -176,18 +181,20 @@ class Board {
         console.log("*************");
     }
 
-    makeMove(xPos, center, bone){
-
+    makeMove(xPosPlay, center, bone){
+        // 
         // extracting the far left number on the arena
         const arenaLeftBoneVal = this.arena[0].boneVal[0];
         // extracting the far right number on the arena
         const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
         
         // Player plays left side
-        if(xPos < center){
+        if(xPosPlay < center){
+            
             //we use this return of play in update Game in Game.jsx
            return this.playerPlaysLeft(arenaLeftBoneVal, bone);
         } else {
+            
             // Player plays right side
             return this.playerPlaysRight(arenaRightBoneVal, bone)
 
@@ -195,16 +202,21 @@ class Board {
     }
 
     playerPlaysLeft(arenaLeftBoneVal, bone){
+        // 
         //check bottom number of player hand bone first
         // second test checks top number of player hand bone second
-        if(bone.boneVal[1] != arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+        //orig below
+        // if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
+        if((bone.boneVal[1] !== arenaLeftBoneVal) && (bone.boneVal[0] === arenaLeftBoneVal)){
+            
             bone.boneReverse();
             this.arena.unshift(bone);
             console.log("played left successfully");
-            console.log("rotate SVG -90 degrees");
+            console.log("rotate SVG +90 degrees");
 
             return true;
         } else if(bone.boneVal[1] === arenaLeftBoneVal){
+            
             //bone bottom val playable on left - as is. just rotate svg -90
             this.arena.unshift(bone);
             console.log("played left successfully");
@@ -212,6 +224,7 @@ class Board {
 
             return true;
         } else {
+            
             // left play not playable - make player draw
             //******************************* */
             //******************************* */
@@ -221,20 +234,26 @@ class Board {
     }
 
     playerPlaysRight(arenaRightBoneVal, bone){
-        if(bone.boneVal[0] != arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+        
+        //orig below
+        // if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
+        if((bone.boneVal[0] !== arenaRightBoneVal) && (bone.boneVal[1] === arenaRightBoneVal)){
+            
                 bone.boneReverse();
                 this.arena.push(bone);
                 console.log("played right successfully");
-                console.log("rotate SVG -90 degrees");
+                console.log("rotate SVG +90 degrees");
 
                 return true;
             } else if(bone.boneVal[0] === arenaRightBoneVal){
+                
                 this.arena.push(bone);
                 console.log("played right successfully");
                 console.log("rotate SVG -90 degrees");
 
                 return true;
             } else {
+                
                 // right play not playable - make player draw
                 //******************************* */
                 //******************************* */
@@ -297,5 +316,5 @@ class Board {
 // let axiosPlayerObj = [{username: "TinyPigOink!"}]
 // let b1 = new Board(axiosPlayerObj)
 
-
-module.exports = Board;
+export default Board
+// module.exports = Board;

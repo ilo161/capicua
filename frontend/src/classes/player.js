@@ -44,8 +44,8 @@ class Player {
 
 // let p1 = new Player("Mike", "board")
 
-
-  module.exports = Player;
+export default Player;
+  // module.exports = Player;
 
 
   // removeFromHand(bone) {

@@ -57,10 +57,11 @@ class Board extends React.Component {
         
 
             if(bone.isDouble()){
-                debugger
+
                 return <Bone key={reactKeyVal}
                 draggable={false}
-                src={allDominos[boneStrArr[0]]} />
+                src={allDominos[boneStrArr[0]]}
+                rotation={0} />
             }
             else if(allDominosArr.includes(boneStrArr[0])){
                 //rotate once -90 degrees
@@ -80,19 +81,19 @@ class Board extends React.Component {
 
             
            
-            debugger
-           
+
+
             // the arena is simple to show the current pieces in play
         return (
-          <div>
-            <Stage className="board-game-container" width={boardDimen} height={boardDimen}>
+            <div className="board-game-container">
+            <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
                     <Group x={285} y={270}>
                         {arena}
                     </Group>
                     <Group x={startBoxforHand} y={540}>
 
-                        <Hand offSetCenter={offSetCenter} board={board} allDominos={allDominos}  boneValToString={boneValToString}  />
+                        <Hand offSetCenter={offSetCenter} board={board} updateGame={this.props.updateGame} allDominos={allDominos}  boneValToString={boneValToString}  />
                     </Group>
                 </Layer>
             </Stage>
@@ -145,7 +146,7 @@ class Board extends React.Component {
 //     // <Bone className="domino-size" value={dValue} dValue={domino} src={dominoFile} draggable="true" x={190}  />
 //     // })
 //   })
-//   debugger
+
 
 // // TEstbone.props.dValue ==> array [3,1]
 // //   console.log(newFileNames)

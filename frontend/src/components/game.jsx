@@ -1,7 +1,8 @@
 import React from "react";
 import Board from "./board"
+import BoardObject from "../classes/board"
+// const BoardObject = require("../classes/board")
 
-const BoardObject = require("../classes/board")
 const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 
 class Game extends React.Component {
@@ -9,26 +10,43 @@ class Game extends React.Component {
         super(props)
         const board = new BoardObject(axiosPlayerObj)
         this.state = {board: board}
-        // debugger
-        
+        this.updateGame = this.updateGame.bind(this);
     }
 
     componentDidMount(){
         console.log(this.state.board)
-        debugger
+
     }
 
-    updateGame(boneIndex, side) { {/* connected to Tile Component line 8 */}
+    updateGame(xPosPlay, center, boneIdx) { {/* connected to Tile Component line 8 */}
         
-        this.setState({ board: this.state.board });
+        const currentBone = this.state.board.currentPlayer.hand.splice(boneIdx,1)[0];
+        this.setState({ state: this.state });
+        const verifyMove = this.state.board.makeMove(xPosPlay, center, currentBone);
+
+        if(verifyMove){
+            this.setState({ board: this.state.board });
+
+        }else {
+
+            this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
+            this.setState({ board: this.state.board });
+
+            // this.forceUpdate();
+        }
+        //three arguments xPos, center, bone)
+        console.log(this.state.board.renderArena())
+        console.log("Arena ^..hand below")
+        console.log(this.state.board.currentPlayer.hand)
     }
 
     render(){
         
 
         return (
-          
-             <Board board={this.state.board}/>
+            <div className="board-container">
+                <Board board={this.state.board} updateGame={this.updateGame}/>
+            </div>
         )
     }
 
