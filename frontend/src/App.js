@@ -5,7 +5,7 @@ import Game from "./components/game"
 import bodega from "./assets/img/La_Bodega.jpg"
 import React, { Component } from 'react'
 
-import Chat from '../src/components/Chat/Chat'
+import Chat from './components/chat/chat'
 
 class App extends Component {
   render() {
