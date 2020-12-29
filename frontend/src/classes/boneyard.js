@@ -1,4 +1,5 @@
-const Bone = require("./bone.js")
+// const Bone = require("./bone.js")
+import Bone from "./bone"
 
 
 class Boneyard {
@@ -12,8 +13,7 @@ class Boneyard {
     getUniqueDominoNums(){
         let dominoStrs = []
 
-        let i;
-        let j;
+        
         for (let i = 0; i < 7; i++) {
             for (let j = i; j < 7; j++) {
                 dominoStrs.push(`${i}${j}`)
@@ -64,5 +64,7 @@ class Boneyard {
 
     
 }
-module.exports = Boneyard
+
+export default Boneyard;
+// module.exports = Boneyard
 

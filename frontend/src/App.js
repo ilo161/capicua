@@ -4,7 +4,7 @@ import './stylesheets/reset.css';
 import Game from "./components/game"
 import bodega from "./assets/img/La_Bodega.jpg"
 import React, { Component } from 'react'
-// import './App.css'
+
 import Chat from '../src/components/Chat/Chat'
 
 class App extends Component {
@@ -12,8 +12,8 @@ class App extends Component {
     return (
       <div>
         <header>
-          <Game />
-          <Chat />
+          <Game /> 
+          <Chat /> 
         </header>
         <img src={bodega} alt="bodega" className="bodega-img" ></img>
       </div>

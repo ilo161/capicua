@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
     username: "Demo",
     password: "password"
   })
-  // debugger;
+
   user.save()
   res.send("Hello World!");
 });
@@ -51,4 +51,4 @@ wss.on('connection', function connection(ws) {
   });
 });
 
-
+// app.listen(port, () => {console.log(`Listening on port ${port}`)});
