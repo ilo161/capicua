@@ -1,0 +1,132 @@
+.capicua-title{
+    display: flex;
+    justify-content: center;
+    margin-top: 4vh;
+    font-size: 100px;
+    animation-name: change-color;
+    animation-duration: .9s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 2.00px
+}
+
+@keyframes change-color {
+    0% { color: rgb(255, 0, 0)}
+    50% {color: blue;}
+    100% {color: yellow;}
+}
+
+.title-bone-1{
+    height: 100px;
+}
+.title-bone-2{
+    height: 100px;
+}
+
+.game-description{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    color: blue;
+    background-color: rgba(246, 146, 45, 0.500);
+    margin-top: 5vh;
+    font-size: 25px;
+    max-width: 700px;
+
+
+}
+
+.input-name{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+    width: 20vh;
+    font-size: 20px;
+}
+
+.start-game-btn-container{
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4vh;
+}
+.start-btn{
+    font-weight: 900;
+    font-size: 17px;
+    width: 100px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgb(186, 31, 49);
+}
+.start-btn:hover span {display:none}
+.start-btn:hover::after {content:"coming soon!"}
+
+.developers-title{
+    display: flex;
+    justify-content: center;
+    color: yellow;
+    margin-top: 5vh;
+    font-size: 30px;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 2.00px
+}
+.photo-description{
+    display: flex;
+    justify-content: center;
+    color:yellow;
+    margin-top: 2%;
+    font-size: 25px;
+    font-weight: 900;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1.00px
+}
+
+.MERN-team{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    color: yellow;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1.00px
+}
+
+.sergio-photo{
+    height: 200px;
+    width: 180px;
+    border-radius: 2vh;
+}
+
+.steven-photo{
+    height: 200px;
+    width: 180px;
+    border-radius: 2vh;
+}
+
+.chris-photo{
+    height: 200px;
+    width: 180px;
+    border-radius: 2vh;
+}
+
+.yangel-photo{
+    height: 200px;
+    width: 180px;
+    border-radius: 2vh;
+}
+.name-title{
+    max-width: 180px;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+html *{
+    font-family: Marker Felt, fantasy;
+}

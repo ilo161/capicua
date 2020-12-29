@@ -27,7 +27,8 @@ class Game extends React.Component {
         
 
         return (
-            <div className="board-container">
+            <div className="board-chatbox-container">
+                {/*import chat box container*/}
                 <Board board={this.state.board}/>
             </div>
         )
