@@ -6,7 +6,7 @@ import App from './App';
 // import { Provider } from 'react-redux';
 // import Game from './components/game';
 import axios from "axios";
-import {HashRouter} from "react-router-dom"
+import {HashRouter} from "react-router-dom";
 
 
 

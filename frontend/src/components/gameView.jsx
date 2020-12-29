@@ -1,5 +1,5 @@
 import Game from './game.jsx';
-import Chat from '../chat/chat.jsx';
+import Chat from './chat/chat';
 import React from 'react';
 
 
