@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ChatContext from './ChatContext'
-import ChatMsg from './ChatMsg'
+import ChatContext from './chatContext'
+import ChatMsg from './chatMsg'
 
 const URL = 'ws://localhost:3001'
 // not sure why socket server needs to be on a different localhost from React
