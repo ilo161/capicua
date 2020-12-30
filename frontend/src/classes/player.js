@@ -28,6 +28,21 @@ class Player {
 
     }
 
+    //replaced canMove with hasPlayableBone()
+    hasPlayableBones(){
+        const canMakeMove = this.hand.some((bone) =>{
+            return this.board.isBonePlayable(bone);
+        });
+
+        if (!canMakeMove) return false;
+        return true
+    }
+
+    drawBone(){
+      const newBone = this.hand.push(this.board.boneyard.pop())
+      console.log(`Player drew ${newBone.boneVal}`)
+    }
+
     
     revealHand(){
       let handString = ""
