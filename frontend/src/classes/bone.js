@@ -3,7 +3,7 @@ class Bone {
         [this.topNumber, this.bottomNumber] = boneVal
         this.boneVal = boneVal;
         this.isReversed = false
-        this.isRotated = false;
+        // this.isRotated = false;
     }
 
     isDouble() {
@@ -17,6 +17,7 @@ class Bone {
         this.topNumber = botTemp;
         this.bottomNumber = topTemp;
         this.isReversed = true;
+        console.log("bone Reversed")
     }
 }
 

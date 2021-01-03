@@ -41,7 +41,8 @@ class Hand extends React.Component {
                 offSetCenter={offSetCenter}
                 draggable={true}
                 key={reactKeyVal}
-                src={allDominos[singleBoneVal]}/>    
+                src={allDominos[singleBoneVal]}
+                inArena={false}/>    
             })
 
         }

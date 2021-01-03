@@ -194,6 +194,8 @@ class Board {
 
         this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
 
+
+
         // TESTING PURPOSES ONLY DELETE LATER //
         console.log("*************");
         console.log("NEW CURRENT PLAYER && Hand");
@@ -203,9 +205,10 @@ class Board {
 
         // if NEW currentPlayer CANNOT make a valid move... 
         if(!this.currentPlayer.hasPlayableBones()){
+            // debugger
             
             // If boneyard empty, changePlayer to nextPlayer
-            if (this.boneyard.length === 0){
+            if (this.boneyard.bones.length === 0){
                 console.log("curry addition here for skip turn ++")
                 this.nextPlayerAssignTurn()
                 //insert currying function here
@@ -213,12 +216,14 @@ class Board {
             } else {
                 //currentPlayer draws from boneyard
                 // auto draw feature. (no animation yet)
-                while (!this.currentPlayer.hasPlayableBones() && this.boneyard.length > 0){
+                while ((!this.currentPlayer.hasPlayableBones()) && (this.boneyard.bones.length > 0)){
+                    // debugger
                     this.currentPlayer.drawBone()
                 }
 
                 //player draws all bones && still has no valid move
-                if(this.boneyard.length === 0 && !this.currentPlayer.hasPlayableBones()){
+                if((this.boneyard.bones.length === 0) && (!this.currentPlayer.hasPlayableBones())){
+                    // debugger
                     this.nextPlayerAssignTurn()
                 }
                 
@@ -345,7 +350,7 @@ class Board {
             console.log("THE~~~ARENA");
 
             this.arena.forEach(bone => {
-                arenaString += `[${bone.boneVal[0]}, ${bone.boneVal[1]}], `
+                arenaString += `[${bone.boneVal[0]}, ${bone.boneVal[1]}] ${bone.isReversed}, `
             })
 
             console.log(`${arenaString}`)

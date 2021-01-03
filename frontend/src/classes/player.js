@@ -39,8 +39,8 @@ class Player {
     }
 
     drawBone(){
-      const newBone = this.hand.push(this.board.boneyard.pop())
-      console.log(`Player drew ${newBone.boneVal}`)
+      const newBone = this.hand.push(this.board.boneyard.bones.pop())
+      console.log(`Player drew ${this.hand[this.hand.length-1].boneVal}`)
     }
 
     

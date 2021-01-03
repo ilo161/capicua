@@ -185,6 +185,7 @@ class Game{
     //     if (!canMakeMove) {
 
             this.draw(player)
+
     //     } else {
     //         return canMakeMove
     //     }
@@ -248,6 +249,7 @@ class Game{
                 
                 randomMathFloorIdx = 0
             }
+            
             this.skipCounter = 0
             let removedBone = player.hand.splice(randomMathFloorIdx, 1)
 
