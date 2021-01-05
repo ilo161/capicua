@@ -1,21 +1,16 @@
 import React from "react";
-
 import {Group} from 'react-konva';
-// import useImage from 'use-image';
 import Bone from "./bone"
 
 
 
 class Hand extends React.Component {
-    // constructor(props){
-    //     super(props)
 
-
-
-    // }
 
     render(){
-        const {board, allDominos, boneValToString, offSetCenter} = this.props;
+        const {board, allDominos, boneValToString, offSetCenter,
+        boneWidth, boneHeight} = this.props;
+
 
         // this will need to be changed to the axios player ID. 
         // SOLELY FOR TESTING...
@@ -24,18 +19,20 @@ class Hand extends React.Component {
         if (board){
 
             renderedHand = board.currentPlayer.hand.map((bone,idx) => {
-               // ["34"]
+
                const singleBoneVal =  boneValToString(bone.boneVal)[0]
                const reactKeyVal = parseInt(singleBoneVal)
                const initialX = 0;
 
                //width of domino plus spacing
-               const width = 30 + 10;
+               const width = (boneWidth + 10);
 
                 const pos = initialX + (width * idx);
-
+                debugger
                 return <Bone 
                 x={pos} 
+                width={boneWidth}
+                height={boneHeight}
                 updateGame={this.props.updateGame}
                 boneIdx={idx}
                 offSetCenter={offSetCenter}
@@ -46,8 +43,9 @@ class Hand extends React.Component {
             })
 
         }
+
          return(
-                   <>          
+                <>          
                  {renderedHand}
                 </>
          )

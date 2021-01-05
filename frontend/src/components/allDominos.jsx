@@ -27,9 +27,15 @@ import domino55 from '../assets/img/dominos_pieces_vector_svg/dominos_bone_5:5.s
 import domino56 from '../assets/img/dominos_pieces_vector_svg/dominos_bone_5:6.svg';
 import domino66 from '../assets/img/dominos_pieces_vector_svg/dominos_bone_6:6.svg';
 import capicuaDomino from '../assets/img/dominos_pieces_vector_svg/capicua_domino.png'
+import capicuaDominoL from '../assets/img/dominos_pieces_vector_svg/capicua_domino_left.png'
+import capicuaDominoT from '../assets/img/dominos_pieces_vector_svg/capicua_domino_top.png'
+import capicuaDominoR from '../assets/img/dominos_pieces_vector_svg/capicua_domino_right.png'
 
 export const allDominos = {
     "cd": capicuaDomino,
+    "cdl" : capicuaDominoL,
+    "cdt" : capicuaDominoT,
+    "cdr" : capicuaDominoR,
     "00": domino00,
     "01": domino01,
     "02": domino02,

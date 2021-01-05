@@ -4,16 +4,19 @@ import BoardObject from "../classes/board"
 // const BoardObject = require("../classes/board")
 
 //one player game below
-const axiosPlayerObj = [{username: "Steven"}]
+// const axiosPlayerObj = [{username: "Steven"}]
 
 
 // two player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 
+// three player below
+// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
+
 //4 player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
-// {username: "idrakeUfake!"},
-// {username: "prophecy!"}]
+const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
+{username: "idrakeUfake!"},
+{username: "prophecy!"}]
 
 class Game extends React.Component {
     constructor(props){
@@ -36,12 +39,12 @@ class Game extends React.Component {
         this.setState({ state: this.state });
 
         if(verifyMove){
-            debugger
+            // debugger
             this.state.board.nextPlayerAssignTurn()
             this.setState({ board: this.state.board });
 
         }else {
-            debugger
+            // debugger
             this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
             this.setState({ board: this.state.board });
 

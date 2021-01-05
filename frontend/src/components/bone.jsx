@@ -14,7 +14,9 @@ class Bone extends React.Component {
              rotation: null,
              inArena: null,
              x: null,
-             y: null
+             y: null,
+             width: null,
+             height: null
         };
 
 
@@ -27,7 +29,7 @@ class Bone extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-
+    // debugger
     if (oldProps.src !== this.props.src) {
       this.loadImage();
     } else if(oldProps.x !== this.props.x){
@@ -61,7 +63,9 @@ class Bone extends React.Component {
       rotation: this.props.rotation,
       inArena: this.props.inArena,
       x: this.props.x,
-      y: this.props.y
+      y: this.props.y,
+      width: this.props.width,
+      height: this.props.height
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
@@ -88,6 +92,8 @@ class Bone extends React.Component {
         // const boneIdx = e.target.attrs.boneIdx
         const boneIdx = e.target.index
         const yCoord = e.target.attrs.y
+        const onBoardXPos = e.target.absolutePosition().x;
+        const onBoardYPos = e.target.absolutePosition().y;
         
         console.log(`BoneIdxIs: ${e.target.attrs.boneIdx}`)
 
@@ -96,14 +102,40 @@ class Bone extends React.Component {
         console.log(`Y: ${e.target.attrs.y}`)
         //works below
         // this.state.updateGame(xPosPlay, center, boneIdx)
-        if (yCoord < -50){
-          updateGame(xPosPlay, center, boneIdx)
-        }
-        // console.log(e.target)
+        // debugger
+
+        // Remember to remove the left side of IF statement
+        // for testing only
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // if (!this.props.inArena && yCoord < -50){
+          // console.log()
+          //else if (x < 0 || x > 540 && y < 0 || y > 540){
+            if ((onBoardXPos < 0 || onBoardXPos > 540)
+            || (onBoardYPos < 0 || onBoardYPos > 540)) {
+              debugger
+              // this.handleLoad();
+              e.currentTarget.getLayer().batchDraw();
+            }
+            else if (!this.props.inArena && yCoord < -50) {
+              debugger;
+              updateGame(xPosPlay, center, boneIdx);
+            }
+            // console.log(e.target)
     }
 
+    // if(x < 0 || x > 540 && y < 0 || y > 540){
+    //     this.handleLoad();
+    // }
+
     slideUp(e){
-      console.log(this.getPosition())
+      // console.log(this.getPosition())
+      console.log(this.absolutePosition())
       
       if(!this.attrs.inArena){
         // console.log(`X: ${e.target.attrs.x}`)
@@ -125,7 +157,7 @@ class Bone extends React.Component {
 
         
 
-        console.log(this.getPosition())
+        // console.log(this.getPosition())
         this.getLayer().batchDraw();
       }
         
@@ -156,8 +188,8 @@ class Bone extends React.Component {
         y={this.state.y}
         offSetCenter={this.state.offSetCenter}
         image={this.state.image}
-        width={30}
-        height={60}
+        width={this.state.width}
+        height={this.state.height}
         boneIdx={this.state.boneIdx}
         draggable={this.state.draggable}
 
