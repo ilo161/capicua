@@ -32,6 +32,7 @@ class Arena extends React.Component {
                 x={0}
                 width={boneWidth}
                 height={boneHeight}
+                // offsetX={boneWidth / 2}
                 src={allDominos[boneStrArr[0]]}
                 rotation={0}
                 inArena={true} />
@@ -164,7 +165,6 @@ class Arena extends React.Component {
 
         })
 
-        
 
         return (
             <>

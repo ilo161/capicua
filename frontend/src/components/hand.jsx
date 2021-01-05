@@ -28,7 +28,7 @@ class Hand extends React.Component {
                const width = (boneWidth + 10);
 
                 const pos = initialX + (width * idx);
-                debugger
+
                 return <Bone 
                 x={pos} 
                 width={boneWidth}

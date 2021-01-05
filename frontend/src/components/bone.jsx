@@ -16,20 +16,28 @@ class Bone extends React.Component {
              x: null,
              y: null,
              width: null,
-             height: null
+             height: null,
+             offsetX: this.props.offsetX,
+             offsetY: this.props.offsetY
         };
 
 
     }
     
   componentDidMount() {
+
+    debugger
+    // this.to({
+    //   scaleX: -this.scaleX(),
+    // });
+
     this.loadImage();
 
     // console.log(this.imageNode.getPosition());
   }
 
   componentDidUpdate(oldProps) {
-    // debugger
+
     if (oldProps.src !== this.props.src) {
       this.loadImage();
     } else if(oldProps.x !== this.props.x){
@@ -65,7 +73,9 @@ class Bone extends React.Component {
       x: this.props.x,
       y: this.props.y,
       width: this.props.width,
-      height: this.props.height
+      height: this.props.height,
+      offsetX: this.props.offsetX,
+      offsetY: this.props.offsetY
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
@@ -116,14 +126,15 @@ class Bone extends React.Component {
         // if (!this.props.inArena && yCoord < -50){
           // console.log()
           //else if (x < 0 || x > 540 && y < 0 || y > 540){
-            if ((onBoardXPos < 0 || onBoardXPos > 540)
-            || (onBoardYPos < 0 || onBoardYPos > 540)) {
-              debugger
-              // this.handleLoad();
-              e.currentTarget.getLayer().batchDraw();
-            }
-            else if (!this.props.inArena && yCoord < -50) {
-              debugger;
+            // if ((onBoardXPos < 0 || onBoardXPos > 540)
+            // || (onBoardYPos < 0 || onBoardYPos > 540)) {
+            //   debugger
+            //   // this.handleLoad();
+            //   e.currentTarget.getLayer().batchDraw();
+            // }
+            // else
+             if (!this.props.inArena && yCoord < -50) {
+
               updateGame(xPosPlay, center, boneIdx);
             }
             // console.log(e.target)
@@ -134,6 +145,7 @@ class Bone extends React.Component {
     // }
 
     slideUp(e){
+      debugger
       // console.log(this.getPosition())
       console.log(this.absolutePosition())
       
@@ -192,7 +204,6 @@ class Bone extends React.Component {
         height={this.state.height}
         boneIdx={this.state.boneIdx}
         draggable={this.state.draggable}
-
         onMouseDown={this.mouseDownStartCoord}
         onMouseOver={this.slideUp}
         onMouseOut={this.slideDown}

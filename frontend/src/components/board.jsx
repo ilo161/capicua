@@ -27,7 +27,7 @@ class Board extends React.Component {
     
 
     render(){
-        const boardDimen = 600;
+        const boardDimen = 900;
         const boneWidth = 30;
         const boneHeight = 60;
         const boneIsRevYPos = (boneWidth / 2);
@@ -40,6 +40,8 @@ class Board extends React.Component {
                     x={0}
                     width={boneWidth}
                     height={boneHeight}
+                    offsetX={boneWidth / 2}
+                    offsetY={boneHeight / 2}
                     src={allDominos["cd"]}
                     rotation={0}
                     inArena={true} />]
