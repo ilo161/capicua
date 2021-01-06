@@ -40,19 +40,23 @@ class Board extends React.Component {
                     x={0}
                     width={boneWidth}
                     height={boneHeight}
-                    offsetX={boneWidth / 2}
-                    offsetY={boneHeight / 2}
                     src={allDominos["cd"]}
                     rotation={0}
                     inArena={true} />]
+
+                    // offsetX={boneWidth / 2}
+                    // offsetY={boneHeight / 2}
 
         
 
         // these 3 lines are required to center the arena in the middle of the board
         // for Konva Group
-        const currArenaLength = board.arena.length
-        const offSetCenterArena = ((currArenaLength / 2) * boneWidth)  // mult by 40
-        const startBoxforArena = ((boardDimen / 2) - offSetCenterArena)
+        const currArenaLength = board.arena.length;
+        const offSetCenterArena = ((currArenaLength / 2) * boneWidth);
+        const startBoxforArena = ((boardDimen / 2) - offSetCenterArena);
+        const startHeightArena = (boardDimen / 2) - boneHeight;
+        const maxLeftStartBoxforArena = ((boardDimen / 2) - (( 9 / 2 ) * boneWidth));
+
 
         const boneValToString = (boneVal) => {
             let firstNumStr = boneVal[0].toString();
@@ -87,7 +91,10 @@ class Board extends React.Component {
             <div className="board-game-container">
             <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
-                    <Group x={startBoxforArena} y={(boardDimen / 2) - boneHeight}>
+                    {/* y will shift up as length grows until length is 13 then shifting stops */}
+                    <Group x={currArenaLength <= 9 ? startBoxforArena : maxLeftStartBoxforArena} y={currArenaLength <= 8 ? startHeightArena :
+                    currArenaLength >= 9 && currArenaLength <= 13 ? startHeightArena - (boneHeight  * (currArenaLength - 8)) :
+                    startHeightArena - 300 }>
                         <Arena board={board} boardDimen={boardDimen}
                          allDominos={allDominos} boneValToString={boneValToString}
                          boneWidth={boneWidth} boneHeight={boneHeight}

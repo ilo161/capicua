@@ -11,12 +11,12 @@ import BoardObject from "../classes/board"
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 
 // three player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
+const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
 
 //4 player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
-{username: "idrakeUfake!"},
-{username: "prophecy!"}]
+// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
+// {username: "idrakeUfake!"},
+// {username: "prophecy!"}]
 
 class Game extends React.Component {
     constructor(props){
