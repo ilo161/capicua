@@ -17,8 +17,8 @@ class Bone extends React.Component {
              y: null,
              width: null,
              height: null,
-             offsetX: this.props.offsetX,
-             offsetY: this.props.offsetY
+             offsetX: 0,
+             offsetY: 0
         };
 
 
@@ -26,7 +26,7 @@ class Bone extends React.Component {
     
   componentDidMount() {
 
-    debugger
+    // debugger
     // this.to({
     //   scaleX: -this.scaleX(),
     // });
@@ -41,6 +41,8 @@ class Bone extends React.Component {
     if (oldProps.src !== this.props.src) {
       this.loadImage();
     } else if(oldProps.x !== this.props.x){
+      this.loadImage();
+    } else if(oldProps.y !== this.props.y){
       this.loadImage();
     } 
     // oldProps.x
@@ -86,7 +88,7 @@ class Bone extends React.Component {
   mouseDownStartCoord(e){
 
     console.log(`MDX: ${e.target.attrs.x}`)
-    // console.log(`MDY: ${e.target.attrs.y}`)
+    console.log(`MDY: ${e.target.attrs.y}`)
     console.log("------")
   }
 
@@ -145,8 +147,9 @@ class Bone extends React.Component {
     // }
 
     slideUp(e){
-      debugger
-      // console.log(this.getPosition())
+      // debugger
+      console.log(`thisX: ${e.target.attrs.x}`)
+      console.log(`thisY: ${e.target.attrs.y}`)
       console.log(this.absolutePosition())
       
       if(!this.attrs.inArena){
@@ -203,6 +206,8 @@ class Bone extends React.Component {
         width={this.state.width}
         height={this.state.height}
         boneIdx={this.state.boneIdx}
+        offsetX={this.state.offsetX}
+        offsetY={this.state.offsetY}
         draggable={this.state.draggable}
         onMouseDown={this.mouseDownStartCoord}
         onMouseOver={this.slideUp}
