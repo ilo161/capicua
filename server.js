@@ -52,3 +52,50 @@ wss.on('connection', function connection(ws) {
 });
 
 // app.listen(port, () => {console.log(`Listening on port ${port}`)});
+
+
+
+// // Socket.io 
+// const socketio = require('socket.io');
+// const http = require('http');
+// const server = http.createServer(app);
+// const io = socketio(server);
+// const PORT = process.env.PORT || 5000;
+
+// const router = require('./router');
+// const { useParams } = require("react-router-dom");
+// // const cors = require('cors');
+
+// // const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+// let users = [];
+
+// const messages = {
+//   room1: [],
+//   room2: [],
+//   room3: [],
+//   room4: []
+// }
+
+
+// io.on("connection", (socket) => {
+//   console.log("New CONNECTION!!");
+  
+//   socket.on("join server", (username)  => {
+//     const user = {
+//       username,
+//       id: socket.id
+//     };
+//     users.push(user);
+//     io.emit("new user", users);
+//   });
+
+//   socket.on("join room", (roomName, cb)  => {
+//     socket.join(roomName);
+//     cb(messages[roomName]);
+//   });
+
+// })
+
+// app.use(router);
+
+// server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
