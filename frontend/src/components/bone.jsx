@@ -11,20 +11,40 @@ class Bone extends React.Component {
              offSetCenter: null,
              updateGame: null,
              boneIdx: null,
-             rotation: null
+             rotation: null,
+             inArena: null,
+             x: null,
+             y: null,
+             width: null,
+             height: null,
+             offsetX: this.props.offsetX,
+             offsetY: this.props.offsetY
         };
 
 
     }
     
   componentDidMount() {
+
+    debugger
+    // this.to({
+    //   scaleX: -this.scaleX(),
+    // });
+
     this.loadImage();
 
+    // console.log(this.imageNode.getPosition());
   }
+
   componentDidUpdate(oldProps) {
+
     if (oldProps.src !== this.props.src) {
       this.loadImage();
-    }
+    } else if(oldProps.x !== this.props.x){
+      this.loadImage();
+    } 
+    // oldProps.x
+    // this.props.x
   }
 
   componentWillUnmount() {
@@ -37,23 +57,32 @@ class Bone extends React.Component {
     this.image.src = this.props.src;
     this.image.addEventListener('load', this.handleLoad);
   }
+
   handleLoad = () => {
     // after setState react-konva will update canvas and redraw the layer
     // because "image" property is changed
+    // debugger
     this.setState({
       image: this.image,
       draggable: this.props.draggable,
       offSetCenter: this.props.offSetCenter,
       updateGame: this.props.updateGame,
       boneIdx: this.props.boneIdx,
-      rotation: this.props.rotation
+      rotation: this.props.rotation,
+      inArena: this.props.inArena,
+      x: this.props.x,
+      y: this.props.y,
+      width: this.props.width,
+      height: this.props.height,
+      offsetX: this.props.offsetX,
+      offsetY: this.props.offsetY
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
-    // this.imageNode.getLayer().batchDraw();
+    this.imageNode.getLayer().batchDraw();
   };
 
-  // 40 * i
+
   mouseDownStartCoord(e){
 
     console.log(`MDX: ${e.target.attrs.x}`)
@@ -72,6 +101,9 @@ class Bone extends React.Component {
         //orig below
         // const boneIdx = e.target.attrs.boneIdx
         const boneIdx = e.target.index
+        const yCoord = e.target.attrs.y
+        const onBoardXPos = e.target.absolutePosition().x;
+        const onBoardYPos = e.target.absolutePosition().y;
         
         console.log(`BoneIdxIs: ${e.target.attrs.boneIdx}`)
 
@@ -80,9 +112,80 @@ class Bone extends React.Component {
         console.log(`Y: ${e.target.attrs.y}`)
         //works below
         // this.state.updateGame(xPosPlay, center, boneIdx)
+        // debugger
+
+        // Remember to remove the left side of IF statement
+        // for testing only
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // ******************************
+        // if (!this.props.inArena && yCoord < -50){
+          // console.log()
+          //else if (x < 0 || x > 540 && y < 0 || y > 540){
+            // if ((onBoardXPos < 0 || onBoardXPos > 540)
+            // || (onBoardYPos < 0 || onBoardYPos > 540)) {
+            //   debugger
+            //   // this.handleLoad();
+            //   e.currentTarget.getLayer().batchDraw();
+            // }
+            // else
+             if (!this.props.inArena && yCoord < -50) {
+
+              updateGame(xPosPlay, center, boneIdx);
+            }
+            // console.log(e.target)
+    }
+
+    // if(x < 0 || x > 540 && y < 0 || y > 540){
+    //     this.handleLoad();
+    // }
+
+    slideUp(e){
+      debugger
+      // console.log(this.getPosition())
+      console.log(this.absolutePosition())
+      
+      if(!this.attrs.inArena){
+        // console.log(`X: ${e.target.attrs.x}`)
+        // console.log(`Y: ${e.target.attrs.y}`)
+        // console.log(this.getPosition())
+        // this.absolutePosition()... ^^
+        // setX
+        // setY
+        // scale (X,  Y) // scaleX, scaleY
+        // this.offsetX(20) // works in reverse.
+        // this.offsetY(-20) // works in reverse.
+
+        this.to({
+          scaleX: 1.2,
+          scaleY: 1.2,
+          y: -20,
+          duration: 0.2
+        });
+
         
-        updateGame(xPosPlay, center, boneIdx)
-        // console.log(e.target)
+
+        // console.log(this.getPosition())
+        this.getLayer().batchDraw();
+      }
+        
+    }
+
+    slideDown(e){
+      if(!this.attrs.inArena){
+          this.to({
+            scaleX: 1.0,
+            scaleY: 1.0,
+            y: 0,
+            duration: 0.2
+          });
+        this.getLayer().batchDraw();
+      }
+      
     }
 
 
@@ -93,18 +196,20 @@ class Bone extends React.Component {
     
     return (
       <Image
-        x={this.props.x}
-        y={this.props.y}
+        x={this.state.x}
+        y={this.state.y}
         offSetCenter={this.state.offSetCenter}
         image={this.state.image}
-        width={30}
-        height={60}
+        width={this.state.width}
+        height={this.state.height}
         boneIdx={this.state.boneIdx}
         draggable={this.state.draggable}
-        updateGame={this.state.updateGame}
         onMouseDown={this.mouseDownStartCoord}
+        onMouseOver={this.slideUp}
+        onMouseOut={this.slideDown}
         onDragEnd={(e) => this.mouseUpCoord(e, this.state.updateGame)}
         rotation={this.state.rotation}
+        inArena={this.state.inArena}
         ref={node => {
           this.imageNode = node;
         }}
