@@ -3,14 +3,6 @@ import Konva from "konva";
 import {constructBone} from "./allBones"
 import Bone from "./bone";
 
-
-
-
-
-
-
-
-
 class Arena extends React.Component {
 
     render(){
@@ -33,14 +25,6 @@ class Arena extends React.Component {
                 0, 0, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                 0, true)
 
-                // return <Bone key={reactKeyVal}
-                // draggable={true}
-                // x={0}
-                // width={boneWidth}
-                // height={boneHeight}
-                // src={allDominos[boneStrArr[0]]}
-                // rotation={0}
-                // inArena={true} />
             } else if (isReversed){
                 // boneVal has been reversed. Rotate 90 Degrees
                 // prop x is shifted 60 pixels to the right because rotation
@@ -50,31 +34,12 @@ class Arena extends React.Component {
                 boneHeight, boneIsRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                 90, true)
 
-                // return <Bone key={reactKeyVal} 
-                //     draggable={true}
-                //     x={boneHeight}
-                //     y={boneIsRevYPos}
-                //     width={boneWidth}
-                //     height={boneHeight}
-                //     src={allDominos[boneStrArr[1]]} 
-                //     rotation={90}
-                //     inArena={true} /> 
             } else {
                 //boneVal is NOT reversed. Rotate -90 Degrees
 
                 return constructBone(reactKeyVal, true,
                 0, boneNotRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                 -90, true)
-
-                //  return <Bone key={reactKeyVal}
-                //     draggable={true}
-                //     x={0}
-                //     y={boneNotRevYPos}
-                //     width={boneWidth}
-                //     height={boneHeight}
-                //     src={allDominos[boneStrArr[0]]}
-                //     rotation={-90}
-                //     inArena={true} />
             }
         }
 
@@ -111,9 +76,7 @@ class Arena extends React.Component {
 
             const singleBoneVal =  boneStrArr[0];
             const reactKeyVal = parseInt(singleBoneVal);
-                    // isBentAgain: idx === 19 ? {x: 75} : idx > 19 ? {x: 30} : false,
-                    //  isBentAgain: idx === 19 ? {x: 60} : idx > 19 ? {x: 60} : false,
-                    // isBentAgain: idx === 19 ? {x: 60} : idx > 19 ? {x: 60} : false,
+                   
             const boneXnY = (
                 bone.isDouble() ? {
                     isDouble: true,
@@ -199,7 +162,6 @@ class Arena extends React.Component {
             */
         
             if (idx === 0){
-                // debugger
                 return isFirstBone(
                      boneDimenArr[0].isDouble,
                      boneDimenArr[0].isReversed,
@@ -208,22 +170,11 @@ class Arena extends React.Component {
             } else if(idx < 8) {
 
                 if (bone.isDouble()){
-                    // const totalXPos = xLengthAllBones(boneDimenArr, idx);
                     console.log(`totalXPOS: ${totalXPos}`)
 
                     return constructBone(reactKeyVal, true,
                     totalXPos, 0, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                     0, true)
-                    // debugger
-                    // return <Bone key={reactKeyVal}
-                    // draggable={true}
-                    // x={totalXPos}
-                    // y={0}
-                    // width={boneWidth}
-                    // height={boneHeight}
-                    // src={allDominos[boneStrArr[0]]}
-                    // rotation={0}
-                    // inArena={true} />
                 }
                 else if(allDominosArr.includes(boneStrArr[0])){
                     // bone is NOT reversed
@@ -233,16 +184,6 @@ class Arena extends React.Component {
                     return constructBone(reactKeyVal, true,
                     totalXPos, boneNotRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                     -90, true)
-
-                    // return <Bone key={reactKeyVal} 
-                    // draggable={true}
-                    // x={totalXPos}
-                    // y={boneNotRevYPos}
-                    // width={boneWidth}
-                    // height={boneHeight}
-                    // src={allDominos[boneStrArr[0]]}
-                    // rotation={-90}
-                    // inArena={true} />
                 } else {
                     //boneVal has been reversed. Rotate 90 Degrees
 
@@ -253,23 +194,11 @@ class Arena extends React.Component {
                     return constructBone(reactKeyVal, true,
                     totalXPos, boneIsRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                     90, true)
-                    // debugger
-                    // return <Bone key={reactKeyVal}
-                    // draggable={true}
-                    // x={totalXPos}
-                    // y={boneIsRevYPos}
-                    // width={boneWidth}
-                    // height={boneHeight}
-                    // src={allDominos[boneStrArr[1]]}
-                    // rotation={90}
-                    // inArena={true} />
                 }
             } 
             
             // this is where the bones make a turn down
             else if (idx >= 8 && idx <= 18){
-                // const topRowTotalPos = xLengthAllBones(boneDimenArr, 8);
-                // const totalYPos = yLengthAllBones(boneDimenArr, idx);
                 console.log(`totalYPos: ${totalYPos}`)
             
                 switch(lastBoneData.isDouble){
@@ -287,19 +216,6 @@ class Arena extends React.Component {
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             0, true , offsetX, offsetY)
 
-                            // return <Bone key={reactKeyVal} 
-                            // draggable={true}
-                            // x={topRowTotalPos - boneWidth / 2}
-                            // // not checked yet
-                            // y={totalYPos}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[0]]}
-                            // rotation={0}
-                            // inArena={true} 
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            // />
                     } else {
                             //boneVal has been reversed. Rotate 180 Degrees
                             // const totalXPos = xLengthAllBones(boneDimenArr, idx) + 60;
@@ -311,19 +227,6 @@ class Arena extends React.Component {
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                             180, true , offsetX, offsetY)
 
-                            // return <Bone key={reactKeyVal}
-                            // draggable={true}
-                            // x={topRowTotalPos - boneWidth / 2}
-                            // // y={(boneHeight + (boneWidth / 2)) * (idx - 7)}
-                            // y={totalYPos}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[1]]}
-                            // rotation={180}
-                            // inArena={true} 
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            // />
                     }
                     case false:
 
@@ -338,80 +241,26 @@ class Arena extends React.Component {
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             90, true , offsetX, offsetY)
 
-
-                            // return <Bone key={reactKeyVal}
-                            // draggable={true}
-                            // x={topRowTotalPos - boneWidth / 2}
-                            // // y={(boneHeight + (boneWidth / 2)) * (idx - 7)}
-                            // // y={totalYPos}
-                            // y={totalYPos - 15}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[0]]}
-                            // rotation={90}
-                            // inArena={true} 
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            // />
                         }
                         else if(allDominosArr.includes(boneStrArr[0])){
                         // bone is NOT reversed
-                        //rotate once 0 degrees
-                        // const totalXPos = xLengthAllBones(boneDimenArr, idx);
-                        // debugger
+                        //no rotate 
                         
                         topRowTotalPos = (topRowTotalPos - (boneWidth / 2));
-                        // offsetX = (boneWidth / 2);
-                        // offsetY = (boneHeight / 2);
-                        // totalYPos = (totalYPos - (boneWidth / 2));
+                        
                         // "rightSide", "notReversed"
                         return constructBone(reactKeyVal, true,
                         topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                         0, true , offsetX, offsetY)
 
-                        // return <Bone key={reactKeyVal} 
-                        // draggable={true}
-                        // x={topRowTotalPos - boneWidth / 2}
-                        // // y={(boneHeight + (boneWidth / 2)) * (idx - 7)}
-                        // y={totalYPos}
-                        // width={boneWidth}
-                        // height={boneHeight}
-                        // src={allDominos[boneStrArr[0]]}
-                        // rotation={0}
-                        // inArena={true} 
-                        // offsetX={boneWidth / 2}
-                        // offsetY={boneHeight / 2}
-                        // />
                     } else {
                         //boneVal has been reversed. Rotate 180 Degrees
-
-                        
                         topRowTotalPos = (topRowTotalPos - (boneWidth / 2));
-                        
-
 
                         // "rightSide", "isReversed"
                         return constructBone(reactKeyVal, true,
                         topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                         180, true , offsetX, offsetY)
-
-                        
-                        // debugger
-                        // return <Bone key={reactKeyVal}
-                        // draggable={true}
-                        // x={topRowTotalPos - boneWidth / 2}
-                        // // y={(shiftDown45 * (idx-6))}
-                        // // y={shiftDown45}
-                        // // y={(boneHeight + (boneWidth / 2)) * (idx - 7)}
-                        // y={totalYPos}
-                        // width={boneWidth}
-                        // height={boneHeight}
-                        // src={allDominos[boneStrArr[1]]}
-                        // rotation={180}
-                        // inArena={true}
-                        // offsetX={boneWidth / 2}
-                        // offsetY={boneHeight / 2}
-                        //  />
                     }
                     default:
                         return
@@ -440,25 +289,9 @@ class Arena extends React.Component {
                             return constructBone(reactKeyVal, true,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             90, true , offsetX, offsetY)
-
-                            // debugger
-                            // return <Bone key={reactKeyVal} 
-                            // draggable={true}
-                            // x={topRowTotalPos - bottomRowTotalPos}
-                            // // not checked yet
-                            // y={totalYPos - 45}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[0]]}
-                            // rotation={90}
-                            // inArena={true}
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            //  />
                     } else {
                             //boneVal has been reversed. Rotate NEG 90 Degrees
                             
-                         
                             adjustedX = topRowTotalPos - bottomRowTotalPos;
 
                             //                      minus 45 on right side
@@ -468,26 +301,6 @@ class Arena extends React.Component {
                             return constructBone(reactKeyVal, true,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                             -90, true , offsetX, offsetY)
-
-                            // debugger
-                            // return <Bone key={reactKeyVal}
-                            // draggable={true}
-                            // //og
-                            // // x={topRowTotalPos - boneWidth / 2}
-                            // //works
-                            // // x={topRowTotalPos - boneHeight - 15}
-                            // //new
-                            // x={topRowTotalPos - bottomRowTotalPos}
-                            // //NOt yet dynamic
-                            // y={totalYPos - 45}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[1]]}
-                            // rotation={-90}
-                            // inArena={true} 
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            // />
                     }
                     case false:
 
@@ -504,61 +317,22 @@ class Arena extends React.Component {
                             return constructBone(reactKeyVal, true,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             0, true , offsetX, offsetY)
-
-                            // return <Bone key={reactKeyVal}
-                            // draggable={true}
-                            // // x={topRowTotalPos - boneWidth / 2}
-                            // //laymans
-                            // // x={topRowTotalPos - boneWidth - 15}
-                            // //old and off
-                            // // x={topRowTotalPos - boneWidth - ( boneWidth / 2)}
-                            // // x={topRowTotalPos - bottomRowTotalPos - 15}
-
-                            // //CHECK!
-                            // x={topRowTotalPos - bottomRowTotalPos + 15}
-                            // // y={totalYPos - 15}
-                            // y={totalYPos - 45}
-                            // width={boneWidth}
-                            // height={boneHeight}
-                            // src={allDominos[boneStrArr[0]]}
-                            // rotation={0}
-                            // inArena={true} 
-                            // offsetX={boneWidth / 2}
-                            // offsetY={boneHeight / 2}
-                            // />
                         }
                         else if(allDominosArr.includes(boneStrArr[0])){
                             debugger
                         // bone is NOT reversed
                         // rotate once  +90 degrees
                         
-                        adjustedX = topRowTotalPos - bottomRowTotalPos;
+                            adjustedX = topRowTotalPos - bottomRowTotalPos;
 
-                        //                      minus 45 on right side
-                        adjustedY = (totalYPos - ((boneWidth / 2) * 3))
+                            //                      minus 45 on right side
+                            adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
-                        // "bottom", "notReversed"
-                        return constructBone(reactKeyVal, true,
-                        adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
-                        90, true , offsetX, offsetY)
+                            // "bottom", "notReversed"
+                            return constructBone(reactKeyVal, true,
+                            adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
+                            90, true , offsetX, offsetY)
 
-
-                        // return <Bone key={reactKeyVal} 
-                        // draggable={true}
-                        // //old no work
-                        // // x={topRowTotalPos - boneWidth / 2}
-                        // //new style - works
-                        // x={topRowTotalPos - bottomRowTotalPos}
-                        // // works
-                        // y={totalYPos - 45}
-                        // width={boneWidth}
-                        // height={boneHeight}
-                        // src={allDominos[boneStrArr[0]]}
-                        // rotation={90}
-                        // inArena={true}
-                        // offsetX={boneWidth / 2}
-                        // offsetY={boneHeight / 2}
-                        //  />
                     } else {
                         //boneVal has been reversed. Rotate -90 Degrees
 
@@ -573,19 +347,6 @@ class Arena extends React.Component {
                         return constructBone(reactKeyVal, true,
                         adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                         -90, true , offsetX, offsetY)
-
-                        // return <Bone key={reactKeyVal}
-                        // draggable={true}
-                        // x={topRowTotalPos - bottomRowTotalPos}
-                        // y={totalYPos - 45}
-                        // width={boneWidth}
-                        // height={boneHeight}
-                        // src={allDominos[boneStrArr[1]]}
-                        // rotation={-90}
-                        // inArena={true}
-                        // offsetX={boneWidth / 2}
-                        // offsetY={boneHeight / 2}
-                        //  />
                     }
                 }
             }
@@ -602,3 +363,6 @@ class Arena extends React.Component {
 }
 
 export default Arena;
+
+
+
