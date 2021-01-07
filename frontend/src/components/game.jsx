@@ -4,14 +4,14 @@ import BoardObject from "../classes/board"
 // const BoardObject = require("../classes/board")
 
 //one player game below
-// const axiosPlayerObj = [{username: "Steven"}]
+const axiosPlayerObj = [{username: "Steven"}]
 
 
 // two player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 
 // three player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
+// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
 
 //4 player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
