@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import title_bone from '../assets/img/dominos_pieces_vector_svg/capicua_domino.png'
 import '../stylesheets/splash.css';
 import sergio_photo from '../assets/engineers/sergio-capicua.jpeg';
@@ -30,7 +31,9 @@ class Splash extends React.Component {
             >
             </input>
             <div className="start-game-btn-container">
-              <button className="start-btn"> <span>Solo Game</span></button>
+              <Link to={`/join`}>
+                <button className="start-btn"> <span>Solo Game</span></button>
+              </Link>
               <button className="start-btn"> <span>2-Player</span></button>
               <button className="start-btn"> <span>4-Player</span></button>
             </div>

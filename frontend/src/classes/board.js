@@ -161,24 +161,78 @@ class Board {
     }
 
     runningGame(){
-         const mandatoryBoneIdxToPlay = this.init()
-         this.firstMoveAndCorrectBone(mandatoryBoneIdxToPlay)
+        //force an initial play of the highest double when arena is empty.
+        if (this.arena.length === 0){
+            const mandatoryBoneIdxToPlay = this.init()
+            this.firstMoveAndCorrectBone(mandatoryBoneIdxToPlay)
+        } else {
+
+        }
 
     }
 
+    //function checks in advance if the currPlayer has a playable piece
+    isBonePlayable(bone){
+        const arenaLeftBoneVal = this.arena[0].boneVal[0];
+        const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
+
+        const leftSidePlayable  = ((bone.boneVal[0] === arenaLeftBoneVal ) || (bone.boneVal[1] === arenaLeftBoneVal));
+        const rightSidePlayable = ((bone.boneVal[0] === arenaRightBoneVal) || (bone.boneVal[1] === arenaRightBoneVal));
+
+        if (leftSidePlayable || rightSidePlayable) return true;
+        return false
+    }
+
+
+
     //Changes currentPlayer to the next player
     nextPlayerAssignTurn(){
-       
+       // Or curry sum here??
+
         let idxCurrPlayer ;
         idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
 
-
         this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
 
-        console.log("NEW CURRENT PLAYER");
+
+
+        // TESTING PURPOSES ONLY DELETE LATER //
+        console.log("*************");
+        console.log("NEW CURRENT PLAYER && Hand");
         console.log(this.currentPlayer.username);
         this.currentPlayer.revealHand()
         console.log("*************");
+
+        // if NEW currentPlayer CANNOT make a valid move... 
+        if(!this.currentPlayer.hasPlayableBones()){
+            // debugger
+            
+            // If boneyard empty, changePlayer to nextPlayer
+            if (this.boneyard.bones.length === 0){
+                console.log("curry addition here for skip turn ++")
+                this.nextPlayerAssignTurn()
+                //insert currying function here
+                // **** VERY IMPORTANT ****
+            } else {
+                //currentPlayer draws from boneyard
+                // auto draw feature. (no animation yet)
+                while ((!this.currentPlayer.hasPlayableBones()) && (this.boneyard.bones.length > 0)){
+                    // debugger
+                    this.currentPlayer.drawBone()
+                }
+
+                //player draws all bones && still has no valid move
+                if((this.boneyard.bones.length === 0) && (!this.currentPlayer.hasPlayableBones())){
+                    // debugger
+                    this.nextPlayerAssignTurn()
+                }
+                
+            }
+        }
+
+        
+
+        return true;
     }
 
     makeMove(xPosPlay, center, bone){
@@ -199,6 +253,9 @@ class Board {
             return this.playerPlaysRight(arenaRightBoneVal, bone)
 
         }
+        // make move ought to return a boolean and then we use that boolean
+        // to determine a draw or a skip or a commitMove
+        // draw(this.currentPlayer)
     }
 
     playerPlaysLeft(arenaLeftBoneVal, bone){
@@ -262,6 +319,10 @@ class Board {
             }
     }
 
+    //this function will draw a bone/domino from the boneyard into the currentPlayerHand
+    // draw(player) {
+    //    let pickedBone = this.boneyard.bone 
+    // }
     /*
     ********************************RUNNING GAMEPLAY FUNCTIONS END HERE**************
     ********************************RUNNING GAMEPLAY FUNCTIONS END HERE**************
@@ -289,7 +350,7 @@ class Board {
             console.log("THE~~~ARENA");
 
             this.arena.forEach(bone => {
-                arenaString += `[${bone.boneVal[0]}, ${bone.boneVal[1]}], `
+                arenaString += `[${bone.boneVal[0]}, ${bone.boneVal[1]}] ${bone.isReversed}, `
             })
 
             console.log(`${arenaString}`)

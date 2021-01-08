@@ -1,7 +1,10 @@
 import React from "react";
+import Konva from "konva"
 import { Stage, Layer, Group} from 'react-konva';
 import Bone from "./bone"
 import Hand from "./hand"
+import Arena from "./arena"
+import OtherHands from "./otherHands"
 
 import { allDominos } from "./allDominos"
 
@@ -24,14 +27,32 @@ class Board extends React.Component {
     
 
     render(){
-        const boardDimen = 600;
+        const boardDimen = 900;
+        const boneWidth = 30;
+        const boneHeight = 60;
+        const boneIsRevYPos = (boneWidth / 2);
+        const boneNotRevYPos = ((boneWidth / 2) * 3);
 
         const {board} = this.props;
-            // const bone1 =  <Bone src={allDominos["01"]} x={200} y={100}/>
-            // const allDominosArr = Object.values(allDominos);
 
-            // we need the keys of the master obj
-        const allDominosArr = Object.keys(allDominos);
+        const capDom = [<Bone key={"cd"}
+                    draggable={true}
+                    x={0}
+                    width={boneWidth}
+                    height={boneHeight}
+                    offsetX={boneWidth / 2}
+                    offsetY={boneHeight / 2}
+                    src={allDominos["cd"]}
+                    rotation={0}
+                    inArena={true} />]
+
+        
+
+        // these 3 lines are required to center the arena in the middle of the board
+        // for Konva Group
+        const currArenaLength = board.arena.length
+        const offSetCenterArena = ((currArenaLength / 2) * boneWidth)  // mult by 40
+        const startBoxforArena = ((boardDimen / 2) - offSetCenterArena)
 
         const boneValToString = (boneVal) => {
             let firstNumStr = boneVal[0].toString();
@@ -46,54 +67,44 @@ class Board extends React.Component {
             // can add rotational Logic to the front End.
             return [boneValStrA, boneValStrB]
         }
-            
-            
-        const arena = board.arena.map(bone => {
 
-            let boneStrArr = boneValToString(bone.boneVal);
-
-            const singleBoneVal =  boneStrArr[0]
-            const reactKeyVal = parseInt(singleBoneVal)
         
 
-            if(bone.isDouble()){
-
-                return <Bone key={reactKeyVal}
-                draggable={false}
-                src={allDominos[boneStrArr[0]]}
-                rotation={0} />
-            }
-            else if(allDominosArr.includes(boneStrArr[0])){
-                //rotate once -90 degrees
-                return <Bone key={reactKeyVal} src={allDominos[boneStrArr[0]]} />
-            } else {
-                //boneVal has been reversed. Rotate 90 Degrees
-                return <Bone key={reactKeyVal} src={allDominos[boneStrArr[1]]} />
-            }
-
-        })
             
-            // [src,src,src,src,src,src,src]
+        // These will determine the length of the playerID owner's hand and render them
+        // centered in the right place. We use startBoxforHand to pick a 
+        // startX for the rendering of <Hand></Hand>
         const currHandLength = board.currentPlayer.hand.length
-        const offSetCenter = ((currHandLength / 2) * 40)  // mult by 40
+        // mult by 40 because width of bone is 30 plus 10 more pixels of space
+        const offSetCenter = ((currHandLength / 2) * boneWidth + 10)  
 
-        const startBoxforHand= ((boardDimen/2) - offSetCenter)
+        const startBoxforHand = ((boardDimen / 2) - offSetCenter)
 
             
            
-
-
-            // the arena is simple to show the current pieces in play
+            // the arena is simply to show the current pieces in play
         return (
             <div className="board-game-container">
             <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
-                    <Group x={285} y={270}>
-                        {arena}
+                    <Group x={startBoxforArena} y={(boardDimen / 2) - boneHeight}>
+                        <Arena board={board} boardDimen={boardDimen}
+                         allDominos={allDominos} boneValToString={boneValToString}
+                         boneWidth={boneWidth} boneHeight={boneHeight}
+                         boneIsRevYPos={boneIsRevYPos}
+                         boneNotRevYPos={boneNotRevYPos}/>
                     </Group>
-                    <Group x={startBoxforHand} y={540}>
+                    <Group x={startBoxforArena} y={(boardDimen / 2) + 60}>
+                        {capDom}
+                    </Group>
+                    <OtherHands board={board} boardDimen={boardDimen} allDominos={allDominos}
+                    boneWidth={boneWidth} boneHeight={boneHeight} boneValToString={boneValToString}/>
+                    <Group x={startBoxforHand} y={boardDimen - boneHeight}>
 
-                        <Hand offSetCenter={offSetCenter} board={board} updateGame={this.props.updateGame} allDominos={allDominos}  boneValToString={boneValToString}  />
+                        <Hand offSetCenter={offSetCenter} board={board}
+                        boneWidth={boneWidth} boneHeight={boneHeight} 
+                        updateGame={this.props.updateGame} allDominos={allDominos}
+                        boneValToString={boneValToString}  />
                     </Group>
                 </Layer>
             </Stage>
@@ -102,54 +113,9 @@ class Board extends React.Component {
     }
 }
 
- //         // <img src={process.env.PUBLIC_URL + 'images/profile.svg'} />
-            //     // return <Bone src={domino66}/>
-            //     // return <Bone key={`${bone.boneVal[0]}${bone.boneVal[1]}`} src={process.env.PUBLIC_URL +'images/dominos_pieces_vector_svg/dominos_bone_6:6.svg'}/>
-            //     // return <Bone key={`${bone.boneVal[0]}${bone.boneVal[1]}`} src={"%PUBLIC_URL%/images/dominos_pieces_vector_svg/dominos_bone_6:6.svg"}/>
-            // })
 
 
 
 
-
-
-// const dominoPathA = "/Users/Phidias/Documents/aaobReact/MERN/dominos_pieces_vector-svg"
-// const dominoPathB = "../dominos_pieces_vector-svg"
-
-
-// let allFileNames = []
-// let allDominos = []
-
-// fs.readdir(dominoPathA, (err, files) => {
-//   if (err) {
-//     console.error("Could not list the directory.", err);
-//     process.exit(1);
-//   }
-  
-//   files.forEach(file => {
-//     allFileNames.push(file.toString())
-//     let str = file.split(":")
-//     let top = parseInt(str[0][str[0].length-1])
-//     let bottom = parseInt(str[1][0])
-//     let dValue = [top,bottom]
-//     console.log(dValue)
-    
-//     // console.log(str.split())
-//     // allDominos.push(str)
-//     // console.log(allDominos)
-
-
-
-
-//     // arr = [3,1]
-//     // allDominos.forEach(domino => {
-//     // <Bone className="domino-size" value={dValue} dValue={domino} src={dominoFile} draggable="true" x={190}  />
-//     // })
-//   })
-
-
-// // TEstbone.props.dValue ==> array [3,1]
-// //   console.log(newFileNames)
-// })
 
 export default Board;
