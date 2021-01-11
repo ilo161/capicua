@@ -1,6 +1,6 @@
 import React from "react";
 import {Group} from 'react-konva';
-import Bone from "./bone"
+import {constructBone} from "./constructBone";
 
 
 
@@ -18,64 +18,45 @@ class OtherHands extends React.Component {
 
             const singleBoneVal =  boneValToString(bone.boneVal)[0]
             const reactKeyVal = parseInt(singleBoneVal + playerIdx)
-            const initialX = 0;
-            const initialY = 0;
 
             //width of domino plus spacing
-            const width = boneWidth + 10;
+            const width = (boneWidth + (boneWidth / 3));
 
-            let pos = initialX + (width * idx);
+            const pos = (width * idx);
 
-            // debugger
-            
-            // if ((((currPlayerIdx % board.players.length) + 1) % board.players.length)  === playerIdx % board.players.length){
             if (((currPlayerIdx + 1) % board.players.length)  === playerIdx % board.players.length){
 
-                pos = initialY + (width * idx);
-
                 // width and height are reversed because the bone is flat
-                return <Bone 
-                x={0}
-                y={pos} 
-                width={boneHeight}
-                height={boneWidth}
-                boneIdx={idx}
-                offSetCenter={offSetCenter}
-                draggable={true}
-                key={reactKeyVal}
-                src={allDominos["cdl"]}
-                inArena={true}/> 
+                // constructBone FN -> reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
+                //offSetCenter, boneIdx
+
+                return constructBone(reactKeyVal, false,
+                0, pos, boneHeight, boneWidth, allDominos["cdl"],
+                0, true, 0, 0, offSetCenter, idx)
             } 
             else if(((currPlayerIdx + 2) % board.players.length) === playerIdx % board.players.length){
             
-                return <Bone 
-                x={pos}
-                y={0} 
-                width={boneWidth}
-                height={boneHeight}
-                boneIdx={idx}
-                offSetCenter={offSetCenter}
-                draggable={true}
-                key={reactKeyVal}
-                src={allDominos["cdt"]}
-                inArena={true}/> 
+
+                // constructBone FN -> reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
+                //offSetCenter, boneIdx
+
+                return constructBone(reactKeyVal, false,
+                pos, 0, boneWidth, boneHeight, allDominos["cdt"],
+                0, true, 0, 0, offSetCenter, idx)
             }
             else if(((currPlayerIdx + 3) % board.players.length) === playerIdx % board.players.length){
-                pos = initialY + (width * idx);
 
-                return <Bone 
-                x={0}
-                y={pos} 
-                width={boneHeight}
-                height={boneWidth}
-                boneIdx={idx}
-                offSetCenter={offSetCenter}
-                draggable={true}
-                key={reactKeyVal}
-                src={allDominos["cdr"]}
-                inArena={true}/> 
+                // constructBone FN -> reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
+                //offSetCenter, boneIdx
+
+                return constructBone(reactKeyVal, false,
+                0, pos, boneHeight, boneWidth, allDominos["cdr"],
+                0, true, 0, 0, offSetCenter, idx)
             }
-               
+            // this return is here because instead of the previous else if(lots of logic)
+            // does the cpu know EXACTLY what is intended with just else {}?
+            // ex: else if(((currPlayerIdx + 3) % board.players.length) === playerIdx % board.players.length)
+            return null
         })
 
             return renderedHand
@@ -83,26 +64,6 @@ class OtherHands extends React.Component {
 
         const currPlayerIdx = board.players.indexOf(board.currentPlayer);
 
-        const blankDominoToCoveredHands = (numPlayers, currPlayerIdx) => {
-            let player2Idx = null;
-            let player3Idx = null;
-            switch(numPlayers){
-                case 2:
-                    player2Idx = ((currPlayerIdx + 1) % board.players.length);
-                    return {[player2Idx]: "cdt",
-                            [currPlayerIdx]: "cdt"}
-                case 3:
-                     player2Idx = ((currPlayerIdx + 1) % board.players.length);
-                     player3Idx = ((currPlayerIdx + 2) % board.players.length);
-                    return {[player2Idx]: "cdl",
-                            [player3Idx]: "cdt",
-                            [currPlayerIdx]: "cdt"}
-                case 4:
-
-                default:
-                    return
-            }
-        }
         
         // allPlayers[someIdx]
         //The important thing here is that the index to access allPlayers Obj will
@@ -116,8 +77,8 @@ class OtherHands extends React.Component {
                    to center the hand on the board regardless of length
                 - startBoxforPlayerHand is the start x or start y of this div on
                   the board. relative to board (x,y) @ (0,0)
-                - renderedHandPlayer is a collection of ImageNodes of the count 
-                  of all bones in that players hand.
+                - renderedHandPlayer is a collection of ImageNodes(Domnios/Bones) 
+                  of the count of all bones in that players hand.
             */
             for(let i = currPlayerIdx; i < (currPlayerIdx + numPlayers); i++){
                 allPlayers[i % numPlayers] = {
@@ -132,13 +93,13 @@ class OtherHands extends React.Component {
             }
 
             // this for loop builds out metadata per player to be accessed later 
-            //by the function gnerateHands
+            // by the function generateHands
             for(let j = currPlayerIdx; j < (currPlayerIdx + numPlayers); j++){
 
                 allPlayers[j % numPlayers].playerIdx = (j % numPlayers);
                 allPlayers[j % numPlayers].player = board.players[allPlayers[j % numPlayers].playerIdx];
                 allPlayers[j % numPlayers].playerHand = allPlayers[j % numPlayers].player.hand;
-                allPlayers[j % numPlayers].offSetCenter = ((allPlayers[j % numPlayers].playerHand.length / 2) * 40);
+                allPlayers[j % numPlayers].offSetCenter = ((allPlayers[j % numPlayers].playerHand.length / 2) * ((boneWidth / 3) + boneWidth));
                 allPlayers[j % numPlayers].startBoxforPlayerHand = ((boardDimen / 2) - allPlayers[j % numPlayers].offSetCenter);
                 allPlayers[j % numPlayers].renderedHandPlayer = renderHandFn(allPlayers[j % numPlayers].player,
                          allPlayers[j % numPlayers].offSetCenter,
@@ -170,7 +131,6 @@ class OtherHands extends React.Component {
         
                     return <Group x={0} y={allPlayers[player2Idx].startBoxforPlayerHand}> 
                                 {allPlayers[player2Idx].renderedHandPlayer}
-
                             </Group>
                 case 3:
                     

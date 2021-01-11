@@ -206,7 +206,7 @@ class Board {
         idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
 
         this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
-
+        // debugger
 
 
         // TESTING PURPOSES ONLY DELETE LATER //
@@ -362,21 +362,16 @@ class Board {
         }else{
             let arenaString = ""
 
-            console.log("THE~~~ARENA");
+            console.log("THE~~~~ARENA");
 
             this.arena.forEach(bone => {
                 arenaString += `[${bone.boneVal[0]}, ${bone.boneVal[1]}] ${bone.isReversed}, `
             })
-
-            console.log(`${arenaString}`)
-
-            // return this.arena.map((bone) => {
-            //     return bone.boneVal;
-            // })
-
-
+            console.log(`Arena Len: ${this.arena.length} IDX is ${this.arena.length - 1} `)
+            console.log(`Boneyard Remaining: ${this.boneyard.bones.length}`)
+            return arenaString
         }
-        // this.currentPlayer.getPlayerInput()
+
     }
 
     currentGameOver(){
@@ -443,17 +438,4 @@ class Board {
     }
 }
 
-// one player
-// let axiosPlayerObj = [{username: "Steven"}]
-
-
-//Two players - without AI
-// let axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
-
-//with AI
-// let axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "Robot!", isAI: true } ]
-// let axiosPlayerObj = [{username: "TinyPigOink!"}]
-// let b1 = new Board(axiosPlayerObj)
-
-export default Board
-// module.exports = Board;
+export default Board;
