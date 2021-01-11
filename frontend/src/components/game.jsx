@@ -1,7 +1,7 @@
 import React from "react";
 import Board from "./board"
 import BoardObject from "../classes/board"
-// const BoardObject = require("../classes/board")
+
 
 //one player game below
 // const axiosPlayerObj = [{username: "Steven"}]
@@ -31,7 +31,7 @@ class Game extends React.Component {
 
     }
 
-    updateGame(xPosPlay, center, boneIdx) { {/* connected to Tile Component line 8 */}
+    updateGame(xPosPlay, center, boneIdx) { 
         // here to check state. of playable Bone
         // ...
         const currentBone = this.state.board.currentPlayer.hand.splice(boneIdx,1)[0];
@@ -51,7 +51,7 @@ class Game extends React.Component {
             // this.forceUpdate();
         }
         
-        //three arguments xPos, center, bone)
+
         console.log(this.state.board.renderArena())
         console.log("Arena ^..hand below")
         console.log(this.state.board.currentPlayer.revealHand())
