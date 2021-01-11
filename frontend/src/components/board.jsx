@@ -10,11 +10,6 @@ import { allDominos } from "./allDominos"
 
 
 class Board extends React.Component {
-    constructor(props){
-        super(props)
-
-
-    }
 
     componentDidMount(){
         // this.getNums()
@@ -55,7 +50,11 @@ class Board extends React.Component {
         const offSetCenterArena = ((currArenaLength / 2) * boneWidth);
         const startBoxforArena = ((boardDimen / 2) - offSetCenterArena);
         const startHeightArena = (boardDimen / 2) - boneHeight;
-        const maxLeftStartBoxforArena = ((boardDimen / 2) - (( 9 / 2 ) * boneWidth));
+
+        // the math on the right side is the same as the commented code below. 
+        // 9 / 2 is a random scale factor that looked nice.
+        const maxLeftStartBoxforArena = ((boardDimen / 2) - (( ((boneWidth / 2) + boneWidth) / 10 ) * boneWidth));
+        // const maxLeftStartBoxforArena = ((boardDimen / 2) - (( 9 / 2 ) * boneWidth));
 
 
         const boneValToString = (boneVal) => {
@@ -80,7 +79,7 @@ class Board extends React.Component {
         // startX for the rendering of <Hand></Hand>
         const currHandLength = board.currentPlayer.hand.length
         // mult by 40 because width of bone is 30 plus 10 more pixels of space
-        const offSetCenter = ((currHandLength / 2) * boneWidth + 10)  
+        const offSetCenter = ((currHandLength / 2) * boneWidth + (boneWidth / 3))  
 
         const startBoxforHand = ((boardDimen / 2) - offSetCenter)
 
@@ -92,9 +91,10 @@ class Board extends React.Component {
             <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
                     {/* y will shift up as length grows until length is 13 then shifting stops */}
-                    <Group x={currArenaLength <= 9 ? startBoxforArena : maxLeftStartBoxforArena} y={currArenaLength <= 8 ? startHeightArena :
+                    <Group x={currArenaLength <= 9 ? startBoxforArena : maxLeftStartBoxforArena} 
+                    y={currArenaLength <= 8 ? startHeightArena :
                     currArenaLength >= 9 && currArenaLength <= 13 ? startHeightArena - (boneHeight  * (currArenaLength - 8)) :
-                    startHeightArena - 300 }>
+                    startHeightArena - (boardDimen / 3) }>
                         <Arena board={board} boardDimen={boardDimen}
                          allDominos={allDominos} boneValToString={boneValToString}
                          boneWidth={boneWidth} boneHeight={boneHeight}
