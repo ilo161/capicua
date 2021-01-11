@@ -1,6 +1,7 @@
 class Player {
     constructor(username, board, isAI) {
       this.username = username;
+      this.webSocketId = undefined
       this.points = 0;
       this.hand = [];
       this.isAI = isAI ? true : false;

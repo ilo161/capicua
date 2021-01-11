@@ -121,7 +121,7 @@ class Bone extends React.Component {
       
       // if (!this.props.inArena && yCoord < -50) {
       // if
-      if (this.state.board.arena.length <= 19){
+      if (this.state.board.arena.length <= 15){
         if (yCoord < -50) {
 
             updateGame(xPosPlay, center, boneIdx);
@@ -134,7 +134,7 @@ class Bone extends React.Component {
 
         if (yCoord < -50){
           if (absPos.y < halfBoardHeight){
-               updateGame(absPos.y, halfBoardHeight, boneIdx);
+            updateGame(absPos.y, halfBoardHeight, boneIdx);
         } else {
             updateGame(absPos.y, halfBoardHeight, boneIdx);
         }
@@ -142,7 +142,7 @@ class Bone extends React.Component {
         
 
 
-        // if(yCoord)
+
 
       }
       
