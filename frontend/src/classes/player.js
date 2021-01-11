@@ -13,9 +13,8 @@ class Player {
       this.isAI = isAI ? true : false;
       this.board = board;
       this.playerInput = undefined;
+      this.winningPlayerPoints = 0;
       // this.getPlayerInput()
-
-     
     }
 
     
@@ -55,7 +54,8 @@ class Player {
         console.log(`${handString}`)
         
     }
-}
+  }
+
 
 // let p1 = new Player("Mike", "board")
 

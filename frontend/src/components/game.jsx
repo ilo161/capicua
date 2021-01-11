@@ -40,9 +40,12 @@ class Game extends React.Component {
 
         if(verifyMove){
             // debugger
-            this.state.board.nextPlayerAssignTurn()
-            this.setState({ board: this.state.board });
-
+            this.state.board.resetSkipCounter();
+            this.state.board.currentGameOver()
+            if (this.state.board.inSession === true){            
+                this.state.board.nextPlayerAssignTurn()
+                this.setState({ board: this.state.board });
+            }
         }else {
             // debugger
             this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 

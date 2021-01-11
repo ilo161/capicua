@@ -26,7 +26,7 @@ class Bone extends React.Component {
     
   componentDidMount() {
 
-    debugger
+    // debugger
     // this.to({
     //   scaleX: -this.scaleX(),
     // });
@@ -145,7 +145,7 @@ class Bone extends React.Component {
     // }
 
     slideUp(e){
-      debugger
+      // debugger
       // console.log(this.getPosition())
       console.log(this.absolutePosition())
       

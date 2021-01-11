@@ -3,6 +3,18 @@
 import Boneyard from "./boneyard"
 import Player from "./player"
 
+Array.prototype.myFlatten = function () {
+    let flattened = [];
+
+    this.forEach((el) => {
+        if (el instanceof Array) {
+            flattened = flattened.concat(el.myFlatten());
+        } else {
+            flattened.push(el);
+        }
+    });
+    return flattened;
+}; 
 class Board {
     constructor(axiosPlayerData){
         this.boneyard = new Boneyard(this);
@@ -10,13 +22,14 @@ class Board {
         this.players = this.generatePlayers(axiosPlayerData);
         this.currentPlayer = undefined;
         this.aIFirstMove = undefined;
-
-
         this.inSession = true;
+        this.winningPlayer = null;
+        this.lockedGame = false;
+        this.skipCounter = 0;
         this.runningGame()
-
-
     }
+
+    
 
     //axiosPlayerData comes in as in Array
     generatePlayers(axiosPlayerData){
@@ -188,7 +201,7 @@ class Board {
     //Changes currentPlayer to the next player
     nextPlayerAssignTurn(){
        // Or curry sum here??
-
+        // debugger
         let idxCurrPlayer ;
         idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
 
@@ -209,7 +222,7 @@ class Board {
             
             // If boneyard empty, changePlayer to nextPlayer
             if (this.boneyard.bones.length === 0){
-                console.log("curry addition here for skip turn ++")
+                this.totalSkipCounter();
                 this.nextPlayerAssignTurn()
                 //insert currying function here
                 // **** VERY IMPORTANT ****
@@ -224,6 +237,7 @@ class Board {
                 //player draws all bones && still has no valid move
                 if((this.boneyard.bones.length === 0) && (!this.currentPlayer.hasPlayableBones())){
                     // debugger
+                    this.totalSkipCounter();
                     this.nextPlayerAssignTurn()
                 }
                 
@@ -256,6 +270,7 @@ class Board {
         // make move ought to return a boolean and then we use that boolean
         // to determine a draw or a skip or a commitMove
         // draw(this.currentPlayer)
+       
     }
 
     playerPlaysLeft(arenaLeftBoneVal, bone){
@@ -364,7 +379,70 @@ class Board {
         // this.currentPlayer.getPlayerInput()
     }
 
+    currentGameOver(){
+        // debugger
+        if(this.currentPlayer.hand.length === 0){
+            // debugger
+            this.inSession = false;
+            this.pointCounter();
+        }
+        else if(this.lockedGame === true){
+            let totalHandValues = [];
+            this.players.forEach((player) =>{
+                let playerHandVals = [];
+                player.hand.forEach(boneVals =>{
+                    playerHandVals.push(boneVals.boneVal);
+                })
+                totalHandValues.push(playerHandVals.myFlatten().reduce((a,b) => a + b, 0));
+            })
+            let lowestTotalScore = Math.min(...totalHandValues);
+            let indexOfWinner = totalHandValues.indexOf(lowestTotalScore)
+            this.currentPlayer = this.players[indexOfWinner]
+            this.pointCounter();
+            this.currentPlayer.points -= lowestTotalScore;
+
+            console.log(`${this.currentPlayer.username}` + ' has ' + `${this.currentPlayer.points}`)
+            console.log(`${totalHandValues}`)
+            debugger
+            alert('this game is locked');
+            
+        }
+        this.endGame();
+        console.log(this.currentPlayer.points)
+        console.log('You have won this round.')
+    }
+    
+    pointCounter(){
+        let allHands = [];
+        this.players.forEach(player => {
+            player.hand.forEach(bone => {
+                allHands.push(bone.boneVal);
+            })
+        })
+        this.currentPlayer.points += allHands.myFlatten().reduce((a, b) => a + b, 0)
+    }
+
+    endGame(){
+        if (this.currentPlayer.points >= 80){
+            // alert('Thanos has won');
+        }
+    }
+
+    totalSkipCounter(){
+        this.skipCounter += 1;
+        console.log("skip counter below")
+        console.log(`${this.skipCounter}`)
+        if (this.skipCounter >= 1){
+            this.lockedGame = true;
+            this.currentGameOver();
+        }
+    } 
+    resetSkipCounter(){
+        this.skipCounter = 0;
+        this.lockedGame = false;
+    }
 }
+
 // one player
 // let axiosPlayerObj = [{username: "Steven"}]
 
