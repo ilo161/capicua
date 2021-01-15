@@ -1,32 +1,42 @@
-// import bone from './bone'
-// const Bone = require('bone')
-
-
-
-
-
 class Player {
     constructor(username, board, isAI) {
       this.username = username;
+      this.webSocketId = undefined
       this.points = 0;
       this.hand = [];
       this.isAI = isAI ? true : false;
       this.board = board;
       this.playerInput = undefined;
+      this.winningPlayerPoints = 0;
       // this.getPlayerInput()
-
-     
     }
 
     
 
-      // probably the master function
-      //update NOT THE MASTER FUNCTON. node is async
-    getPlayerInput(correctAnswer){
-        this.revealHand();
-        this.playerInput = correctAnswer
+      
+    aiAutoPlay(difficulty){
+      let randomBoneIdx;
+
+      let posPlay = [1,3]
+      let center = 2;
+
+      switch(difficulty){
+          case "easy":
+              randomBoneIdx = Math.floor((Math.random() * (this.hand.length)));
+              const currentBone = this.board.currentPlayer.hand.splice(randomBoneIdx,1)[0];
+
+          case "smart":
+
+          default:
+
+      }  
+
+      // this.revealHand();
+      //   this.playerInput = correctAnswer
 
     }
+
+    // let removedBone = player.hand.splice(randomMathFloorIdx, 1)
 
     //replaced canMove with hasPlayableBone()
     hasPlayableBones(){
@@ -39,7 +49,7 @@ class Player {
     }
 
     drawBone(){
-      const newBone = this.hand.push(this.board.boneyard.bones.pop())
+      this.hand.push(this.board.boneyard.bones.pop())
       console.log(`Player drew ${this.hand[this.hand.length-1].boneVal}`)
     }
 
@@ -55,24 +65,13 @@ class Player {
         console.log(`${handString}`)
         
     }
-}
 
-// let p1 = new Player("Mike", "board")
+    restorePoints(num){
+      this.points = num
+    }
+  }
+
 
 export default Player;
-  // module.exports = Player;
-
-
-  // removeFromHand(bone) {
-  //   for(let idx in this.hand) {
-  //     let bone = this.hand[idx];
-
-  //     if ((domino.top_number == domino.top_number && domino.bottom_number == domino.bottom_number)
-  //         // board [1:n] == hand [1:n] && board [n:2] == hand [n:2]  hand [[],[],[],[],[],[]]
-  //       ||
-  //       (domino.top_number == domino.bottom_number && domino.bottom_number == domino.top_number)) {
-  //         delete domino;
-  //       }
-  //   }
-  // }
+  
 
