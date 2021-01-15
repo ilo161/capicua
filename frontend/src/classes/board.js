@@ -3,20 +3,34 @@
 import Boneyard from "./boneyard"
 import Player from "./player"
 
+Array.prototype.myFlatten = function () {
+    let flattened = [];
+
+    this.forEach((el) => {
+        if (el instanceof Array) {
+            flattened = flattened.concat(el.myFlatten());
+        } else {
+            flattened.push(el);
+        }
+    });
+    return flattened;
+}; 
 class Board {
-    constructor(axiosPlayerData){
+    constructor(axiosPlayerData, boardDimen){
         this.boneyard = new Boneyard(this);
         this.arena = [];
         this.players = this.generatePlayers(axiosPlayerData);
         this.currentPlayer = undefined;
         this.aIFirstMove = undefined;
-
-
         this.inSession = true;
+        this.winningPlayer = null;
+        this.lockedGame = false;
+        this.skipCounter = 0;
+        this.boardDimen = boardDimen;
         this.runningGame()
-
-
     }
+
+    
 
     //axiosPlayerData comes in as in Array
     generatePlayers(axiosPlayerData){
@@ -165,6 +179,7 @@ class Board {
         if (this.arena.length === 0){
             const mandatoryBoneIdxToPlay = this.init()
             this.firstMoveAndCorrectBone(mandatoryBoneIdxToPlay)
+            this.nextPlayerAssignTurn()
         } else {
 
         }
@@ -188,11 +203,12 @@ class Board {
     //Changes currentPlayer to the next player
     nextPlayerAssignTurn(){
        // Or curry sum here??
-
+        // debugger
         let idxCurrPlayer ;
         idxCurrPlayer = this.players.indexOf(this.currentPlayer)   
 
         this.currentPlayer = this.players[((idxCurrPlayer + 1) % this.players.length)]
+        let isGameLocked = undefined;
         // debugger
 
 
@@ -209,7 +225,12 @@ class Board {
             
             // If boneyard empty, changePlayer to nextPlayer
             if (this.boneyard.bones.length === 0){
-                console.log("curry addition here for skip turn ++")
+                isGameLocked = this.addOneToSkipCounter();
+
+                if(isGameLocked){
+                    debugger
+                    return false
+                }
                 this.nextPlayerAssignTurn()
                 //insert currying function here
                 // **** VERY IMPORTANT ****
@@ -224,6 +245,12 @@ class Board {
                 //player draws all bones && still has no valid move
                 if((this.boneyard.bones.length === 0) && (!this.currentPlayer.hasPlayableBones())){
                     // debugger
+                    isGameLocked = this.addOneToSkipCounter();
+
+                    if (isGameLocked) {
+                        debugger
+                        return false
+                    }
                     this.nextPlayerAssignTurn()
                 }
                 
@@ -256,6 +283,7 @@ class Board {
         // make move ought to return a boolean and then we use that boolean
         // to determine a draw or a skip or a commitMove
         // draw(this.currentPlayer)
+       
     }
 
     playerPlaysLeft(arenaLeftBoneVal, bone){
@@ -336,7 +364,7 @@ class Board {
 
     }
 
-    //Renders Arena for Terminal
+    // Renders Arena for Terminal
     renderArena(){
         if (this.arena.length === 0){
 
@@ -359,6 +387,98 @@ class Board {
 
     }
 
+    isCurrentGameOver(){
+        // debugger
+        if(this.currentPlayer.hand.length === 0){
+            // debugger
+            this.inSession = false;
+            this.winningPlayer = this.currentPlayer;
+            this.tallyAllPointsForWinner();
+            console.log(`${this.winningPlayer.username} has won this round.`)
+            console.log(this.currentPlayer.points)
+
+            return true;
+        }
+        else if(this.lockedGame === true){
+            this.inSession = false;
+            let totalHandValues = [];
+
+            this.players.forEach((player) => {
+                let playerHandVals = [];
+
+                player.hand.forEach(bone => {
+                    playerHandVals.push(bone.boneVal);
+                })
+
+                totalHandValues.push(playerHandVals.myFlatten().reduce((a,b) => a + b, 0));
+            })
+
+            // The player with lowest points at game end gets all the points.
+            let lowestTotalScore = Math.min(...totalHandValues);
+            const indexOfWinner = totalHandValues.indexOf(lowestTotalScore);
+
+            // this.currentPlayer = this.players[indexOfWinner];
+            this.winningPlayer = this.players[indexOfWinner];
+
+            this.tallyAllPointsForWinner();
+            // this.currentPlayer.points -= lowestTotalScore;
+            this.winningPlayer.points -= lowestTotalScore;
+
+            //Update db of current state of game to reflect player's score
+            console.log(`${this.winningPlayer.username}` + 'wins & has ' + `${this.winningPlayer.points}`)
+            console.log(`players hand points: ${totalHandValues}`)
+            // debugger
+            console.log('this game is locked');
+            return true
+        }
+        return false;
+        
+    }
+    
+    // When the round is over. Add all the points of all the players
+    tallyAllPointsForWinner(){
+        let allHands = [];
+
+        this.players.forEach(player => {
+            player.hand.forEach(bone => {
+                allHands.push(bone.boneVal);
+            })
+        })
+
+        this.winningPlayer.points += allHands.myFlatten().reduce((a, b) => a + b, 0)
+    }
+
+    endGame(){
+        //for TESTING. REMOVE
+        // this.winningPlayer = this.currentPlayer;
+        //for TESTING. REMOVE
+        if (this.winningPlayer.points >= 80){
+            console.log('Thanos has won');
+            return true
+            //MongoDB stuff to save the winner
+        }
+        return false
+    }
+
+    addOneToSkipCounter(){
+        this.skipCounter += 1;
+
+        console.log(`skip counter :${this.skipCounter}`)
+
+        if (this.skipCounter >= this.players.length){
+        // if (this.skipCounter >= 4){
+            this.lockedGame = true;
+            return this.isCurrentGameOver();
+
+        }
+
+        return false;
+    } 
+
+    resetSkipCounter(){
+        this.skipCounter = 0;
+        this.lockedGame = false;
+    }
 }
 
 export default Board;
