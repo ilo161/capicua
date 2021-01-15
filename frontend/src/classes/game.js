@@ -180,6 +180,41 @@
         
 //     //     let canMakeMove = player.hand.some((bone) =>{
     
+<<<<<<< HEAD
+    //         return this.validMove(bone);
+    //     })
+    //     if (!canMakeMove) {
+
+            // this.draw(player)
+
+    //     } else {
+    //         return canMakeMove
+    //     }
+    // }
+
+    //ISEMPTY-BONEYARD TESTED AND TRUE
+    // isEmpty(){
+    //     
+    //     console.log("# 3/4 - isEmpty?()")
+
+    //      if (this.bones.bones.length === 0){
+    //       return true;
+    //     } else {
+    //       return false;
+    //     } 
+    // }
+
+    // BONEYARD METHOD ^^^^^^
+
+    //SKIP TURN -- GAME CLASS -- TESTED AND TRUE
+    // skipTurn(){
+    //     
+    //     console.log("# 3/4 - skipTurn()")
+
+    //     if (this.previousPlayer != this.currentPlayer){
+    //         this.skipCounter += 1
+    //     }
+=======
 //     //         return this.validMove(bone);
 //     //     })
 //     //     if (!canMakeMove) {
@@ -213,6 +248,7 @@
 //     //     if (this.previousPlayer != this.currentPlayer){
 //     //         this.skipCounter += 1
 //     //     }
+>>>>>>> main
         
 
 
@@ -232,6 +268,20 @@
 //     //^^ SKIP TURN -- GAME CLASS - TESTED AND TRUE
 
 
+<<<<<<< HEAD
+    // GAME CLASS!!!!
+    // playerTurn(player) {
+    //     console.log("start of new player Turn")
+       
+    //     if (this.board.length === 0) {
+    //         console.log("about to invoke firstMove()")
+    //         this.firstMove()
+    //     }
+
+        else if (this.board.length > 0 && (this.inSession === true && this.canMove(player))){
+            console.log("AI Think Player can play a bone")
+            let randomMathFloorIdx = Math.floor(Math.random() * (player.hand.length - 1))
+=======
 //     // GAME CLASS!!!!
 //     playerTurn(player) {
 //         console.log("start of new player Turn")
@@ -244,6 +294,7 @@
 //         else if (this.board.length > 0 && (this.inSession === true && this.canMove(player))){
 //             console.log("AI Think Player can play a bone")
 //             let randomMathFloorIdx = Math.floor(Math.random() * (player.hand.length - 1))
+>>>>>>> main
             
 //             if (randomMathFloorIdx === undefined){
                 
@@ -289,6 +340,32 @@
         
 //     }
     
+<<<<<<< HEAD
+    // makeMove(bone){
+        // console.log("start of #makeMove")
+        
+        // console.log("--------")
+        // console.log("board length")
+        // console.log(this.board.length)
+        // console.log("--------")
+        // // player picks left side of board but bone is reverse
+                    //  onMouseUP....
+        // let goingLeft = (bone.x < (stage.width / 2) ? true : false )
+        // if (this.board.length === 0){
+        //     this.board.push(bone);
+        //     console.log(this.board.length)
+        // } else {
+        //         console.log('board no longer empty')
+        //         let goingLeft = false;
+
+        //         if (this.flagLeft) {
+        //             goingLeft = true;
+        //         }
+                //players places bone in beginning
+                //player selects left (x coordinate on canvas i less than 50% width)
+
+                // let actualBone = bone[0]
+=======
 //     makeMove(bone){
 //         // console.log("start of #makeMove")
         
@@ -313,6 +390,7 @@
 //                 //player selects left (x coordinate on canvas i less than 50% width)
 
 //                 // let actualBone = bone[0]
+>>>>>>> main
                
 //                 // if (goingLeft) {
 //                 //     //grab first bone
@@ -342,9 +420,15 @@
 
 //                     //     this.board.unshift(bone)
 
+<<<<<<< HEAD
+                        // if (this.currentPlayer.hand.length === 0) {
+                        //     this.isWinner();
+                        // }
+=======
 //                         if (this.currentPlayer.hand.length === 0) {
 //                             this.isWinner();
 //                         }
+>>>>>>> main
 
 
 //                     // } else if (actualBone.boneVal[1] === tempBone.boneVal[0]){
@@ -360,6 +444,24 @@
 
 //                     //             console.log("bone placed. newState of Board ^^^")
 
+<<<<<<< HEAD
+                    //         } else {
+                                //deselect bone
+                                // console.log("about to recurse 2")
+                                // // this.currentPlayer.hand.push(bone)
+                                // this.currentPlayer.hand.push(bone[0])
+
+                                // this.draw(this.currentPlayer)
+                                // this.playerTurn(this.currentPlayer)
+
+                            }
+                        //Player picks right side of board
+                    //  } else {
+                        // select last bone on board (right side)
+                        
+                        
+                        // let tempBone = this.board[this.board.length-1][0]
+=======
 //                     //         } else {
 //                                 //deselect bone
 //                                 console.log("about to recurse 2")
@@ -376,6 +478,7 @@
                         
                         
 //                         let tempBone = this.board[this.board.length-1][0]
+>>>>>>> main
                         
                         
 //                         // if (bone[0] != tempBone[1] && bone[1] === tempBone[1]) {
@@ -390,9 +493,15 @@
 
 //                             //     this.board.push(bone)
 
+<<<<<<< HEAD
+                                // if(this.currentPlayer.hand.length === 0){
+                                //     this.isWinner();
+                                // }
+=======
 //                                 if(this.currentPlayer.hand.length === 0){
 //                                     this.isWinner();
 //                                 }
+>>>>>>> main
 
 //                             // } else if (bone.boneVal[0] === tempBone.boneVal[1]){
 //                             //     // if bone does not need flipping -> place in board
@@ -407,41 +516,41 @@
 
 //                             //             console.log("bone placed. END of newState of Board ^^^")
 
-//                             } else {
-//                                 //deselect bone
-//                                 console.log("about to recurse 1")
-//                                 // this.currentPlayer.hand.push(bone)
-//                                 this.draw(this.currentPlayer)
-//                                 this.currentPlayer.hand.push(bone[0])
-//                                 this.playerTurn(this.currentPlayer)
-//                             }
-//                         }
+                        //     } else {
+                        //         //deselect bone
+                        //         console.log("about to recurse 1")
+                        //         // this.currentPlayer.hand.push(bone)
+                        //         this.draw(this.currentPlayer)
+                        //         this.currentPlayer.hand.push(bone[0])
+                        //         this.playerTurn(this.currentPlayer)
+                        //     }
+                        // }
 
 
-//             }
+            // }
 
-//             (this.flagLeft ? false : true); 
-//             console.log("Made a move")
+            // (this.flagLeft ? false : true); 
+            // console.log("Made a move")
 
 
         
-//     }
+    // }
 
-//     runningGame(){
-//         while(!this.inSession === false){
-//             this.previousPlayer = this.currentPlayer;
-//             console.log("BRAND NEW RUNNING GAME LOOP")
-//             console.log(this.currentPlayer.username)
+    // runningGame(){
+    //     while(!this.inSession === false){
+    //         this.previousPlayer = this.currentPlayer;
+    //         console.log("BRAND NEW RUNNING GAME LOOP")
+    //         console.log(this.currentPlayer.username)
 
-//             this.playerTurn(this.currentPlayer)
+    //         this.playerTurn(this.currentPlayer)
 
-//             this.gameOver()
-//             this.skipTurn()
-//         }
-//         console.log("THE GAME IS OVER")
-//     }
+    //         this.gameOver()
+    //         this.skipTurn()
+    //     }
+    //     console.log("THE GAME IS OVER")
+    // }
 
-//     // TESTED AND TRUE -- GAME CLASS
+    // TESTED AND TRUE -- GAME CLASS
 //     gameOver(){
         
 
@@ -508,6 +617,15 @@
 //             console.log('new turn')
 //         }
 //    }
+<<<<<<< HEAD
+   // TESTED AND TRUE -- GAME CLASS
+    // isWinner() {
+        
+    //  console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
+    //  this.inSession = false;
+
+    // }
+=======
 //    // TESTED AND TRUE -- GAME CLASS
 //     isWinner() {
         
@@ -515,6 +633,7 @@
 //      this.inSession = false;
 
 //     }
+>>>>>>> main
 
 
 
@@ -524,6 +643,18 @@
 
 //     // draw(player) {
         
+<<<<<<< HEAD
+    //     console.log("curr player below")
+    //     // console.log(player)
+    //     console.log("# 2/3 - draw()")
+    //     // if the boneyard is empty
+        // if(this.isEmpty()){
+        //     console.log("this.bones.bones is empty. Cant Draw")
+            // console.log("skip turn")
+            // this.skipTurn()
+
+        // } else{
+=======
 //     //     console.log("curr player below")
 //     //     // console.log(player)
 //     //     console.log("# 2/3 - draw()")
@@ -534,6 +665,7 @@
 //             // this.skipTurn()
 
 //         // } else{
+>>>>>>> main
             
 //             // console.log("about to draw")
 //             // // Draw from the boneyard

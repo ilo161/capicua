@@ -13,13 +13,30 @@ class Player {
 
     
 
-      // probably the master function
-      //update NOT THE MASTER FUNCTON. node is async
-    getPlayerInput(correctAnswer){
-        this.revealHand();
-        this.playerInput = correctAnswer
+      
+    aiAutoPlay(difficulty){
+      let randomBoneIdx;
+
+      let posPlay = [1,3]
+      let center = 2;
+
+      switch(difficulty){
+          case "easy":
+              randomBoneIdx = Math.floor((Math.random() * (this.hand.length)));
+              const currentBone = this.board.currentPlayer.hand.splice(randomBoneIdx,1)[0];
+
+          case "smart":
+
+          default:
+
+      }  
+
+      // this.revealHand();
+      //   this.playerInput = correctAnswer
 
     }
+
+    // let removedBone = player.hand.splice(randomMathFloorIdx, 1)
 
     //replaced canMove with hasPlayableBone()
     hasPlayableBones(){
