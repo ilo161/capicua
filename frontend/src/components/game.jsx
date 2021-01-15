@@ -39,6 +39,7 @@ class Game extends React.Component {
         this.setState({ state: this.state });
 
         if(verifyMove){
+            // possible WS
             // debugger
             this.state.board.nextPlayerAssignTurn()
             this.setState({ board: this.state.board });
@@ -58,7 +59,6 @@ class Game extends React.Component {
     }
 
     render(){
-        
 
         return (
             <div className="board-container">
