@@ -1,0 +1,23 @@
+.music-container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.songs-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.songs{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: .20px;
+    
+}

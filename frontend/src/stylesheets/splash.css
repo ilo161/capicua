@@ -4,7 +4,7 @@
     margin-top: 4vh;
     font-size: 100px;
     animation-name: change-color;
-    animation-duration: .9s;
+    animation-duration: .8s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
     -webkit-text-stroke-color: black;
@@ -28,12 +28,13 @@
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    color: blue;
-    background-color: rgba(246, 146, 45, 0.500);
+    color: yellow;
+    font-weight: 900;
     margin-top: 5vh;
-    font-size: 25px;
+    font-size: 26px;
     max-width: 700px;
-
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1.40px
 
 }
 
@@ -127,6 +128,26 @@
     font-size: 20px;
 }
 
-html *{
-    font-family: Marker Felt, fantasy;
-}
+.bodega-img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .bodega-img-splash{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(6px);
+  }
+

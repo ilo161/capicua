@@ -6,6 +6,7 @@ import sergio_photo from '../assets/engineers/sergio-capicua.jpeg';
 import steven_photo from '../assets/engineers/steven-capicua.jpeg';
 import chris_photo from '../assets/engineers/chris-capicua.jpeg';
 import yangel_photo from '../assets/engineers/yangel-capicua.jpeg';
+import bodega from "../assets/img/La_Bodega.jpg"
 
 class Splash extends React.Component {
 
@@ -38,34 +39,35 @@ class Splash extends React.Component {
             </div>
           </form>
         </div>
-        <h1 className="developers-title">MERN Stack Team</h1>
+        <h1 className="developers-title">MERN (MongoDB, Express, React / Redux, and Node.js) Stack Team </h1>
         <h1 className="photo-description"> Click on photo to view portfolio</h1>
         <div className="MERN-team">
           <div className="sergio" >
             <a href="https://ilo161.github.io/" target="_blank" rel="noopener noreferrer">
               <img className="sergio-photo" src={sergio_photo} alt="sergio"/>
             </a>
-            <h2 className="name-title">Sergio Medina - Project Lead</h2>
+            <h2 className="name-title">Sergio Medina</h2>
           </div>
           <div className="steven">
             <a href="https://stevensuazo.github.io/portfolio_site/" target="_blank" rel="noopener noreferrer">
               <img className="steven-photo" src={steven_photo}alt="steven"/>
             </a>
-            <h2 className="name-title">Steven Suazo - Backend</h2>
+            <h2 className="name-title">Steven Suazo</h2>
           </div>
           <div className="chris">
             <a href="https://crslpz.github.io/" target="_blank" rel="noopener noreferrer">
               <img className="chris-photo" src={chris_photo} alt="chris"/>
             </a>
-            <h2 className="name-title">Chris Lopez - Official Flex</h2>
+            <h2 className="name-title">Chris Lopez</h2>
           </div>
           <div className="yangel">
             <a href="https://yangel20.github.io/portfolio/" target="_blank" rel="noopener noreferrer">
               <img className="yangel-photo" src={yangel_photo} alt="yangel"/>
             </a>
-            <h2 className="name-title">Yangel Aguilera - Frontend</h2>
+            <h2 className="name-title">Yangel Aguilera </h2>
           </div>
         </div>
+        <img src={bodega} alt="bodega" className="bodega-img-splash" ></img>
       </div>    
     )
   }
