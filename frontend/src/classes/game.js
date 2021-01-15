@@ -184,7 +184,7 @@ class Game{
     //     })
     //     if (!canMakeMove) {
 
-            this.draw(player)
+            // this.draw(player)
 
     //     } else {
     //         return canMakeMove
@@ -233,13 +233,13 @@ class Game{
 
 
     // GAME CLASS!!!!
-    playerTurn(player) {
-        console.log("start of new player Turn")
+    // playerTurn(player) {
+    //     console.log("start of new player Turn")
        
-        if (this.board.length === 0) {
-            console.log("about to invoke firstMove()")
-            this.firstMove()
-        }
+    //     if (this.board.length === 0) {
+    //         console.log("about to invoke firstMove()")
+    //         this.firstMove()
+    //     }
 
         else if (this.board.length > 0 && (this.inSession === true && this.canMove(player))){
             console.log("AI Think Player can play a bone")
@@ -289,7 +289,7 @@ class Game{
         
     }
     
-    makeMove(bone){
+    // makeMove(bone){
         // console.log("start of #makeMove")
         
         // console.log("--------")
@@ -299,9 +299,9 @@ class Game{
         // // player picks left side of board but bone is reverse
                     //  onMouseUP....
         // let goingLeft = (bone.x < (stage.width / 2) ? true : false )
-        if (this.board.length === 0){
-            this.board.push(bone);
-            console.log(this.board.length)
+        // if (this.board.length === 0){
+        //     this.board.push(bone);
+        //     console.log(this.board.length)
         // } else {
         //         console.log('board no longer empty')
         //         let goingLeft = false;
@@ -342,9 +342,9 @@ class Game{
 
                     //     this.board.unshift(bone)
 
-                        if (this.currentPlayer.hand.length === 0) {
-                            this.isWinner();
-                        }
+                        // if (this.currentPlayer.hand.length === 0) {
+                        //     this.isWinner();
+                        // }
 
 
                     // } else if (actualBone.boneVal[1] === tempBone.boneVal[0]){
@@ -362,20 +362,20 @@ class Game{
 
                     //         } else {
                                 //deselect bone
-                                console.log("about to recurse 2")
-                                // this.currentPlayer.hand.push(bone)
-                                this.currentPlayer.hand.push(bone[0])
+                                // console.log("about to recurse 2")
+                                // // this.currentPlayer.hand.push(bone)
+                                // this.currentPlayer.hand.push(bone[0])
 
-                                this.draw(this.currentPlayer)
-                                this.playerTurn(this.currentPlayer)
+                                // this.draw(this.currentPlayer)
+                                // this.playerTurn(this.currentPlayer)
 
                             }
                         //Player picks right side of board
-                     } else {
+                    //  } else {
                         // select last bone on board (right side)
                         
                         
-                        let tempBone = this.board[this.board.length-1][0]
+                        // let tempBone = this.board[this.board.length-1][0]
                         
                         
                         // if (bone[0] != tempBone[1] && bone[1] === tempBone[1]) {
@@ -390,9 +390,9 @@ class Game{
 
                             //     this.board.push(bone)
 
-                                if(this.currentPlayer.hand.length === 0){
-                                    this.isWinner();
-                                }
+                                // if(this.currentPlayer.hand.length === 0){
+                                //     this.isWinner();
+                                // }
 
                             // } else if (bone.boneVal[0] === tempBone.boneVal[1]){
                             //     // if bone does not need flipping -> place in board
@@ -407,114 +407,114 @@ class Game{
 
                             //             console.log("bone placed. END of newState of Board ^^^")
 
-                            } else {
-                                //deselect bone
-                                console.log("about to recurse 1")
-                                // this.currentPlayer.hand.push(bone)
-                                this.draw(this.currentPlayer)
-                                this.currentPlayer.hand.push(bone[0])
-                                this.playerTurn(this.currentPlayer)
-                            }
-                        }
+                        //     } else {
+                        //         //deselect bone
+                        //         console.log("about to recurse 1")
+                        //         // this.currentPlayer.hand.push(bone)
+                        //         this.draw(this.currentPlayer)
+                        //         this.currentPlayer.hand.push(bone[0])
+                        //         this.playerTurn(this.currentPlayer)
+                        //     }
+                        // }
 
 
-            }
+            // }
 
-            (this.flagLeft ? false : true); 
-            console.log("Made a move")
+            // (this.flagLeft ? false : true); 
+            // console.log("Made a move")
 
 
         
-    }
+    // }
 
-    runningGame(){
-        while(!this.inSession === false){
-            this.previousPlayer = this.currentPlayer;
-            console.log("BRAND NEW RUNNING GAME LOOP")
-            console.log(this.currentPlayer.username)
+    // runningGame(){
+    //     while(!this.inSession === false){
+    //         this.previousPlayer = this.currentPlayer;
+    //         console.log("BRAND NEW RUNNING GAME LOOP")
+    //         console.log(this.currentPlayer.username)
 
-            this.playerTurn(this.currentPlayer)
+    //         this.playerTurn(this.currentPlayer)
 
-            this.gameOver()
-            this.skipTurn()
-        }
-        console.log("THE GAME IS OVER")
-    }
+    //         this.gameOver()
+    //         this.skipTurn()
+    //     }
+    //     console.log("THE GAME IS OVER")
+    // }
 
     // TESTED AND TRUE -- GAME CLASS
-    gameOver(){
+//     gameOver(){
         
 
-        console.log("#LAST - In Game over")
-        // console.log(this.currentPlayer.hand.length)
-        // players hand is empty
-        // > this.players.length
-        if (this.skipCounter > 1000){
-            // if (true){
-            console.log("In Skip Counter")
-            console.log(this.skipCounter)
-            this.inSession = false;
-            let allScores = [];
+//         console.log("#LAST - In Game over")
+//         // console.log(this.currentPlayer.hand.length)
+//         // players hand is empty
+//         // > this.players.length
+//         if (this.skipCounter > 1000){
+//             // if (true){
+//             console.log("In Skip Counter")
+//             console.log(this.skipCounter)
+//             this.inSession = false;
+//             let allScores = [];
             
-            let min = 10000;
-            //iterate through all players and see who has the lowest score
-            this.players.forEach((player) => {
-                let squishThis = []
-                player.hand.forEach(boneObj => {
-                    squishThis.push(boneObj.boneVal)
-                })
-                // let playerTotal = player.hand.myFlatten().reduce((a, b) => a + b, 0);
-                let playerTotal = squishThis.myFlatten().reduce((a, b) => a + b, 0);
+//             let min = 10000;
+//             //iterate through all players and see who has the lowest score
+//             this.players.forEach((player) => {
+//                 let squishThis = []
+//                 player.hand.forEach(boneObj => {
+//                     squishThis.push(boneObj.boneVal)
+//                 })
+//                 // let playerTotal = player.hand.myFlatten().reduce((a, b) => a + b, 0);
+//                 let playerTotal = squishThis.myFlatten().reduce((a, b) => a + b, 0);
                 
-                if (playerTotal < min){
-                    min = playerTotal
-                }
-                allScores.push(playerTotal)
-            })
+//                 if (playerTotal < min){
+//                     min = playerTotal
+//                 }
+//                 allScores.push(playerTotal)
+//             })
 
-            let winningPlayerIdx = allScores.indexOf(min)
+//             let winningPlayerIdx = allScores.indexOf(min)
             
-            let totalWinningPoints = 0
-            allScores.forEach(score => {
-                totalWinningPoints += score;
-            })
+//             let totalWinningPoints = 0
+//             allScores.forEach(score => {
+//                 totalWinningPoints += score;
+//             })
             
-            this.players[winningPlayerIdx].points += (totalWinningPoints - allScores[winningPlayerIdx])
-        }
-        else if (this.currentPlayer.hand.length === 0 ){
-            console.log("In HAND IS EMPTY FOR CURR PLAYER")
-            this.inSession = false;
-            // concat arr.flat
-           let allHands = [];
-            this.players.forEach(player =>{
-               player.hand.forEach(bone =>{
-                    // allHands.push(bone);
-                    allHands.push(bone[0]);
-                    // allHands.myFlatten().reduce((a, b) => a + b, 0);
-               })
-           }) 
-           const totalScore = allHands.myFlatten().reduce((a, b) => a + b, 0);
-           this.currentPlayer.points += totalScore;
+//             this.players[winningPlayerIdx].points += (totalWinningPoints - allScores[winningPlayerIdx])
+//         }
+//         else if (this.currentPlayer.hand.length === 0 ){
+//             console.log("In HAND IS EMPTY FOR CURR PLAYER")
+//             this.inSession = false;
+//             // concat arr.flat
+//            let allHands = [];
+//             this.players.forEach(player =>{
+//                player.hand.forEach(bone =>{
+//                     // allHands.push(bone);
+//                     allHands.push(bone[0]);
+//                     // allHands.myFlatten().reduce((a, b) => a + b, 0);
+//                })
+//            }) 
+//            const totalScore = allHands.myFlatten().reduce((a, b) => a + b, 0);
+//            this.currentPlayer.points += totalScore;
 
-        //    console.log(allHands);
-           console.log(totalScore);
-        }
+//         //    console.log(allHands);
+//            console.log(totalScore);
+//         }
 
-        if (this.inSession === false && this.currentPlayer.points >= 80){
-            console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
-            // new Game()
+//         if (this.inSession === false && this.currentPlayer.points >= 80){
+//             console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
+//             // new Game()
             
-        } else if (this.inSession === true && this.currentPlayer.points < 80) {
-            console.log('new turn')
-        }
-   }
+//         } else if (this.inSession === true && this.currentPlayer.points < 80) {
+//             console.log('new turn')
+//         }
+//    }
    // TESTED AND TRUE -- GAME CLASS
-    isWinner() {
+    // isWinner() {
         
-     console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
-     this.inSession = false;
+    //  console.log("gracias por jugar " + this.currentPlayer.username + " with total points: " + this.currentPlayer.points)
+    //  this.inSession = false;
 
-    }
+    // }
 
 
 
@@ -528,8 +528,8 @@ class Game{
     //     // console.log(player)
     //     console.log("# 2/3 - draw()")
     //     // if the boneyard is empty
-        if(this.isEmpty()){
-            console.log("this.bones.bones is empty. Cant Draw")
+        // if(this.isEmpty()){
+        //     console.log("this.bones.bones is empty. Cant Draw")
             // console.log("skip turn")
             // this.skipTurn()
 

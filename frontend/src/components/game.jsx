@@ -31,6 +31,8 @@ class Game extends React.Component {
 
     }
 
+    
+
     updateGame(xPosPlay, center, boneIdx) { 
         // here to check state. of playable Bone
         // ...
