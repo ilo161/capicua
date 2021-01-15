@@ -101,9 +101,9 @@ class Board extends React.Component {
                          boneIsRevYPos={boneIsRevYPos}
                          boneNotRevYPos={boneNotRevYPos}/>
                     </Group>
-                    <Group x={startBoxforArena} y={(boardDimen / 2) + 60}>
+                    {/* <Group x={startBoxforArena} y={(boardDimen / 2) + 60}>
                         {capDom}
-                    </Group>
+                    </Group> */}
                     <OtherHands board={board} boardDimen={boardDimen} allDominos={allDominos}
                     boneWidth={boneWidth} boneHeight={boneHeight} boneValToString={boneValToString}/>
                     <Group x={startBoxforHand} y={boardDimen - boneHeight}>
