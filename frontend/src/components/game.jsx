@@ -122,14 +122,6 @@ class Game extends React.Component {
         this.setState({ state: this.state });
 
         if(verifyMove){
-<<<<<<< HEAD
-            // possible WS
-            // debugger
-            this.state.board.nextPlayerAssignTurn()
-            this.setState({ board: this.state.board });
-
-        }else {
-=======
             // for testing REMOVE 
             // this.state.board.endGame()
             // for testing REMOVE
@@ -174,7 +166,6 @@ class Game extends React.Component {
                 this.setState({ board: this.state.board });
             }
         } else {
->>>>>>> main
             // debugger
             this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
             this.setState({ board: this.state.board });
@@ -192,8 +183,6 @@ class Game extends React.Component {
     }
 
     render(){
-<<<<<<< HEAD
-=======
         let modal;
         let button;
         let endGameButton;
@@ -230,7 +219,6 @@ class Game extends React.Component {
         //         </div>;
         // }
                    
->>>>>>> main
 
         return (
             <>
