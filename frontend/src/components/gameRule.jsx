@@ -5,7 +5,7 @@ class Rules extends React.Component {
 
     render(){
         return (
-            <div className="rules-container">
+            <div className="rules-music-container">
                 <ul>
                     <li className="game-rule">- Each player starts with 7 bone’s.</li>
                     <li className="game-rule">- Player with the highest double goes first.</li>
