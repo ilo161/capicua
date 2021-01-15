@@ -1,6 +1,5 @@
 import React from "react";
-import {Group} from 'react-konva';
-import Bone from "./bone"
+import {constructBone} from "./constructBone";
 
 
 
@@ -22,24 +21,30 @@ class Hand extends React.Component {
 
                const singleBoneVal =  boneValToString(bone.boneVal)[0]
                const reactKeyVal = parseInt(singleBoneVal)
-               const initialX = 0;
 
                //width of domino plus spacing
                const width = (boneWidth + 10);
 
-                const pos = initialX + (width * idx);
+               const pos = (width * idx);
 
-                return <Bone 
-                x={pos} 
-                width={boneWidth}
-                height={boneHeight}
-                updateGame={this.props.updateGame}
-                boneIdx={idx}
-                offSetCenter={offSetCenter}
-                draggable={true}
-                key={reactKeyVal}
-                src={allDominos[singleBoneVal]}
-                inArena={false}/>    
+                // constructBone FN -> reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
+                //offSetCenter, boneIdx, updateGameFN
+
+                return constructBone(reactKeyVal, true,
+                pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
+                0, false, 0, 0, offSetCenter, idx, this.props.updateGame, board)
+
+                // return <Bone 
+                // x={pos} 
+                // width={boneWidth}
+                // height={boneHeight}
+                // updateGame={this.props.updateGame}
+                // boneIdx={idx}
+                // offSetCenter={offSetCenter}
+                // draggable={true}
+                // key={reactKeyVal}
+                // src={allDominos[singleBoneVal]}
+                // inArena={false}/>    
             })
 
         }
