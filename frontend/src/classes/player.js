@@ -48,6 +48,10 @@ class Player {
         console.log(`${handString}`)
         
     }
+
+    restorePoints(num){
+      this.points = num
+    }
   }
 
 

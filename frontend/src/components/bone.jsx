@@ -82,14 +82,14 @@ class Bone extends React.Component {
 
   mouseDownStartCoord(e){
 
-    console.log(`MDX: ${e.target.attrs.x}`)
-    console.log(`MDY: ${e.target.attrs.y}`)
-    console.log("------")
+    // console.log(`MDX: ${e.target.attrs.x}`)
+    // console.log(`MDY: ${e.target.attrs.y}`)
+    // console.log("------")
   }
 
   // decides where the player wants to play
   mouseUpCoord(e, updateGame) {
-      debugger
+      // debugger
       const xPosPlay = e.target.attrs.x 
       const center = e.target.attrs.offSetCenter
 
@@ -103,10 +103,10 @@ class Bone extends React.Component {
       const yCoord = e.target.attrs.y
       
       console.log(`BoneIdxIs: ${e.target.attrs.boneIdx}`)
-
-      console.log(`Center: ${e.target.attrs.offSetCenter}`)
-      console.log(`X: ${e.target.attrs.x}`)
-      console.log(`Y: ${e.target.attrs.y}`)
+      console.log(`konvaBoneIdxIs: ${boneIdx}`)
+      // console.log(`Center: ${e.target.attrs.offSetCenter}`)
+      // console.log(`X: ${e.target.attrs.x}`)
+      // console.log(`Y: ${e.target.attrs.y}`)
 
 
       // Remember to remove the left side of IF statement
@@ -128,14 +128,18 @@ class Bone extends React.Component {
         }
 
       } else {
-        const halfBoardHeight = e.target.getCanvas().height / 2;
-        const absPos = e.target.getAbsolutePosition();
-        console.log(`AbsPos: x:${absPos.x} y: ${absPos.y}`)
+        // debugger
 
+        const halfBoardHeight = (this.props.board.boardDimen / 2);
+        const absPos = e.target.getAbsolutePosition();
+        // console.log(`AbsPos: x:${absPos.x} y: ${absPos.y}`)
+        
         if (yCoord < -50){
           if (absPos.y < halfBoardHeight){
+            // debugger
             updateGame(absPos.y, halfBoardHeight, boneIdx);
         } else {
+          // debugger
             updateGame(absPos.y, halfBoardHeight, boneIdx);
         }
         }
@@ -148,13 +152,11 @@ class Bone extends React.Component {
       
           // console.log(e.target)
     }
-
-    
     slideUp(e){
       // debugger
-      console.log(`thisX: ${e.target.attrs.x}`)
-      console.log(`thisY: ${e.target.attrs.y}`)
-      console.log(this.absolutePosition())
+      // console.log(`thisX: ${e.target.attrs.x}`)
+      // console.log(`thisY: ${e.target.attrs.y}`)
+      // console.log(this.absolutePosition())
       
       if(!this.attrs.inArena){
         this.to({
