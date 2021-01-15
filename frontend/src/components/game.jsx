@@ -3,6 +3,8 @@ import Board from "./board"
 import BoardObject from "../classes/board"
 import { set } from "mongoose";
 import {allDominos} from "./allDominos"
+import Chat from './chat/chat';
+import Score from './gameScore.jsx';
 
 
 //one player game below
@@ -222,9 +224,13 @@ class Game extends React.Component {
 
         return (
             <>
-                <div className="board-container">
-            {modal}
-                { this.state.board ? <Board board={this.state.board} updateGame={this.updateGame} /> : null }
+                <div className="board-score-container flex-row-start">
+                    {modal}
+                    { this.state.board ? <Board board={this.state.board} updateGame={this.updateGame} /> : null }
+                    <div className="flex-col-start">
+                        <Chat key={"chat"}/>
+                        <Score board={this.state.board} key={999}/>
+                    </div>
                 </div>
             </>
         )
