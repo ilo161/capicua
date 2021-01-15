@@ -23,7 +23,7 @@
     position: relative;
 }
 
-.name-score-conatainer{
+.name-score-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,11 +33,13 @@
     font-size: 35px;
     color: white;
     -webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: .70px
+    -webkit-text-stroke-width: .70px;
+    flex: 1;
 }
 
 .name-score{
     font-size: 28px;
+    flex: 2;
     padding-top: 4px;
     padding-bottom: 4px;
     color: white;

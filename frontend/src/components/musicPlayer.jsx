@@ -87,7 +87,7 @@ class Music extends React.Component {
         })
         return(
         <div className="music-container">
-            <h1>Play a Song</h1>
+            <h1>Play Song</h1>
             <div className="songs-container">
                 <ul className="songs">{musicList}</ul>
             </div>

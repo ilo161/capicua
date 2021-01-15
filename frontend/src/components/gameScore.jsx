@@ -10,22 +10,26 @@ const names = [
 ]
  
 class Score extends React.Component {
+    
 
     render(){
+        const {board} = this.props;
+
+        const nameScores = board.players.map((player) => (
+                    <ul className="name-score-container" key={player.username+player.points.toString()}>
+                        <li className="name-score" key={player.username}>Player: {player.username}</li>
+                        <li className="name-score" key={player.points.toString()+player.username}> Score: {player.points}</li>
+                    </ul>
+                                ))
+
         return(
             <div className="score-box-container">
             
                 <div className="current-player">{currentPlayer.username} </div>
                 
                 <div className="score-container">
-                {names.map((name) => (
-                    <ul className="name-score-conatainer">
-                        <li className="name-score" key={name.username}>Player: {name.username}</li>
-                        <li className="name-score" key={name.score}> Score: {name.score}</li>
-                    </ul>
-                ))}
+                {nameScores}
                 
-                    
                 </div>
         
             </div>
