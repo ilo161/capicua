@@ -5,6 +5,7 @@ import bodega from "./assets/img/La_Bodega.jpg"
 import Splash from './components/splash';
 import {GameViewComponent} from './components/gameView';
 import Join from './components/chat/join';
+import Lobby from "./components/chat/lobby"
 
 
 function App() {
@@ -15,7 +16,10 @@ function App() {
       </header>
       
         <Switch>
-          <Route exact path="/join" component={Join} />
+          {/* <Route exact path="/join" component={Join} /> */}
+          <Route exact path="/joinSoloGame" component={Join} />
+
+          <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/" component={Splash}/>
           <Route path="/play_game" component={GameViewComponent}/>
         </Switch>

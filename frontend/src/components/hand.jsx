@@ -23,7 +23,7 @@ class Hand extends React.Component {
                const reactKeyVal = parseInt(singleBoneVal)
 
                //width of domino plus spacing
-               const width = (boneWidth + 10);
+               const width = (boneWidth + (boneWidth / 3));
 
                const pos = (width * idx);
 

@@ -13,14 +13,24 @@ import Score from './gameScore.jsx';
 
 // two player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
+// two player AI below
+// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}]
 
 // three player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
 
+//three player AI below
+// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
+// , {username: "idrakeUfake", isAi: true}]
+
 //4 player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
-{username: "idrakeUfake!"},
-{username: "prophecy!"}]
+// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
+// {username: "idrakeUfake!"},
+// {username: "prophecy!"}]
+
+// 4 player ai below
+const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
+, {username: "idrakeUfake", isAi: true}, {username: "prophecy!", isAi: true}]
 
 class Game extends React.Component {
     _isMounted = false;
@@ -37,6 +47,9 @@ class Game extends React.Component {
         this.restartGame = this.restartGame.bind(this);
         this.countdownTicker = 10;
         this.countdown = this.countdown.bind(this)
+        this.hasAiGone = false;
+        this.oldArenaLen = undefined;
+        this.oldTimeIds = [];
     }
 
     // autoStartNextRound(e, isNewGame = undefined){
@@ -48,12 +61,42 @@ class Game extends React.Component {
     //         }
     //     }, 5000);
     // }
+    
+
+    componentDidUpdate(prevProps) {
+
+        if(this.state.board.inSession){
+            this.oldTimeIds.push(setTimeout(()=>{
+                this.forceAiAutoPlay();
+            },500))
+            
+        }
+        
+        
+    }
+
+    forceAiAutoPlay(){
+        if(this.state.board.currentPlayer.isAi === true){
+                debugger
+                if(!this.hasAiGone){
+                    this.oldArenaLen = this.state.board.arena.length;
+
+                    while(this.state.board.arena.length === this.oldArenaLen && this.state.board.inSession){
+                        // debugger
+                        this.updateGame(...this.state.board.currentPlayer.aiAutoPlay("easy"))
+                    }
+                    this.hasAiGone = true;
+                }
+                debugger
+                this.hasAiGone = false;
+        }
+    }
 
     countdown(e, isNewGame = undefined){
         // while(this.countdownTicker >= 0){
         // }
         this.countdownTicker = (this.countdownTicker - 1)
-        debugger
+        // debugger
         setTimeout(() =>{
             this.countdown()
         }, 1000).bind(this);
@@ -71,17 +114,27 @@ class Game extends React.Component {
     }
 
     componentDidMount(){
+        if(this.state.board.inSession && this.state.board.arena.length === 1){
+            this.oldTimeIds.push(setTimeout(()=>{
+                this.forceAiAutoPlay();
+            },500))
+            
+        }
         // debugger
         this._isMounted = true;
         // this.autoStartNextRound = setTimeout(this.restartGame, 10000); 
-        clearTimeout(this.autoStartNextRound);
+        // clearTimeout(this.autoStartNextRound);
         // debugger
         console.log(this.state.board)
 
     }
 
     componentWillUnmount(){
+        debugger
         this._isMounted = false;
+        this.oldTimeIds.forEach((id) => {
+            clearTimeout(id)
+        })
         // clearTimeout(this.autoStartNextRound);
     }
 
@@ -116,12 +169,16 @@ class Game extends React.Component {
        
     }
 
-    updateGame(xPosPlay, center, boneIdx) { 
+    updateGame(posPlay, center, boneIdx) { 
         // here to check state. of playable Bone
         // ...
         const currentBone = this.state.board.currentPlayer.hand.splice(boneIdx,1)[0];
-        const verifyMove = this.state.board.makeMove(xPosPlay, center, currentBone);
-        this.setState({ state: this.state });
+        // debugger
+        const verifyMove = this.state.board.makeMove(posPlay, center, currentBone);
+
+        if(this.state.board.currentPlayer.isAi === false){
+            this.setState({ state: this.state });
+        }
 
         if(verifyMove){
             // for testing REMOVE 
@@ -165,12 +222,16 @@ class Game extends React.Component {
                 //     debugger
                 //     // this.restartGame();
                 // }
+                
                 this.setState({ board: this.state.board });
             }
         } else {
             // debugger
             this.state.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
-            this.setState({ board: this.state.board });
+            
+            if(this.state.board.currentPlayer.isAi === false){
+                this.setState({ board: this.state.board });
+            }
 
 
         }
@@ -189,37 +250,37 @@ class Game extends React.Component {
         let button;
         let endGameButton;
         // let autoStartNextRound = setTimeout(this.restartGame, 10000); 
-        // if (this.state.board.winningPlayer) {
-        //     debugger
-        //     //testing. EndGame for For
-        //     const endGame = this.state.board.endGame()
-        //     {/* using logic from Board logic class */ }
-        //     const text = this.state.board.lockedGame ? `${this.state.board.winningPlayer.username}
-        //      wins the Round via lockout! ` :  endGame ? `${this.state.board.winningPlayer.username} wins the Game!` :
-        //     `${this.state.board.winningPlayer.username} wins the Round!`;
+        if (this.state.board.winningPlayer) {
+            // debugger
+            //testing. EndGame for For
+            const endGame = this.state.board.endGame()
+            {/* using logic from Board logic class */ }
+            const text = this.state.board.lockedGame ? `${this.state.board.winningPlayer.username}
+             wins the Round via lockout! ` :  endGame ? `${this.state.board.winningPlayer.username} wins the Game!` :
+            `${this.state.board.winningPlayer.username} wins the Round!`;
 
-        //     const text2 = `Total Points: ${this.state.board.winningPlayer.points}`
+            const text2 = `Total Points: ${this.state.board.winningPlayer.points}`
 
-        //     button = this.state.board.lockedGame ? 
-        //         <button className="modal-win-button" onClick={(e) => this.countdown(e, true)}>Next Round</button> :
-        //     null
+            button = this.state.board.lockedGame ? 
+                <button className="modal-win-button" onClick={(e) => this.countdown(e, true)}>Next Round</button> :
+            null
 
-        //     endGameButton = endGame ? <button className="modal-win-button" 
-        //         onClick={(e) => this.countdown()}>Gameover - Play Again?</button> :
-        //     null
-        //         modal =
-        //         <div className='modal-float-container-win'>
-        //             <div className='modal-container-win flex-row-start'>
-        //                 <img className="capicua-domino" src={allDominos["cd"]}></img>
-        //                 <div className='modal-content'>
-        //                     <p>{text}</p>
-        //                     <p>{text2}</p>
-        //                     {endGameButton ? endGameButton : button}
-        //                 </div>
-        //                 <img className="capicua-domino" src={allDominos["cd"]}></img>
-        //             </div>
-        //         </div>;
-        // }
+            endGameButton = endGame ? <button className="modal-win-button" 
+                onClick={(e) => this.countdown()}>Gameover - Play Again?</button> :
+            null
+                modal =
+                <div className='modal-float-container-win'>
+                    <div className='modal-container-win flex-row-start'>
+                        <img className="capicua-domino" src={allDominos["cd"]}></img>
+                        <div className='modal-content'>
+                            <p>{text}</p>
+                            <p>{text2}</p>
+                            {endGameButton ? endGameButton : button}
+                        </div>
+                        <img className="capicua-domino" src={allDominos["cd"]}></img>
+                    </div>
+                </div>;
+        }
                    
 
         return (

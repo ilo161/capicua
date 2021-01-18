@@ -16,10 +16,12 @@ Array.prototype.myFlatten = function () {
     return flattened;
 }; 
 class Board {
-    constructor(axiosPlayerData, boardDimen){
+    constructor(axiosPlayerData, boardDimen, roomName = undefined, io = undefined){
         this.boneyard = new Boneyard(this);
         this.arena = [];
         this.players = this.generatePlayers(axiosPlayerData);
+        this.roomName = roomName;
+        this.io = io;
         this.currentPlayer = undefined;
         this.aIFirstMove = undefined;
         this.inSession = true;
@@ -36,10 +38,12 @@ class Board {
     generatePlayers(axiosPlayerData){
         const players = axiosPlayerData.map((playerData) => {
 
-            if (playerData.isAI){
-                return new Player(playerData.username, this, true );
+            if (playerData.isAi){
+                return new Player(playerData.username, this, true,
+                    this.roomName);
             }
-            return new Player(playerData.username, this );
+            return new Player(playerData.username, this, false, 
+                this.roomName, playerData.io );
         })
 
         return players
@@ -60,7 +64,7 @@ class Board {
         let playerAndBoneIdx = this.decideFirstPlayer();
 
         //check if player is AI
-        if (this.players[playerAndBoneIdx[0]].isAI){
+        if (this.players[playerAndBoneIdx[0]].isAi){
             // ****************
             // ****************
             // ****************
@@ -228,7 +232,7 @@ class Board {
                 isGameLocked = this.addOneToSkipCounter();
 
                 if(isGameLocked){
-                    debugger
+                    // debugger
                     return false
                 }
                 this.nextPlayerAssignTurn()
@@ -248,7 +252,7 @@ class Board {
                     isGameLocked = this.addOneToSkipCounter();
 
                     if (isGameLocked) {
-                        debugger
+                        // debugger
                         return false
                     }
                     this.nextPlayerAssignTurn()
