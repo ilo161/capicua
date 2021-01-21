@@ -14,9 +14,9 @@ import Countdown from "./countdownS";
 //one player game below
 // const axiosPlayerObj = [{username: "Steven"}]
 
-
+//This is where we choose our players for debugging
 // two player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
+const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!", isAi: true}]
 // two player AI below
 // const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}]
 

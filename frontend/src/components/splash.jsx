@@ -36,13 +36,24 @@ class Splash extends React.Component {
                           title: "Solo Game",
                           gameType: "solo",
                           buttonText: "Start Game Vs AI",
+                          isOnline: false,
                           totalPlayers: 2
                         }
                         }}>
-                <button className="start-btn"> <span>Solo Game</span></button>
+                <button className="start-btn"> <span>Solo Game vs A.I.</span></button>
               </Link>
-              <button className="start-btn"> <span>2-Player</span></button>
-              <button className="start-btn"> <span>4-Player</span></button>
+              <Link to={{pathname: `/joinSoloGameServer`,
+                        state: {
+                          title: "Solo Game",
+                          gameType: "solo",
+                          buttonText: "Start Game Vs AI",
+                          isOnline: true,
+                          totalPlayers: 2
+                        }
+                        }}>
+              <button className="start-btn"> <span>2-Player Online</span></button>
+              </Link>
+              <button className="start-btn"> <span>4-Player Online</span></button>
             </div>
           </form>
         </div>
