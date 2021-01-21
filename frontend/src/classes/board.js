@@ -27,6 +27,8 @@ class Board {
         this.lockedGame = false;
         this.skipCounter = 0;
         this.boardDimen = boardDimen;
+        this.activeRound = true;
+        this.CurrentGameOver = this.isCurrentGameOver
         this.runningGame()
     }
 
@@ -389,18 +391,21 @@ class Board {
 
     isCurrentGameOver(){
         // debugger
+        console.log('im being called')
         if(this.currentPlayer.hand.length === 0){
             // debugger
             this.inSession = false;
+            this.activeRound = false;
             this.winningPlayer = this.currentPlayer;
             this.tallyAllPointsForWinner();
             console.log(`${this.winningPlayer.username} has won this round.`)
             console.log(this.currentPlayer.points)
 
-            return true;
+            this.CurrentGameOver = true
         }
         else if(this.lockedGame === true){
             this.inSession = false;
+            this.activeRound = false;
             let totalHandValues = [];
 
             this.players.forEach((player) => {
@@ -429,9 +434,9 @@ class Board {
             console.log(`players hand points: ${totalHandValues}`)
             // debugger
             console.log('this game is locked');
-            return true
+            this.CurrentGameOver = true
         }
-        return false;
+        this.CurrentGameOver = false
         
     }
     
@@ -458,6 +463,7 @@ class Board {
             //MongoDB stuff to save the winner
         }
         return false
+        this.activeRound = true
     }
 
     addOneToSkipCounter(){
@@ -468,7 +474,7 @@ class Board {
         if (this.skipCounter >= this.players.length){
         // if (this.skipCounter >= 4){
             this.lockedGame = true;
-            return this.isCurrentGameOver();
+            return this.CurrentGameOver;
 
         }
 
