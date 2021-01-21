@@ -13,12 +13,13 @@ class Join extends React.Component{
       super(props)
 
       this.state = {
-        title: undefined,
         gameType: undefined,
-        totalPlayers: undefined,
+        title: undefined,
         username: "",
-        buttonText: undefined,
+        totalPlayers: undefined,
         roomName: "",
+        inOnline: "",
+        buttonText: undefined,
         phase: "prelobby",
         gameState: "",
         aiMove: ""
@@ -37,10 +38,11 @@ class Join extends React.Component{
 
   componentDidMount(){
     // this.socket = io(HOST);
-    this.socket = io(HOST);
     // debugger
-
-    this.socket.on('connect', socket => {
+    
+    if(this.props.location.state.isOnline === true){
+      this.socket = io(HOST);
+      this.socket.on('connect', socket => {
 
       console.log("hooray")
 
@@ -50,12 +52,15 @@ class Join extends React.Component{
       this.socket.on("AiAutoPlayData", this.receiveAiAutoPlayData)
 
       
-    })
+      })
+    }
+    
 
     this.setState({title: this.props.location.state.title,
                    gameType: this.props.location.state.gameType,
                    buttonText: this.props.location.state.buttonText,
-                   totalPlayers: this.props.location.state.totalPlayers
+                   totalPlayers: this.props.location.state.totalPlayers,
+                   isOnline: this.props.location.state.isOnline
                   }) 
 
     // if(this.state.phase === "solo"){
@@ -83,10 +88,15 @@ class Join extends React.Component{
      return e => this.setState({[field]: e.currentTarget.value})
   }
 
-  handleStartSolo() {
+  handleStartSoloServer(e, pingServer) {
     // debugger
-    this.socket.emit("startSoloGame", {username: this.state.username});
-    this.setState({ roomName: this.socket.id });
+    if(pingServer){
+      this.socket.emit("startSoloGame", {username: this.state.username});
+      this.setState({ roomName: this.socket.id });  
+    } else {
+      // this.setState
+    }
+    
   }
 
   handleGameStart(){
@@ -146,7 +156,13 @@ class Join extends React.Component{
       }
 
       const displayPhaseFn = () => {
+          const buttonToServer = <button className={'button mt-20'} 
+                        onClick={(e) => this.handleStartSoloServer(e, true)}
+                        type="submit">{this.state.buttonText}</button>
 
+          const buttonToOfflineGame = <button className={'button mt-20'} 
+                        onClick={(e) => this.handleStartSoloServer(e, false)}
+                        type="submit">{this.state.buttonText}</button>
           switch(this.state.phase){
               case "prelobby":
                 return (
@@ -155,6 +171,7 @@ class Join extends React.Component{
                       <h1 className="heading">{this.state.title}</h1>
                       {showInputField}
                       {/* <Link to={`/lobby`} > */}
+                      {/* {this.state.isOnline ? buttonToServer : } */}
                         <button className={'button mt-20'} 
                         onClick={this.handleStartSolo}
                         type="submit">{this.state.buttonText}</button>
