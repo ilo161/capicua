@@ -1,14 +1,15 @@
 class Player {
-    constructor(username, board, isAI) {
+    constructor(username, board, isAi, roomName = undefined, io = undefined, aiDifficulty) {
       this.username = username;
-      this.webSocketId = undefined
+      this.roomName = roomName;
+      this.io = io
       this.points = 0;
       this.hand = [];
-      this.isAI = isAI ? true : false;
+      this.isAi = isAi ? true : false;
       this.board = board;
-      this.playerInput = undefined;
       this.winningPlayerPoints = 0;
-      // this.getPlayerInput()
+      this.aiDifficulty = aiDifficulty ? aiDifficulty : "easy";
+
     }
 
     
@@ -17,13 +18,19 @@ class Player {
     aiAutoPlay(difficulty){
       let randomBoneIdx;
 
+
       let posPlay = [1,3]
       let center = 2;
 
       switch(difficulty){
           case "easy":
               randomBoneIdx = Math.floor((Math.random() * (this.hand.length)));
-              const currentBone = this.board.currentPlayer.hand.splice(randomBoneIdx,1)[0];
+              return [posPlay[Math.floor(Math.random() * 2)],
+                      center,
+                      randomBoneIdx
+                ]
+              // const currentBone = this.board.currentPlayer.hand.splice(randomBoneIdx,1)[0];
+
 
           case "smart":
 
@@ -72,6 +79,7 @@ class Player {
   }
 
 
-export default Player;
+// export default Player;
+module.exports = Player;
   
 

@@ -15,6 +15,7 @@ Array.prototype.myFlatten = function () {
     });
     return flattened;
 }; 
+
 class Board {
     constructor(axiosPlayerData, boardDimen, roomName = undefined, io = undefined){
         this.boneyard = new Boneyard(this);
@@ -273,23 +274,30 @@ class Board {
         const arenaLeftBoneVal = this.arena[0].boneVal[0];
         // extracting the far right number on the arena
         const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
-        console.log(arenaLeftBoneVal)
-        console.log(arenaRightBoneVal)
-        console.log(bone)
+        // console.log(arenaLeftBoneVal)
+        // console.log(arenaRightBoneVal)
+        // console.log(bone)
         // Player plays left side
+
+        let movePlayed;
         if(xPosPlay < center){
             
             //we use this return of play in update Game in Game.jsx
-           return this.playerPlaysLeft(arenaLeftBoneVal, bone);
+        //    return this.playerPlaysLeft(arenaLeftBoneVal, bone);
+           movePlayed = this.playerPlaysLeft(arenaLeftBoneVal, bone);
         } else {
             
             // Player plays right side
-            return this.playerPlaysRight(arenaRightBoneVal, bone)
+            // return this.playerPlaysRight(arenaRightBoneVal, bone)
+            movePlayed = this.playerPlaysRight(arenaRightBoneVal, bone)
 
         }
         // make move ought to return a boolean and then we use that boolean
         // to determine a draw or a skip or a commitMove
         // draw(this.currentPlayer)
+        console.log(`game is of ${this.inSession} session`)
+        // this.isCurrentGameOver()
+        return movePlayed
        
     }
 
@@ -434,7 +442,7 @@ class Board {
             this.winningPlayer.points -= lowestTotalScore;
 
             //Update db of current state of game to reflect player's score
-            console.log(`${this.winningPlayer.username}` + 'wins & has ' + `${this.winningPlayer.points}`)
+            console.log(`${this.winningPlayer.username}` + ' wins & has ' + `${this.winningPlayer.points}`)
             console.log(`players hand points: ${totalHandValues}`)
             // debugger
             console.log('this game is locked');

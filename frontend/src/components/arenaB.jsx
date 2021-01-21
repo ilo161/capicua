@@ -1,14 +1,16 @@
 import React from "react";
 // import Konva from "konva";
 
-import {constructBone} from "./constructBone"
+import {constructBone} from "./constructBoneB"
 
 
 class Arena extends React.Component {
 
     render(){
-        const {board, boneValToString, allDominos,
+        const {boneValToString, allDominos,
         boneWidth, boneHeight, boneIsRevYPos, boneNotRevYPos } = this.props;
+
+        let {arena} = this.props;
 
 
         // we need the keys of all possible dominos to be rendered
@@ -22,9 +24,12 @@ class Arena extends React.Component {
         const isFirstBone = (isDouble, isReversed, boneStrArr, reactKeyVal) => {
             if (isDouble){
 
+                // reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
+                //offSetCenter, boneIdx, updateGame, arena
                 return constructBone(reactKeyVal, true,
                 0, 0, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                 0, true)
+                // , 0, 99, undefined, )
 
                 
 
@@ -74,7 +79,8 @@ class Arena extends React.Component {
 
         const boneDimenArr = [];
 
-        const arena = board.arena.map((bone, idx) => {
+        // const arena = board.arena.map((bone, idx) => {
+        arena = arena.map((bone, idx) => {
             const boneStrArr = boneValToString(bone.boneVal);
 
             const singleBoneVal =  boneStrArr[0];

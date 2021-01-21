@@ -1,5 +1,5 @@
 import React from "react";
-import {constructBone} from "./constructBone";
+import {constructBone} from "./constructBoneB";
 
 
 
@@ -7,7 +7,9 @@ class Hand extends React.Component {
 
 
     render(){
-        const {board, allDominos, boneValToString, offSetCenter,
+        // const {board, allDominos, boneValToString, offSetCenter,
+        // boneWidth, boneHeight} = this.props;
+        const {gameState, hand, socket, allDominos, boneValToString, offSetCenter,
         boneWidth, boneHeight} = this.props;
 
 
@@ -15,9 +17,10 @@ class Hand extends React.Component {
         // SOLELY FOR TESTING...
         let renderedHand = [];
 
-        if (board){
+        // if (board){
+        if (hand){
 
-            renderedHand = board.currentPlayer.hand.map((bone,idx) => {
+            renderedHand = gameState.currentPlayer.hand.map((bone,idx) => {
 
                const singleBoneVal =  boneValToString(bone.boneVal)[0]
                const reactKeyVal = parseInt(singleBoneVal)
@@ -32,19 +35,9 @@ class Hand extends React.Component {
 
                 return constructBone(reactKeyVal, true,
                 pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
-                0, false, 0, 0, offSetCenter, idx, this.props.updateGame, board)
+                0, false, 0, 0, offSetCenter, idx, this.props.updateGame, gameState.arena, gameState)
 
-                // return <Bone 
-                // x={pos} 
-                // width={boneWidth}
-                // height={boneHeight}
-                // updateGame={this.props.updateGame}
-                // boneIdx={idx}
-                // offSetCenter={offSetCenter}
-                // draggable={true}
-                // key={reactKeyVal}
-                // src={allDominos[singleBoneVal]}
-                // inArena={false}/>    
+                
             })
 
         }

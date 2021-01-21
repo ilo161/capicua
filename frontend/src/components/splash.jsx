@@ -31,7 +31,14 @@ class Splash extends React.Component {
             >
             </input>
             <div className="start-game-btn-container">
-              <Link to={`/join`}>
+              <Link to={{pathname: `/joinSoloGame`,
+                        state: {
+                          title: "Solo Game",
+                          gameType: "solo",
+                          buttonText: "Start Game Vs AI",
+                          totalPlayers: 2
+                        }
+                        }}>
                 <button className="start-btn"> <span>Solo Game</span></button>
               </Link>
               <button className="start-btn"> <span>2-Player</span></button>
