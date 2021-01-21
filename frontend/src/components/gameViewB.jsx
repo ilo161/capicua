@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
 
-import Game from './game.jsx';
+import Game from './gameB.jsx';
 // import Chat from './chat/chat';
 
 
@@ -12,14 +12,13 @@ import Rules from './gameRule.jsx';
 import Navbar from './navrbar.jsx';
 
  export const GameViewComponent = (props) => {
-// regular
-debugger
+    // debugger
      return (
         <div className="master-game-container">
            <Navbar/>
 
            <div className="board-chat-container flex-row-start">
-               <Game/> 
+               <Game socket={props.socket} gameState={props.gameState}/> 
             <div className="flex-col-start">
                {/* <Chat/> */}
                {/* <Score/> */}

@@ -7,7 +7,6 @@ class Player {
       this.hand = [];
       this.isAi = isAi ? true : false;
       this.board = board;
-      this.playerInput = undefined;
       this.winningPlayerPoints = 0;
       this.aiDifficulty = aiDifficulty ? aiDifficulty : "easy";
 
@@ -80,6 +79,7 @@ class Player {
   }
 
 
-export default Player;
+// export default Player;
+module.exports = Player;
   
 

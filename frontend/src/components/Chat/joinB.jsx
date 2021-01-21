@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import HOST from "../../util/host";
-import {GameViewComponent} from '../gameView';
+import {GameViewComponent} from '../gameViewB';
 import Lobby from "./lobby"
 
 import './join.css';
@@ -20,7 +20,8 @@ class Join extends React.Component{
         buttonText: undefined,
         roomName: "",
         phase: "prelobby",
-        gameState: ""
+        gameState: "",
+        aiMove: ""
         
       }
 
@@ -31,6 +32,7 @@ class Join extends React.Component{
       this.handlePhaseChange = this.handlePhaseChange.bind(this);
       this.receiveGameState = this.receiveGameState.bind(this);
       this.handleGameStart = this.handleGameStart.bind(this);
+      this.receiveAiAutoPlayData = this.receiveAiAutoPlayData.bind(this);
     }
 
   componentDidMount(){
@@ -45,6 +47,8 @@ class Join extends React.Component{
       
       this.socket.on("changePhase", this.handlePhaseChange)
       this.socket.on("receiveGameState", this.receiveGameState)
+      this.socket.on("AiAutoPlayData", this.receiveAiAutoPlayData)
+
       
     })
 
@@ -80,7 +84,7 @@ class Join extends React.Component{
   }
 
   handleStartSolo() {
-    debugger
+    // debugger
     this.socket.emit("startSoloGame", {username: this.state.username});
     this.setState({ roomName: this.socket.id });
   }
@@ -90,17 +94,22 @@ class Join extends React.Component{
   }
 
   handlePhaseChange(phase){
-    debugger
+    // debugger
     this.setState({phase: phase})
-    debugger
+    // debugger
     // this.receiveGameState()
 
   }
 
   receiveGameState(gameState) {
-    debugger
+    // debugger
     this.setState({ gameState: gameState });
     debugger
+  }
+  
+  receiveAiAutoPlayData(aiMove) {
+      debugger
+    this.setState({aiMove: aiMove})
   }
 
     render(){
@@ -155,7 +164,7 @@ class Join extends React.Component{
                 )
 
               case "soloLobby":
-                debugger
+                // debugger
 
                 if(this.state.gameState){
                     return (
@@ -168,7 +177,8 @@ class Join extends React.Component{
 
               case "soloGameStart":
                 if(this.state.gameState){
-                    return(<GameViewComponent gameState={this.state.gameState}/>)
+                    // debugger
+                    return(<GameViewComponent socket={this.socket} gameState={this.state.gameState}/>)
                 }
                 
               

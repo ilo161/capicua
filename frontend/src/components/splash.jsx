@@ -35,7 +35,8 @@ class Splash extends React.Component {
                         state: {
                           title: "Solo Game",
                           gameType: "solo",
-                          buttonText: "Start Game Vs AI"
+                          buttonText: "Start Game Vs AI",
+                          totalPlayers: 2
                         }
                         }}>
                 <button className="start-btn"> <span>Solo Game</span></button>

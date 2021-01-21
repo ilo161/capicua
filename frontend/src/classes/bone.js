@@ -1,8 +1,8 @@
 class Bone {
-    constructor(boneVal){
+    constructor(boneVal, isReversed = false){
         [this.topNumber, this.bottomNumber] = boneVal
         this.boneVal = boneVal;
-        this.isReversed = false
+        this.isReversed = isReversed
         // this.isRotated = false;
     }
 
@@ -26,5 +26,5 @@ class Bone {
 
 
 
-export default Bone;
-// module.exports = Bone;
+// export default Bone;
+module.exports = Bone;

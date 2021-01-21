@@ -5,6 +5,10 @@ import { set } from "mongoose";
 import {allDominos} from "./allDominos"
 import Chat from './chat/chat';
 import Score from './gameScore.jsx';
+import Countdown from "./countdownS";
+
+//testing
+// import Countdown from "./countdownS"
 
 
 //one player game below
@@ -12,7 +16,7 @@ import Score from './gameScore.jsx';
 
 
 // two player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
+const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
 // two player AI below
 // const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}]
 
@@ -29,8 +33,8 @@ import Score from './gameScore.jsx';
 // {username: "prophecy!"}]
 
 // 4 player ai below
-const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
-, {username: "idrakeUfake", isAi: true}, {username: "prophecy!", isAi: true}]
+// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
+// , {username: "idrakeUfake", isAi: true}, {username: "prophecy!", isAi: true}]
 
 class Game extends React.Component {
     _isMounted = false;
@@ -38,30 +42,31 @@ class Game extends React.Component {
     constructor(props){
         super(props)
         const board = new BoardObject(axiosPlayerObj, 900)
+       
         this.state = {
             board: board,
-            previousPlayersArr: undefined
         }
         this.previousPlayersArr = undefined;
         this.updateGame = this.updateGame.bind(this);
         this.restartGame = this.restartGame.bind(this);
-        this.countdownTicker = 10;
-        this.countdown = this.countdown.bind(this)
+
+
         this.hasAiGone = false;
         this.oldArenaLen = undefined;
         this.oldTimeIds = [];
     }
 
-    // autoStartNextRound(e, isNewGame = undefined){
-    //     setTimeout(()=>{
-    //         if (isNewGame){
-    //             this.restartGame(e, true)
-    //         }else {
-    //             this.restartGame()
-    //         }
-    //     }, 5000);
-    // }
     
+    findCurrentPlayer(username){
+        let currentPlayer;
+        this.state.board.players.forEach(player => {
+            if(player.username === username){
+                currentPlayer = player
+            }
+        })
+
+        return currentPlayer
+    }
 
     componentDidUpdate(prevProps) {
 
@@ -77,7 +82,7 @@ class Game extends React.Component {
 
     forceAiAutoPlay(){
         if(this.state.board.currentPlayer.isAi === true){
-                debugger
+                // debugger
                 if(!this.hasAiGone){
                     this.oldArenaLen = this.state.board.arena.length;
 
@@ -87,32 +92,12 @@ class Game extends React.Component {
                     }
                     this.hasAiGone = true;
                 }
-                debugger
+                // debugger
                 this.hasAiGone = false;
         }
     }
 
-    countdown(e, isNewGame = undefined){
-        // while(this.countdownTicker >= 0){
-        // }
-        this.countdownTicker = (this.countdownTicker - 1)
-        // debugger
-        setTimeout(() =>{
-            this.countdown()
-        }, 1000).bind(this);
-        console.log(this.countdownTicker)
-        
-        if (this.countdownTicker === 0){
-            if (isNewGame) {
-                this.restartGame(e, true)
-            } else {
-                this.restartGame()
-            }
-            this.countdownTicker = 10;
-        }
-        // return this.countdownTicker;
-    }
-
+   
     componentDidMount(){
         if(this.state.board.inSession && this.state.board.arena.length === 1){
             this.oldTimeIds.push(setTimeout(()=>{
@@ -120,22 +105,16 @@ class Game extends React.Component {
             },500))
             
         }
-        // debugger
-        this._isMounted = true;
-        // this.autoStartNextRound = setTimeout(this.restartGame, 10000); 
-        // clearTimeout(this.autoStartNextRound);
-        // debugger
-        console.log(this.state.board)
-
+        
     }
 
     componentWillUnmount(){
-        debugger
+
         this._isMounted = false;
         this.oldTimeIds.forEach((id) => {
             clearTimeout(id)
         })
-        // clearTimeout(this.autoStartNextRound);
+
     }
 
     restartGame(e, isNewGame = undefined) {
@@ -275,7 +254,9 @@ class Game extends React.Component {
                         <div className='modal-content'>
                             <p>{text}</p>
                             <p>{text2}</p>
-                            {endGameButton ? endGameButton : button}
+                            <Countdown restartGame={this.restartGame} endGame={endGame} />
+                            {/* {endGameButton ? endGameButton : button} */}
+                            
                         </div>
                         <img className="capicua-domino" src={allDominos["cd"]}></img>
                     </div>
