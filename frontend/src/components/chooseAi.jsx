@@ -16,14 +16,16 @@ const ChooseAi = (props) => {
 
   return (
     <div className="lobbyOuterContainer">
-      <div className="lobbyInnerContainer">
+      <div className="lobbyInnerContainer flex-col-start">
         <h1 className="heading">{props.username} vs how many A.I?</h1>
-        <div className="lobbyPlayers flex-col-center">
-        {/* {allUsernames} */}
-        <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(1)} type="submit">1</button><p></p>
-        <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(2)} type="submit">2</button><p></p>
-        <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(3)} type="submit">3</button><p></p>
+        <div className='flex-row-center'>
+            <div className="lobbyPlayers flex-col-center">
+            {/* {allUsernames} */}
+                <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(1)} type="submit">1</button><p></p>
+                <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(2)} type="submit">2</button><p></p>
+                <button className={'button-circle'} onClick={() => props.handleSetAiPlayers(3)} type="submit">3</button><p></p>
 
+            </div>
         </div>
         {/* <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/play_game?name=${name}&room=${room}`}> */}
         {/* <button className={'button mt-20'}

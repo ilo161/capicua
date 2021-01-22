@@ -5,6 +5,7 @@ import HOST from "../../util/host";
 import {GameViewComponent} from '../gameViewB';
 import ChooseAi from "../chooseAi"
 import Lobby from "./lobby"
+import {capitalize, truncate} from "../../util/strUtil"
 
 import './join.css';
 
@@ -90,8 +91,14 @@ class Join extends React.Component{
   }
 
   update(field){
-    // console.log(this.state.username)
-     return e => this.setState({[field]: e.currentTarget.value})
+    let truncated; 
+    return e => {
+      if(e.currentTarget.value.length > 12){
+          truncated = truncate(e.currentTarget.value, 12);
+      } else if(e.currentTarget.value.length > 0){
+          this.setState({[field]: truncated ? capitalize(truncated) : capitalize(e.currentTarget.value)})
+        }
+     }
   }
 
   handleStartSoloServer(e, isOnline) {
@@ -144,17 +151,27 @@ class Join extends React.Component{
       let showInputField;
       let displayPhase;
       let players = [];
+
+      
       
       // FN to generate AI Player objects 
       const generateAiPlayers = () => {
-        players.push({username: this.state.username})
+        // players.push({username: this.state.username})
+        // debugger
+        players.push({username: capitalize(this.state.username)})
 
         const superHeroes = ["Peter Parker", "Bruce Wayne", "Clark Kent", "Diane Prince", 
           "Barbara Gordon", "Kara Danvers", "Carol Danvers", "Wally West",
           "Jon Stewart", "Virgil Hawkins"]
 
+        // const superHeroes = ["Peter Parker", "Bruce Wayne", "Clark Kent"]
+
           let aiPlayer;
-          //FN prevent duplicate names
+          const existingUsernames = {}
+
+          existingUsernames[this.state.username.toLowerCase()] = this.state.username.toLowerCase()
+
+          //FN prevent duplicate names for iterative solution
           const isDuplicate = (existingPlayer) => existingPlayer.username === aiPlayer.username
           
           
@@ -162,16 +179,27 @@ class Join extends React.Component{
               let randomIdx = Math.floor(Math.random() * superHeroes.length);
               let aiUsername = superHeroes[randomIdx];
               aiPlayer = {username: aiUsername, isAi: true}
+              
+              // iterative solution
+              // while(players.some(isDuplicate)){
+              //   randomIdx = Math.floor(Math.random() * superHeroes.length);
+              //   aiUsername = superHeroes[randomIdx];
+              //   aiPlayer = {username: aiUsername, isAi: true}
+              // }
 
-              while(players.some(isDuplicate)){
-                randomIdx = Math.floor(Math.random() * superHeroes.length);
-                aiUsername = superHeroes[randomIdx];
-                aiPlayer = {username: aiUsername, isAi: true}
-              }
+              //hash access solution
+                while(existingUsernames[aiPlayer.username.toLowerCase()] === aiPlayer.username.toLowerCase()){
+                  debugger
+                    randomIdx = Math.floor(Math.random() * superHeroes.length);
+                    aiUsername = superHeroes[randomIdx];
+                    aiPlayer = {username: aiUsername, isAi: true}
+                }
+
+              existingUsernames[aiPlayer.username.toLowerCase()] = aiPlayer.username.toLowerCase()
               players.push(aiPlayer)
 
           }
-          
+
           this.setState({players: players}, ()=> {
             return players;
           })
@@ -219,6 +247,7 @@ class Join extends React.Component{
           const buttonToOfflineGame = <button className={'button mt-20'} 
                         onClick={(e) => this.handleStartSoloServer(e, false)}
                         type="submit">{this.state.buttonText}</button>
+                        
           switch(this.state.phase){
               case "prelobby":
                 return (
