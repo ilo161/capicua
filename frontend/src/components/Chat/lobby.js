@@ -4,8 +4,9 @@ import bodega from "../../assets/img/La_Bodega.jpg"
 
 const Lobby = (props) => {
   const {players, totalPlayers} = props;
-  // debugger
+  debugger
     let buttonText;
+
     const allUsernames = players.map(player => {
       return (
           <p key={player.username}>{player.username} has joined!</p>

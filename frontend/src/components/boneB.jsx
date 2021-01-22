@@ -125,7 +125,7 @@ class Bone extends React.Component {
       
 
     //   if (this.state.gameState.arena.length <= 15){
-        debugger
+        // debugger
       if (this.state.arena.length <= 15){
         if (yCoord < -50) {
 

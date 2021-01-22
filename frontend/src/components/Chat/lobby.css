@@ -49,9 +49,28 @@
   width: 100%;
 }
 
+.button-circle{
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #B82032;
+  padding: 5px;
+  border-radius: 35px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+  margin-bottom: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
+
+/* .chooseAi{
+  padding: 100px;
+} */
 
 button:focus {
   outline: 0;

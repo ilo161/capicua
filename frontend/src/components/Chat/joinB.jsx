@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import HOST from "../../util/host";
 import {GameViewComponent} from '../gameViewB';
+import ChooseAi from "../chooseAi"
 import Lobby from "./lobby"
 
 import './join.css';
@@ -15,25 +16,30 @@ class Join extends React.Component{
       this.state = {
         gameType: undefined,
         title: undefined,
+        players: null,
         username: "",
         totalPlayers: undefined,
         roomName: "",
-        inOnline: "",
+        isOnline: undefined,
         buttonText: undefined,
         phase: "prelobby",
         gameState: "",
-        aiMove: ""
+        aiMove: "",
+        numAiPlayers: undefined,
         
       }
 
       this.socket = null;
 
       this.update = this.update.bind(this);
-      this.handleStartSolo = this.handleStartSolo.bind(this);
+      this.handleStartSoloServer = this.handleStartSoloServer.bind(this);
       this.handlePhaseChange = this.handlePhaseChange.bind(this);
       this.receiveGameState = this.receiveGameState.bind(this);
       this.handleGameStart = this.handleGameStart.bind(this);
       this.receiveAiAutoPlayData = this.receiveAiAutoPlayData.bind(this);
+
+      //Offline settings
+      this.handleSetAiPlayers = this.handleSetAiPlayers.bind(this);
     }
 
   componentDidMount(){
@@ -88,19 +94,25 @@ class Join extends React.Component{
      return e => this.setState({[field]: e.currentTarget.value})
   }
 
-  handleStartSoloServer(e, pingServer) {
-    // debugger
-    if(pingServer){
+  handleStartSoloServer(e, isOnline) {
+    debugger
+    if(isOnline){
+      debugger
       this.socket.emit("startSoloGame", {username: this.state.username});
       this.setState({ roomName: this.socket.id });  
     } else {
-      // this.setState
+      debugger
+      this.setState({phase: "soloLobby"})
     }
     
   }
 
   handleGameStart(){
-    this.socket.emit("gameStartRender")
+    if (this.state.isOnline){
+      this.socket.emit("gameStartRender")
+    } else {
+      this.setState({phase: "soloGameStart"})
+    }
   }
 
   handlePhaseChange(phase){
@@ -122,10 +134,54 @@ class Join extends React.Component{
     this.setState({aiMove: aiMove})
   }
 
+  handleSetAiPlayers(num){
+    debugger
+    this.setState({numAiPlayers: num})
+  }
+
     render(){
 
       let showInputField;
       let displayPhase;
+      let players = [];
+      
+      // FN to generate AI Player objects 
+      const generateAiPlayers = () => {
+        players.push({username: this.state.username})
+
+        const superHeroes = ["Peter Parker", "Bruce Wayne", "Clark Kent", "Diane Prince", 
+          "Barbara Gordon", "Kara Danvers", "Carol Danvers", "Wally West",
+          "Jon Stewart", "Virgil Hawkins"]
+
+          let aiPlayer;
+          //FN prevent duplicate names
+          const isDuplicate = (existingPlayer) => existingPlayer.username === aiPlayer.username
+          
+          
+          for(let i = 0; i < this.state.numAiPlayers; i++){
+              let randomIdx = Math.floor(Math.random() * superHeroes.length);
+              let aiUsername = superHeroes[randomIdx];
+              aiPlayer = {username: aiUsername, isAi: true}
+
+              while(players.some(isDuplicate)){
+                randomIdx = Math.floor(Math.random() * superHeroes.length);
+                aiUsername = superHeroes[randomIdx];
+                aiPlayer = {username: aiUsername, isAi: true}
+              }
+              players.push(aiPlayer)
+
+          }
+          
+          this.setState({players: players}, ()=> {
+            return players;
+          })
+
+      }
+
+      // this sets the State with Random AI usernames
+      if(!this.state.players && this.state.numAiPlayers){
+        players = generateAiPlayers()
+      }
 
       const chooseGameType = () => {
         if(this.state.gameType){
@@ -171,10 +227,10 @@ class Join extends React.Component{
                       <h1 className="heading">{this.state.title}</h1>
                       {showInputField}
                       {/* <Link to={`/lobby`} > */}
-                      {/* {this.state.isOnline ? buttonToServer : } */}
-                        <button className={'button mt-20'} 
+                      {this.state.isOnline ? buttonToServer : buttonToOfflineGame}
+                        {/* <button className={'button mt-20'} 
                         onClick={this.handleStartSolo}
-                        type="submit">{this.state.buttonText}</button>
+                        type="submit">{this.state.buttonText}</button> */}
                       {/* </Link> */}
                     </div>
                   </div>
@@ -184,18 +240,33 @@ class Join extends React.Component{
                 // debugger
 
                 if(this.state.gameState){
+                  //this starts an online Lobby
                     return (
                       // <GameViewComponent board={this.state.gameState}/>
                       <Lobby players={this.state.gameState.players}
                       totalPlayers={this.state.totalPlayers}
                       handleGameStart={this.handleGameStart}/>
-                  )
+                   )
+                } else if(!this.state.isOnline && !this.state.numAiPlayers){
+                    return (<ChooseAi handleSetAiPlayers={this.handleSetAiPlayers} 
+                      username={this.state.username}/>)
+
+                    
+                } else if(this.state.players){
+                  // debugger
+                    return (<Lobby username={this.state.username} 
+                        players={this.state.players}
+                        totalPlayers={this.state.numAiPlayers + 1}
+                        handleGameStart={this.handleGameStart}/> )
                 }
 
               case "soloGameStart":
+                debugger
                 if(this.state.gameState){
                     // debugger
                     return(<GameViewComponent socket={this.socket} gameState={this.state.gameState}/>)
+                } else if (!this.state.isOnline && this.state.players){
+                  debugger
                 }
                 
               

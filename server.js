@@ -361,11 +361,7 @@ io.on('connection', socket => {
 
 // Steven Below
 
-// Socket.io 
-// const socketio = require('socket.io');
-// const http = require('http');
-// const server = http.createServer(app);
-// const io = socketio(server);
+
 
 const router = require('./router');
 // const { useParams } = require("react-router-dom");

@@ -299,7 +299,7 @@ class Board {
         // second test checks top number of player hand bone second
         //orig below
         // if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
-            debugger
+            // debugger
         if((bone.boneVal[1] !== arenaLeftBoneVal) && (bone.boneVal[0] === arenaLeftBoneVal)){
             
             bone.boneReverse();
@@ -330,7 +330,7 @@ class Board {
         
         //orig below
         // if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
-            debugger
+            // debugger
         if((bone.boneVal[0] !== arenaRightBoneVal) && (bone.boneVal[1] === arenaRightBoneVal)){
             
                 bone.boneReverse();

@@ -19,6 +19,10 @@ class Board extends React.Component {
         // const
     }
 
+    componentDidUpdate(prevProps, nextState){
+        debugger
+    }
+
     
 
     render(){
