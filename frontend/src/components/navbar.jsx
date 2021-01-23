@@ -23,7 +23,7 @@ class Navbar extends React.Component {
         
         
         return(
-            <div className="navbar-container">
+            <div className="navbar-container flex-row-start">
                 <nav className="navbar">
                      <h2 className="nav-title">capicua</h2>
                      <div className="engineers-music-rules">
@@ -54,7 +54,7 @@ class Navbar extends React.Component {
                         </div>
                      </div>
                      <Music/>
-                        <button className="music-rules-btn" onClick={this.showModal} >Rule's♫ </button>
+                        <button className="music-rules-btn" onClick={this.showModal} >Rule's</button>
                         <div className="modal-container">
                             <div className="modal">
                                 <div className="rules-music-container">

@@ -9,26 +9,20 @@ import Game from './game.jsx';
 import bodega from "../assets/img/La_Bodega.jpg"
 // import Score from './gameScore.jsx';
 import Rules from './gameRule.jsx';
-import Navbar from './navrbar.jsx';
+import Navbar from './navbar.jsx';
 
 export const GameViewComponent = () => {
      return (
-        <div className="master-game-container">
+        <div className="master-game-container flex-col-start">
+
            <Navbar/>
 
-           <div className="board-chat-container flex-row-start">
+           <div className="flex-row-start">
                <Game/> 
-            <div className="flex-col-start">
-               {/* <Chat/> */}
-               {/* <Score/> */}
-
-            </div>
+           
            </div>
 
-           <div className="score-rules-container" >
-            {/* <Score/> */}
-            
-           </div>
+
            <img src={bodega} alt="bodega" className="bodega-img" ></img>
         </div>
      )

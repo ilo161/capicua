@@ -1,28 +1,25 @@
 import React from "react";
 import '../stylesheets/music.css';
-
-
-const track1 = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3";
-const track2 = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3";
-const track3 = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3";
+import basic from'../assets/music/BasicMusic.mp3'
+import mild from'../assets/music/mildMusic.mp3'
+import Caliente from'../assets/music/calienteMusic.mp3'
+const track1 = basic;
+const track2 = mild;
+const track3 = Caliente;
 
 class Music extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            selectedTrack: null,
+            selectedTrack: "null",
             player: "stopped",
             value: null
         }
 
         this.soundCheck =this.soundCheck.bind(this);
+        this.playMusic =this.playMusic.bind(this);
     }
-    // state = {
-    //     selectedTrack: null,
-    //     player: "stopped",
-    //     value: 100
 
-    // }
 
     componentDidUpdate(prevProps, prevState){
         if (this.state.selectedTrack !== prevState.selectedTrack) {
@@ -69,6 +66,16 @@ class Music extends React.Component {
         console.log(this.state.value)
     }
 
+    playMusic(){
+        debugger
+        
+        if ((this.state.player === "stopped" || this.state.player === "paused")){
+            this.setState({ player: "playing", selectedTrack: this.state.selectedTrack })
+            debugger
+        }
+        debugger
+    }
+
 
     render(){
         const musicList = [
@@ -76,18 +83,23 @@ class Music extends React.Component {
             { id: 2, title: "Mild" },
             { id: 3, title: "Caliente"}
         ].map(item => {
+            {/* this is where i change and insert a photo */ }
             return(
                 <li
+                className="song1"
                 key={item.id}
                 onClick={() => this.setState({selectedTrack: item.title})}
                 >
-                    {item.title} {/* this is where i change and insert a photo */}
+                    {item.title} 
                 </li>
             )
         })
+
+    
+        
         return(
         <div className="music-container">
-            <h1>Play Song</h1>
+            <h1 className="music-title">Play Song</h1>
             <div className="songs-container">
                 <ul className="songs">{musicList}</ul>
             </div>
@@ -97,6 +109,18 @@ class Music extends React.Component {
                         Play
                     </button>
                 )}
+
+                
+                    {/* <button onClick={this.state.player === "paused" && (() => this.setState({ player: "playing" }))}>
+                        Play
+                    </button>
+              */}
+
+
+
+                    {/* <button onClick={this.playMusic}>
+                        Play
+                    </button> */}
                 {this.state.player === "playing" && (
                     <button onClick={() => this.setState({ player: "paused" })}>
                         Pause
@@ -111,15 +135,19 @@ class Music extends React.Component {
                 )} 
              </div>
             <audio ref={ref => (this.player = ref)} />
-            <input 
-            type="range" 
-            min="0" 
-            max="1" 
-            defaultValue="1" 
-            className="volume-slider"
-            step="0.01"
-            onChange={this.soundCheck} 
-            />
+            <div className="music-vol-container">
+
+                <input 
+                className="music-vol"
+                type="range" 
+                min="-0.0" 
+                max="1" 
+                defaultValue="1" 
+                className="volume-slider"
+                step="0.01"
+                onChange={this.soundCheck} 
+                />
+            </div>
         </div>)
     }
 }

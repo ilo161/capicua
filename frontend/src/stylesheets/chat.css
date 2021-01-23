@@ -1,45 +1,76 @@
-.form-container{
-    /* display: flex; */
-    /* border: 1px solid black;
-    width: 50vh;
-    color: rgb(65, 78, 128);
-    font-size: 18px;
-    font-weight: 900;
-    background-color: rgba(246, 146, 45, 0.500); */
-  /* display: flex; */
-  /* flex-direction: column; */
+.chatBox-domino-container{
+    width: 100%;
+    height: 450px;
+}
 
-  
-  width: 400px;
-  height: 50vh;
+.form-container{
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 2px 2px 20px;
-  background-color: rgba(246, 146, 45, 0.500);
-  border: 1px solid black;
+  /* box-shadow: 2px 2px 20px; */
+  background-color:  rgba(0, 0, 0, 0.7);
+  border: 5px solid grey;
+  /* border: 5px solid rgb(255, 121, 115); */
+
+}
+
+.max-height{
+    height: 100%;
 }
 
 .header h1 {
-    margin: 15px;
-    right: 20vh;
+    margin: 7px;
     font-weight: bold;
-
+    font-size: 25px;
+    color: white;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: .70px
 }
 
 .msg-area {
     color: white;
-    width: 85%;
-    height: 65%;
-    margin: 20px;
+    width: 100%;
+    height: 80%;
+    /* margin: 20px; */
     background-color:  rgba(0, 0, 0, 0.7);
-    padding: 20px 30px;
+    /* padding: 20px 30px; */
+    overflow: auto;
 
 }
 
 .send-textarea {
-    padding: 3px;
+    padding: 5px;
     color: white;
+    font-size: 20px;
+}
+
+
+.text-area{
+    width: 100%;
+    height: 46px;
+}
+
+.input-textarea{
+    width: 87%;
+    height: 46px;
+    font-size: 18px;
+    border: none;
+}
+
+.send-button{
+    /* margin-bottom: 8px; */
+    height: 47px;
+    width: 52px;
+    background-color: rgb(84, 180, 198);
+    font-weight: 900;
+    border: none;
+    cursor: pointer;
+}
+
+.capicua-domino-lrg{
+    width:  30%;
+    /* margin: 5px; */
 
 }
