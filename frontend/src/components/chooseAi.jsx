@@ -27,13 +27,11 @@ const ChooseAi = (props) => {
 
             </div>
         </div>
-        {/* <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/play_game?name=${name}&room=${room}`}> */}
-        {/* <button className={'button mt-20'}
-         type="submit"
-         >{buttonText}</button> */}
-         {/* //  onClick={props.handleGameStart} */}
-        <div className="lds-ripple"><div></div><div></div></div>
-        {/* </Link> */}
+
+         <div className='flex-row-center'>
+            <div className="lds-ripple"><div></div><div></div></div>
+        </div>
+
       </div>
       <img src={bodega} alt="bodega" className="bodega-img-splash" ></img>
     </div>

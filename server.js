@@ -8,6 +8,10 @@ const app = express();
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
+
+// app.get("/join2playergame", (req,res) => {
+//   console.log("2")
+// })  
 // const mongoose = require("mongoose");
 // const db = require("./config/keys").mongoURI;
 // const users = require("./routes/api/users");
@@ -84,11 +88,6 @@ const io = require('socket.io')(server);
 
 const PORT = process.env.PORT || 5000;
 
-// const cfg = require('config.json');
-// const tw = require('node-tweet-stream')(cfg);
-// tw.track('socket.io');
-// tw.track('javascript');
-
 let rooms = {};
 let roomSockets = {}
 
@@ -98,16 +97,23 @@ io.on('connection', socket => {
   socket.on("startSoloGame", (data) => {
     console.log("starting solo Game")
 
+    // socket ID is room name
     let roomName = socket.id;
+    // join a room
     socket.join(roomName);
+    
+    //construct data
     const playerData = [{username: "Cyborg", isAi: false},
     {username: data.username, isAi: false}]
 
+    //create Room Object
     let newRoom = new SoloRoom(roomName, io, playerData);
     rooms[roomName] = newRoom;
 
+    //create game inside room object
     newRoom.createGame();
-    // let gameData = {"phase":"solo", "newRoom": newRoom}
+
+    //tell client game is ready
     socket.emit("changePhase", "soloLobby")
     // socket.to(roomName).emit("changePhase", "solo")
 

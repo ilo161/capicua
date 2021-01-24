@@ -6,10 +6,11 @@ import {GameViewComponent} from '../gameViewB';
 import ChooseAi from "../chooseAi"
 import Lobby from "./lobby"
 import {capitalize, truncate} from "../../util/strUtil"
+import bodega from "../../assets/img/La_Bodega.jpg"
 
 import './join.css';
 
-// const Join = (props) => {
+
 class Join extends React.Component{
     constructor(props){
       super(props)
@@ -27,16 +28,21 @@ class Join extends React.Component{
         gameState: "",
         aiMove: "",
         numAiPlayers: undefined,
+        joinOrCreate: undefined,
+        placeholderError: "Choose your Username"
         
       }
 
       this.socket = null;
 
       this.update = this.update.bind(this);
-      this.handleStartSoloServer = this.handleStartSoloServer.bind(this);
       this.handlePhaseChange = this.handlePhaseChange.bind(this);
       this.receiveGameState = this.receiveGameState.bind(this);
       this.handleGameStart = this.handleGameStart.bind(this);
+      this.handleSetJoinOrCreate = this.handleSetJoinOrCreate.bind(this);
+
+      //testing
+      this.handleStartSoloServer = this.handleStartSoloServer.bind(this);
       this.receiveAiAutoPlayData = this.receiveAiAutoPlayData.bind(this);
 
       //Offline settings
@@ -48,6 +54,7 @@ class Join extends React.Component{
     // debugger
     
     if(this.props.location.state.isOnline === true){
+      debugger
       this.socket = io(HOST);
       this.socket.on('connect', socket => {
 
@@ -97,20 +104,27 @@ class Join extends React.Component{
           truncated = truncate(e.currentTarget.value, 12);
       } else if(e.currentTarget.value.length > 0){
           this.setState({[field]: truncated ? capitalize(truncated) : capitalize(e.currentTarget.value)})
-        }
+      }else{
+        this.setState({[field]:e.currentTarget.value})
+      }
      }
   }
 
   handleStartSoloServer(e, isOnline) {
     debugger
-    if(isOnline){
-      debugger
-      this.socket.emit("startSoloGame", {username: this.state.username});
-      this.setState({ roomName: this.socket.id });  
-    } else {
-      debugger
-      this.setState({phase: "soloLobby"})
+    if(this.state.username != ""){
+        if(isOnline){
+          debugger
+          this.socket.emit("startSoloGame", {username: this.state.username});
+          this.setState({ roomName: this.socket.id });  
+      } else {
+          debugger
+          this.setState({phase: "soloLobby"})
+      }
+    }else if(this.state.username === ""){
+      this.setState({placeholderError: "Username cannot be empty"})
     }
+    
     
   }
 
@@ -146,6 +160,10 @@ class Join extends React.Component{
     this.setState({numAiPlayers: num})
   }
 
+  handleSetJoinOrCreate(str){
+    this.setState({joinOrCreate: str})
+  }
+
     render(){
 
       let showInputField;
@@ -172,21 +190,14 @@ class Join extends React.Component{
           existingUsernames[this.state.username.toLowerCase()] = this.state.username.toLowerCase()
 
           //FN prevent duplicate names for iterative solution
-          const isDuplicate = (existingPlayer) => existingPlayer.username === aiPlayer.username
+          // const isDuplicate = (existingPlayer) => existingPlayer.username === aiPlayer.username
           
           
           for(let i = 0; i < this.state.numAiPlayers; i++){
               let randomIdx = Math.floor(Math.random() * superHeroes.length);
               let aiUsername = superHeroes[randomIdx];
               aiPlayer = {username: aiUsername, isAi: true}
-              
-              // iterative solution
-              // while(players.some(isDuplicate)){
-              //   randomIdx = Math.floor(Math.random() * superHeroes.length);
-              //   aiUsername = superHeroes[randomIdx];
-              //   aiPlayer = {username: aiUsername, isAi: true}
-              // }
-
+            
               //hash access solution
                 while(existingUsernames[aiPlayer.username.toLowerCase()] === aiPlayer.username.toLowerCase()){
                   debugger
@@ -212,58 +223,134 @@ class Join extends React.Component{
       }
 
       const chooseGameType = () => {
+        const userAndRoomInput =
+                    <>
+                    <div>
+                      <input placeholder={this.state.placeholderError}
+                      value={this.state.username} 
+                      onChange={this.update("username")} className="joinInput" type="text" />
+                    </div>
+                    <div>
+                      <input placeholder="Room" 
+                      value={this.state.roomName}
+                      onChange={this.update("roomName")}
+                      className="joinInput mt-20" type="text" />
+                    </div>
+                    </>
+                  
+
         if(this.state.gameType){
             switch(this.state.gameType){
               case "solo":
                 return (
                   <div>
-                    <input placeholder="Choose your Username"
+                    <input placeholder={this.state.placeholderError}
                     value={this.state.username}
                     onChange={this.update("username")} className="joinInput" type="text" />
                   </div>
                 )
 
                 case "multiplayer":
-                  return (
-                    <>
-                    <div>
-                      <input placeholder="Choose your Username" className="joinInput" type="text" />
-                    </div>
-                    <div>
-                      <input placeholder="Room" className="joinInput mt-20" type="text" />
-                    </div>
-                    </>
-                  )
+                  // plus lobby phase
+                  switch(this.state.joinOrCreate){
+
+                    default: 
+                      return(userAndRoomInput)
+
+                  }
+              
+                  // return (
+                  //   <>
+                  //   <div>
+                  //     <input placeholder={this.state.placeholderError}
+                  //     value={this.state.username} 
+                  //     onChange={this.update("username")} className="joinInput" type="text" />
+                  //   </div>
+                  //   <div>
+                  //     <input placeholder="Room" className="joinInput mt-20" type="text" />
+                  //   </div>
+                  //   </>
+                  // )
           }
         }
           
       }
 
       const displayPhaseFn = () => {
-          const buttonToServer = <button className={'button mt-20'} 
-                        onClick={(e) => this.handleStartSoloServer(e, true)}
-                        type="submit">{this.state.buttonText}</button>
+          let joinAndCreateText = ["Join Room", "Create Room"];
+          let buttonToJoinServer;
+          let buttonToCreateServer;
+          let buttonToOfflineGame;
 
-          const buttonToOfflineGame = <button className={'button mt-20'} 
+          if(this.state.buttonText){
+            debugger
+            buttonToJoinServer = <button className={'button mt-20'} 
+                        onClick={(e) => this.handleStartSoloServer(e, true)}
+                        type="submit">{this.state.buttonText[0]}</button>
+
+            buttonToCreateServer = <button className={'button mt-20'} 
+                        onClick={(e) => this.handleStartSoloServer(e, true)}
+                        type="submit">{this.state.buttonText[1]}</button>
+
+            buttonToOfflineGame = <button className={'button mt-20'} 
                         onClick={(e) => this.handleStartSoloServer(e, false)}
                         type="submit">{this.state.buttonText}</button>
-                        
+          }
+          
+
+          // Simple dual button - Join - Create
+          const joinAndCreateArr = joinAndCreateText.map(text => {
+            let callbackFn;
+            if(text === "Join Room"){
+                callbackFn = (e) =>{
+                 this.handleSetJoinOrCreate("join") 
+                 this.handlePhaseChange("startServer")
+                }
+            }else {
+                callbackFn = (e) => {
+                  this.handleSetJoinOrCreate("create")
+                  this.handlePhaseChange("startServer")
+                }
+            }
+            return (
+                    <button className={'button mt-20 mlr-5'} 
+                        onClick={callbackFn}
+                        type="submit">{text}
+                    </button>
+            )
+          })
+
           switch(this.state.phase){
               case "prelobby":
                 return (
                   <div className="joinOuterContainer">
                     <div className="joinInnerContainer">
                       <h1 className="heading">{this.state.title}</h1>
-                      {showInputField}
-                      {/* <Link to={`/lobby`} > */}
-                      {this.state.isOnline ? buttonToServer : buttonToOfflineGame}
-                        {/* <button className={'button mt-20'} 
-                        onClick={this.handleStartSolo}
-                        type="submit">{this.state.buttonText}</button> */}
-                      {/* </Link> */}
+                        {/* <div className="flex-row-start evenly">  */}
+                        {/* this.state.joinOrCreate === "join" */}
+                        {this.state.isOnline ? 
+                          <div className="flex-row-start evenly">{joinAndCreateArr}</div> : showInputField}
+
+                        {this.state.isOnline ? null : buttonToOfflineGame}
+                        
                     </div>
+                    <img src={bodega} alt="bodega" className="bodega-img-splash" ></img>
                   </div>
                 )
+
+              case "startServer":
+                      return(
+                        <div className="joinOuterContainer">
+                          <div className="joinInnerContainer">
+                            <h1 className="heading">{this.state.title}</h1>
+                              {showInputField}
+                              {this.state.joinOrCreate === "join" ? 
+                        buttonToJoinServer : buttonToCreateServer }
+                          </div>
+                          <img src={bodega} alt="bodega" className="bodega-img-splash" ></img>
+                        </div>
+                      )
+
 
               case "soloLobby":
                 // debugger
@@ -297,6 +384,9 @@ class Join extends React.Component{
                 } else if (!this.state.isOnline && this.state.players){
                   debugger
                 }
+
+              
+
                 
               
 
