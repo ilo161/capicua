@@ -47,8 +47,9 @@
   border-radius: 5px;
   display: inline-block;
   border: none;
-  width: 100%;
+  width: 80%;
 }
+
 
 .button-circle{
   color: #fff;
@@ -61,6 +62,17 @@
   border: none;
   width: 20%;
   margin-bottom: 10px;
+}
+
+.attentive-voice{
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
+  color: black;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
 .mt-20 {

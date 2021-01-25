@@ -3,7 +3,7 @@ import './lobby.css';
 import bodega from "../../assets/img/La_Bodega.jpg"
 
 const Lobby = (props) => {
-  const {players, totalPlayers} = props;
+  const {players, totalPlayers, joinOrCreate} = props;
   debugger
     let buttonText;
 
@@ -13,12 +13,13 @@ const Lobby = (props) => {
       )
     })
 
-    buttonText = players.length === totalPlayers ? "StartGame" : "Waiting for players";
+
+    buttonText = players.length === totalPlayers ? "Start Game" : "Waiting for players";
 
   return (
     <div className="lobbyOuterContainer">
       <div className="lobbyInnerContainer flex-col-start">
-          <h1 className="heading">LOBBY</h1>
+          {props.roomName ? <h1 className="heading">{props.roomName.toUpperCase()}</h1> : <h1 className="heading">LOBBY</h1>}
 
           <div className='flex-row-center'>
             <div className="lobbyPlayers flex-col-center">
@@ -27,11 +28,20 @@ const Lobby = (props) => {
           </div>
 
           {/* <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/play_game?name=${name}&room=${room}`}> */}
-          <button className={'button mt-20'}
+         {joinOrCreate === "create" ?
+         totalPlayers === players.length ? 
+         <button className={'button mt-20 server-start-btn'}
             type="submit"
             onClick={props.handleGameStart}
             >{buttonText}
           </button>
+          :
+          <button className={'button mt-20 server-start-btn'}
+            type="submit"
+            disabled={true}
+            >{buttonText}
+          </button> : <p className="attentive-voice">Waiting on Host to start the game</p>}
+
 
           <div className='flex-row-center'>
             <div className="lds-ripple"><div></div><div></div></div>

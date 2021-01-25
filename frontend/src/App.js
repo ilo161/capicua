@@ -19,6 +19,7 @@ function App() {
           {/* <Route exact path="/join" component={Join} /> */}
           <Route exact path="/joinSoloGame" component={Join} />
           <Route exact path="/join2playergame" component={Join} />
+          <Route exact path="/join4playergame" component={Join} />
           {/* <Route exact path="/joinSoloGameServer" component={Join} /> */}
           
 

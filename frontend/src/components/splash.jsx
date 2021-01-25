@@ -63,7 +63,17 @@ class Splash extends React.Component {
                         }}>
               <button className="start-btn"> <span>2-Player Online</span></button>
               </Link>
+              <Link to={{pathname: `/join4playergame`,
+                        state: {
+                          title: "4 Player Online",
+                          gameType: "multiplayer",
+                          buttonText: ["Join Room", "Create Room", "I'm ready"],
+                          isOnline: true,
+                          totalPlayers: 4
+                        }
+                        }}>
               <button className="start-btn"> <span>4-Player Online</span></button>
+              </Link>
             </div>
           </form>
         </div>

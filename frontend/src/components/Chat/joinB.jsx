@@ -29,7 +29,9 @@ class Join extends React.Component{
         aiMove: "",
         numAiPlayers: undefined,
         joinOrCreate: undefined,
-        placeholderError: "Choose your Username"
+        placeholderError: "Choose your Username",
+        placeholderErrorRoom: "Room Name",
+        lobbyPlayers: []
         
       }
 
@@ -40,6 +42,10 @@ class Join extends React.Component{
       this.receiveGameState = this.receiveGameState.bind(this);
       this.handleGameStart = this.handleGameStart.bind(this);
       this.handleSetJoinOrCreate = this.handleSetJoinOrCreate.bind(this);
+      this.handleServerLogic = this.handleServerLogic.bind(this);
+      this.receiveJoinRoom = this.receiveJoinRoom.bind(this);
+      this.receiveLobbyPlayers = this.receiveLobbyPlayers.bind(this);
+      this.receiveRoomError = this.receiveRoomError.bind(this);
 
       //testing
       this.handleStartSoloServer = this.handleStartSoloServer.bind(this);
@@ -64,6 +70,9 @@ class Join extends React.Component{
       this.socket.on("changePhase", this.handlePhaseChange)
       this.socket.on("receiveGameState", this.receiveGameState)
       this.socket.on("AiAutoPlayData", this.receiveAiAutoPlayData)
+      this.socket.on("joinRoom", this.receiveJoinRoom)
+      this.socket.on("updateRoomPlayers", this.receiveLobbyPlayers)
+      this.socket.on("receiveRoomError", this.receiveRoomError)
 
       
       })
@@ -128,9 +137,55 @@ class Join extends React.Component{
     
   }
 
+  handleServerLogic(serverInstruction){
+    if(this.state.username !== "" && this.state.roomName !== ""){
+
+      //Join a Server Room
+      if(serverInstruction === "join"){
+        this.setState({lobbyPlayers: [{username: this.state.username}]}, () => {
+          this.socket.emit("joinExistingRoom", {username: this.state.username, 
+                                          roomName: this.state.roomName})
+          })
+      } else {
+        // Create a Server Room
+        // debugger
+        // this.setState({lobbyPlayers: this.state.lobbyPlayers.push({username:this.state.username})}, () => {
+        this.setState({lobbyPlayers: [{username: this.state.username}]}, () => {
+          // debugger
+            this.socket.emit("createRoom",
+            {roomName: this.state.roomName,
+              username: this.state.username,
+              numPlayers: this.state.totalPlayers})
+            })
+        
+      }
+    }
+    if(this.state.username === ""){
+      this.setState({placeholderError: "Username cannot be empty"})
+    }
+    if(this.state.roomName === ""){
+      this.setState({placeholderErrorRoom: "Room name cannot be empty"})
+    }
+}
+
+  receiveJoinRoom(roomName){
+    this.setState({roomName: roomName, phase: "lobby"})
+
+  }
+
+  receiveRoomError(msg){
+    debugger
+    this.setState({placeholderErrorRoom: msg, roomName: ""})
+  }
+
+  receiveLobbyPlayers(data){
+    debugger
+    this.setState({lobbyPlayers: data.lobbyPlayers, phase: "lobby"})
+  }
+
   handleGameStart(){
     if (this.state.isOnline){
-      this.socket.emit("gameStartRender")
+      this.socket.emit("gameStartRender", this.state.roomName)
     } else {
       this.setState({phase: "soloGameStart"})
     }
@@ -222,7 +277,7 @@ class Join extends React.Component{
         players = generateAiPlayers()
       }
 
-      const chooseGameType = () => {
+      const selectInputFields = () => {
         const userAndRoomInput =
                     <>
                     <div>
@@ -232,6 +287,7 @@ class Join extends React.Component{
                     </div>
                     <div>
                       <input placeholder="Room" 
+                      placeholder={this.state.placeholderErrorRoom}
                       value={this.state.roomName}
                       onChange={this.update("roomName")}
                       className="joinInput mt-20" type="text" />
@@ -259,18 +315,6 @@ class Join extends React.Component{
 
                   }
               
-                  // return (
-                  //   <>
-                  //   <div>
-                  //     <input placeholder={this.state.placeholderError}
-                  //     value={this.state.username} 
-                  //     onChange={this.update("username")} className="joinInput" type="text" />
-                  //   </div>
-                  //   <div>
-                  //     <input placeholder="Room" className="joinInput mt-20" type="text" />
-                  //   </div>
-                  //   </>
-                  // )
           }
         }
           
@@ -282,23 +326,12 @@ class Join extends React.Component{
           let buttonToCreateServer;
           let buttonToOfflineGame;
 
-          if(this.state.buttonText){
-            debugger
-            buttonToJoinServer = <button className={'button mt-20'} 
-                        onClick={(e) => this.handleStartSoloServer(e, true)}
-                        type="submit">{this.state.buttonText[0]}</button>
-
-            buttonToCreateServer = <button className={'button mt-20'} 
-                        onClick={(e) => this.handleStartSoloServer(e, true)}
-                        type="submit">{this.state.buttonText[1]}</button>
-
-            buttonToOfflineGame = <button className={'button mt-20'} 
-                        onClick={(e) => this.handleStartSoloServer(e, false)}
-                        type="submit">{this.state.buttonText}</button>
-          }
+          
           
 
-          // Simple dual button - Join - Create
+          //These appear first when user selects 2 Player Game
+          // Simple dual button - Join - Create which populate the upcoming
+          // Button to join a server or create a server
           const joinAndCreateArr = joinAndCreateText.map(text => {
             let callbackFn;
             if(text === "Join Room"){
@@ -313,12 +346,28 @@ class Join extends React.Component{
                 }
             }
             return (
-                    <button className={'button mt-20 mlr-5'} 
+                    <button key={text} className={'button mt-20 mlr-5'} 
                         onClick={callbackFn}
                         type="submit">{text}
                     </button>
             )
           })
+
+          // These are the buttons under the input fields.
+          if(this.state.buttonText){
+            // debugger
+            buttonToJoinServer = <button className={'button mt-20'} 
+                        onClick={() => this.handleServerLogic("join")}
+                        type="submit">{this.state.buttonText[0]}</button>
+
+            buttonToCreateServer = <button className={'button mt-20'} 
+                        onClick={() => this.handleServerLogic("create")}
+                        type="submit">{this.state.buttonText[1]}</button>
+
+            buttonToOfflineGame = <button className={'button mt-20'} 
+                        onClick={(e) => this.handleStartSoloServer(e, false)}
+                        type="submit">{this.state.buttonText}</button>
+          }
 
           switch(this.state.phase){
               case "prelobby":
@@ -385,6 +434,30 @@ class Join extends React.Component{
                   debugger
                 }
 
+              case "lobby":
+                if(this.state.roomName && this.state.lobbyPlayers){
+                  debugger
+                     return (
+                      // <GameViewComponent board={this.state.gameState}/>
+                      // players={this.state.gameState.players}
+                      // debugger
+                      <Lobby 
+                      joinOrCreate={this.state.joinOrCreate}
+                      roomName={this.state.roomName}
+                      players={this.state.lobbyPlayers}
+                      totalPlayers={this.state.totalPlayers}
+                      handleGameStart={this.handleGameStart}/>
+                   )
+                }
+
+                case "multiPlayerGameStart":
+                  
+                  if(this.state.gameState){
+                    return (<GameViewComponent 
+                      socket={this.socket}
+                      gameState={this.state.gameState}/>)
+                  }
+
               
 
                 
@@ -394,7 +467,7 @@ class Join extends React.Component{
           }
       }
       
-      showInputField = chooseGameType();
+      showInputField = selectInputFields();
       displayPhase = displayPhaseFn();
       // debugger
 

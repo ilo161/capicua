@@ -1,19 +1,25 @@
-// import BoardObject from "../board"
-const BoardObject = require("../boardB")
+const BoardObject = require("../boardB");
+const Player = require("../player");
 
-class SoloRoom {
-    constructor(roomName, io, playerData){
+class Room {
+    constructor(numPlayers, roomName, io,){
+        this.numPlayers = numPlayers
         this.roomName = roomName;
         this.io = io;
-        this.playerData = playerData;
-        this.board = undefined;
+        this.gameState = {
 
+        }
+        this.players = [];
     }
 
+    addPlayer(data){
+        const player = {username: data.username, id: data.id};
+        this.players.push(player);
+    }
 
     createGame(){
-        console.log("new room new solo game")
-        this.board = new BoardObject(this.playerData, 900, this.roomName, this.io)
+        console.log("new room new multiplayer game")
+        this.board = new BoardObject(this.players, 900, this.roomName, this.io)
 
         // console.log(this.board)
     }
@@ -21,31 +27,10 @@ class SoloRoom {
     sendGameState(){
 
         let showModalBoolean;
-
-        // debugger
-        // let inSession = this.board.isCurrentGameOver();
-        // io: this.board.io,
-        // return{   
-        //         boneyard: this.board.boneyard,
-        //         arena: this.board.arena,
-        //         roomName: this.board.roomName,
-                
-        //         players: this.board.players,
-        //         currentPlayer: this.board.currentPlayer.username,
-        //         aIFirstMove: this.board.aIFirstMove,
-        //         inSession: this.board.inSession,
-        //         winningPlayer: this.board.winningPlayer,
-        //         lockedGame: this.board.lockedGame,
-        //         skipCounter: this.board.skipCounter,
-        //         boardDimen: this.board.boardDimen
-        //         }
         const removeProp = 'board';
-        // const removeProp2 = 'io';
 
         const { [removeProp]: remove, 
-                [removeProp2]: remove2, 
             ...currentPlayer } = this.board.currentPlayer;
-        // debugger
 
         const players = []
         for(let i = 0; i < this.board.players.length; i++){
@@ -55,12 +40,13 @@ class SoloRoom {
             playerObj["hand"] = player.hand;
             playerObj["points"] = player.points;
             playerObj["isAi"] = player.isAi;
+            playerObj["id"] = player.id
             players.push(playerObj)
         }
-            
+
         showModalBoolean = (!this.board.inSession || this.board.lockedGame)
         console.log(`Show modal:? ${showModalBoolean}`)
-        
+
         return {arena: this.board.arena,
                 boneyard: this.board.boneyard,
                 players: players,
@@ -76,9 +62,7 @@ class SoloRoom {
 
         }
 
-
     }
 }
 
-module.exports = SoloRoom;
-// export default SoloRoom;
+module.exports = Room;

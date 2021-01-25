@@ -1,5 +1,6 @@
 // import SoloRoom from "./frontend/src/classes/socketiobackend/solo_room"
 const SoloRoom = require("./frontend/src/classes/socketiobackend/solo_room")
+const Room = require("./frontend/src/classes/socketiobackend/room")
 
 const express = require("express");
 // const request = require("request");
@@ -94,6 +95,74 @@ let roomSockets = {}
 io.on('connection', socket => { 
   console.log("Connected to Socket yay! Socket id: " + socket.id);
 
+  socket.on("createRoom", (data) => {
+    let roomName = data.roomName;
+    
+
+    if (rooms[roomName]) {
+            socket.emit('receiveRoomError', 'Room already exists!');
+    } else {
+      
+      let username = data.username;
+      let id = socket.id;
+      let _data = {username, id};
+      
+      //total number of expected players
+      let numPlayers = data.numPlayers;
+
+
+      console.log(roomName)
+      console.log(username)
+      console.log(numPlayers)
+      // console.log(socket)
+      // console.log(socket.id)
+
+      socket.join(roomName)
+      rooms[roomName] = new Room(numPlayers, roomName, io)
+
+      rooms[roomName].addPlayer(_data)
+      socket.emit("joinRoom", roomName)
+
+    }
+
+
+
+
+  })
+
+  socket.on("joinExistingRoom", (data) => {
+    let roomName = data.roomName;
+    
+
+      if (!rooms[roomName]) {
+          console.log("room does not exist")  
+          socket.emit("receiveRoomError", "Room does not exist") 
+        // socket.emit('receiveRoomError', 'Room already exists!');
+    } else {
+
+      let username = data.username
+      let id = socket.id;
+      let _data = {username, id}
+
+      console.log("join room success");
+      console.log(roomName)
+
+      socket.join(roomName)
+      // console.log(socket.id)
+      rooms[roomName].addPlayer(_data)
+      // console.log(rooms[roomName])
+
+      //just added this last
+      socket.emit("joinRoom", roomName)
+      // console.log(rooms[roomName].players)
+      // ^^
+      io.in(roomName).emit("updateRoomPlayers", {lobbyPlayers: rooms[roomName].players});
+
+
+
+    }
+  })
+
   socket.on("startSoloGame", (data) => {
     console.log("starting solo Game")
 
@@ -125,28 +194,33 @@ io.on('connection', socket => {
 
   })
 
-  socket.on("askingForGameState", (data) => {
+  socket.on("askingForGameState", (roomName) => {
       console.log("preparing GameState");
-      console.log(data)
+      // console.log(data)
       // console.log(currentGame.sendGameState())
       
       //testing...
       
-      let currentGame = rooms[socket.id];
+      let currentGame = rooms[roomName];
       let newGameState = currentGame.sendGameState();
       console.log(newGameState)
       socket.emit("receiveGameState", newGameState)
   })
 
   //this trigger is on the <Lobby Component>
-  socket.on("gameStartRender", () => {
-      socket.emit("changePhase", "soloGameStart")
+  socket.on("gameStartRender", (roomName) => {
+    // console.log(roomName)
+
+    let currentFullRoom = rooms[roomName]
+    currentFullRoom.createGame()
+      // socket.emit("changePhase", "multiPlayerGameStart")
+    io.in(roomName).emit("changePhase", "multiPlayerGameStart");  
 
 
       //testing
-          let currentGame = rooms[socket.id];
-          let newGameState = currentGame.sendGameState();
-          socket.emit("receiveGameState", newGameState)
+          // let currentGame = rooms[socket.id];
+          // let newGameState = currentGame.sendGameState();
+          // socket.emit("receiveGameState", newGameState)
 
       //testing
 

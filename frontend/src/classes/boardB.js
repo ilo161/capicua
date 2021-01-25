@@ -41,10 +41,10 @@ class Board {
 
             if (playerData.isAi){
                 return new Player(playerData.username, this, true,
-                    this.roomName, this.io);
+                    this.roomName);
             }
             return new Player(playerData.username, this, false, 
-                this.roomName, this.io );
+                this.roomName, playerData.id);
         })
 
         return players
