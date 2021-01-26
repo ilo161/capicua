@@ -451,7 +451,7 @@ class Join extends React.Component{
                 }
 
                 case "multiPlayerGameStart":
-                  
+                  if(!this.state.gameState) this.socket.emit("askingForGameState", this.state.roomName);
                   if(this.state.gameState){
                     return (<GameViewComponent 
                       socket={this.socket}

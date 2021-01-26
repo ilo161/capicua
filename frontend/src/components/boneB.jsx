@@ -41,6 +41,10 @@ class Bone extends React.Component {
     if (oldProps.y !== this.props.y){
       this.loadImage();
     } 
+    if(oldProps.draggable != this.props.draggable){
+      debugger
+      this.loadImage();
+    }
     
     
   }

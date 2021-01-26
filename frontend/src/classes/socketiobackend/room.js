@@ -32,6 +32,17 @@ class Room {
         const { [removeProp]: remove, 
             ...currentPlayer } = this.board.currentPlayer;
 
+        let winningPlayer;
+        let endGame;
+        if(this.board.winningPlayer) {
+            winningPlayer = {username: this.board.winningPlayer.username,
+                    hand: this.board.winningPlayer.hand,
+                    id: this.board.winningPlayer.id,
+                    points: this.board.winningPlayer.points}
+
+            endGame = this.board.endGame()
+        }
+
         const players = []
         for(let i = 0; i < this.board.players.length; i++){
             let playerObj = {};
@@ -44,19 +55,21 @@ class Room {
             players.push(playerObj)
         }
 
-        showModalBoolean = (!this.board.inSession || this.board.lockedGame)
-        console.log(`Show modal:? ${showModalBoolean}`)
+        // showModalBoolean = (!this.board.inSession || this.board.lockedGame)
+        // console.log(`Show modal:? ${showModalBoolean}`)
 
         return {arena: this.board.arena,
                 boneyard: this.board.boneyard,
                 players: players,
                 currentPlayer: {username: this.board.currentPlayer.username,
                      isAi: this.board.currentPlayer.isAi,
-                    hand: this.board.currentPlayer.hand},
+                    hand: this.board.currentPlayer.hand,
+                    id: this.board.currentPlayer.id},
                 inSession: this.board.inSession,
                 lockedGame: this.board.lockedGame,
-                winningPlayer: this.board.winningPlayer,
+                winningPlayer: winningPlayer,
                 skipCounter: this.board.skipCounter,
+                endGame: endGame,
                 boardDimen: this.board.boardDimen,
                 roomName: this.roomName,
 

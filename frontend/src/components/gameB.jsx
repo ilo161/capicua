@@ -5,60 +5,12 @@ import { set } from "mongoose";
 import {allDominos} from "./allDominos"
 import Chat from './chat/chat';
 import Score from './gameScore.jsx';
-
-
-//one player game below
-// const axiosPlayerObj = [{username: "Steven"}]
-
-
-// two player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}]
-// two player AI below
-// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}]
-
-// three player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
-
-//three player AI below
-// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
-// , {username: "idrakeUfake", isAi: true}]
-
-//4 player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
-// {username: "idrakeUfake!"},
-// {username: "prophecy!"}]
-
-// 4 player ai below
-// const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
-// , {username: "idrakeUfake", isAi: true}, {username: "prophecy!", isAi: true}]
+import Countdown from "./countdownS";
 
 class GameB extends React.Component {
-    _isMounted = false;
-
     constructor(props){
         super(props)
-        // const board = new BoardObject(axiosPlayerObj, 900)
-
-        // arena: this.board.arena,
-        //         boneyard: this.board.boneyard,
-        //         players: players,
-        //         currentPlayer: this.board.currentPlayer.username,
-        //         inSession: this.board.inSession,
-        //         lockedGame: this.board.lockedGame,
-        //         winningPlayer: this.board.winningPlayer,
-        //         skipCounter: this.board.skipCounter,
-        //         boardDimen: this.board.boardDimen
-
-        // board.arena = this.props.gameState.arena
-        // board.boneyard = this.props.gameState.boneyard
-        // board.players = this.props.gameState.players
-        // board.currentPlayer = this.findCurrentPlayer(this.props.gameState.currentPlayer)
-        // board.inSession = this.props.gameState.inSession
-        // board.lockedGame = this.props.gameState.lockedGame
-        // board.winningPlayer = this.props.gameState.winningPlayer
-        // board.skipCounter = this.props.gameState.skipCounter
-
-
+       
         this.state = {
             board: "",
             gameState: undefined
@@ -114,8 +66,11 @@ class GameB extends React.Component {
     componentDidUpdate(prevProps) {
         debugger
 
-        if(prevProps.gameState.arena != this.props.gameState.arena){
+        if(prevProps.gameState.arena !== this.props.gameState.arena){
             debugger
+            this.setState({gameState: this.props.gameState})
+        }
+        if(prevProps.gameState.inSession !== this.props.gameState.inSession){
             this.setState({gameState: this.props.gameState})
         }
 
@@ -273,26 +228,32 @@ class GameB extends React.Component {
 
     restartGame(e, isNewGame = undefined) {
 
-        // //start a brand new game with everything reset
-        // if(isNewGame){
-        //     // debugger
-        //     this.setState({ board: new BoardObject(axiosPlayerObj, 900) })    
-        // } else {
-        //     // debugger
-        //     // continue on to next round.
-        //     this.previousPlayersArr = this.state.board.players;
-        //     const board = new BoardObject(axiosPlayerObj, 900)
+        //start a brand new game with everything reset
+        if(isNewGame){
+            // debugger
+            // this.setState({ board: new BoardObject(axiosPlayerObj, 900) })    
 
-            
-        //     this.giveBackPointsToPlayers(board);
-        //     this.setState({ board: board })
-        // }
+            //emit new game Request
+            debugger
+        } else {
+            // debugger
+            // continue on to next round.
+
+            // this.previousPlayersArr = this.state.board.players;
+            // const board = new BoardObject(axiosPlayerObj, 900)
+
+
+            // multiplayer Function Here.
+            this.previousPlayersArr = this.state.gameState.players;
+            //emit this data back to server!
+            // const board = new BoardObject(axiosPlayerObj, 900)
+
+            //use this multiplayer
+            // this.giveBackPointsToPlayers(board);
+            // this.setState({ board: board })
+        }
        
         
-        // if(this._isMounted){
-        //     // debugger
-        //     // this.setState({ board: board });
-        // }
     }
 
     giveBackPointsToPlayers (board) {
@@ -305,7 +266,7 @@ class GameB extends React.Component {
     updateGame(posPlay, center, boneIdx) {
         debugger 
         this.socket.emit("sentPlayerInput", {posPlay: posPlay,
-        center: center, boneIdx: boneIdx})
+        center: center, boneIdx: boneIdx, roomName: this.state.gameState.roomName})
         // // here to check state. of playable Bone
         // // ...
         // const currentBone = this.state.board.currentPlayer.hand.splice(boneIdx,1)[0];
@@ -389,44 +350,51 @@ class GameB extends React.Component {
         // let endGameButton;
         
         //Modal stuffs
-        // if (this.state.board.winningPlayer) {
+        if (this.state.gameState){
+            if(this.state.gameState.winningPlayer){
+                debugger
+                const {endGame, winningPlayer, lockedGame} = this.state.gameState;
         //     // debugger
         //     //testing. EndGame for For
         //     const endGame = this.state.board.endGame()
         //     {/* using logic from Board logic class */ }
-        //     const text = this.state.board.lockedGame ? `${this.state.board.winningPlayer.username}
-        //      wins the Round via lockout! ` :  endGame ? `${this.state.board.winningPlayer.username} wins the Game!` :
-        //     `${this.state.board.winningPlayer.username} wins the Round!`;
+                const text = lockedGame ? 
+                `${winningPlayer.username} wins the Round via lockout! ` : 
+                endGame ? `${winningPlayer.username} wins the Game!` :
+                `${winningPlayer.username} wins the Round!`;
 
-        //     const text2 = `Total Points: ${this.state.board.winningPlayer.points}`
+                const text2 = `Total Points: ${winningPlayer.points}`
 
-        //     button = this.state.board.lockedGame ? 
-        //         <button className="modal-win-button" onClick={(e) => this.countdown(e, true)}>Next Round</button> :
-        //     null
+            // button = this.state.board.lockedGame ? 
+            //     <button className="modal-win-button" onClick={(e) => this.countdown(e, true)}>Next Round</button> :
+            // null
 
         //     endGameButton = endGame ? <button className="modal-win-button" 
         //         onClick={(e) => this.countdown()}>Gameover - Play Again?</button> :
         //     null
-        //         modal =
-        //         <div className='modal-float-container-win'>
-        //             <div className='modal-container-win flex-row-start'>
-        //                 <img className="capicua-domino" src={allDominos["cd"]}></img>
-        //                 <div className='modal-content'>
-        //                     <p>{text}</p>
-        //                     <p>{text2}</p>
-        //                     {endGameButton ? endGameButton : button}
-        //                 </div>
-        //                 <img className="capicua-domino" src={allDominos["cd"]}></img>
-        //             </div>
-        //         </div>;
-        // }
+                modal =
+                <div className='modal-float-container-win'>
+                    <div className='modal-container-win flex-row-start'>
+                        <img className="capicua-domino" src={allDominos["cd"]}></img>
+                        <div className='modal-content'>
+                            <p>{text}</p>
+                            <p>{text2}</p>
+                            <Countdown restartGame={this.restartGame} endGame={this.state.gameState.endGame} />
+                            {/* {endGameButton ? endGameButton : button} */}
+                        </div>
+                        <img className="capicua-domino" src={allDominos["cd"]}></img>
+                    </div>
+                </div>;
+            }
+
+            
+        }
                    
         // debugger
         return (
             <>
                 <div className="board-score-container flex-row-start">
                     {modal}
-                    {/* { this.state.board ? <Board board={this.state.board} updateGame={this.updateGame} /> : null } */}
                     { this.state.gameState ? <Board gameState={this.state.gameState}
                     socket={this.props.socket} updateGame={this.updateGame} /> : null }
                     <div className="flex-col-start">

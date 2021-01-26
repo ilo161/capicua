@@ -203,7 +203,7 @@ io.on('connection', socket => {
       
       let currentGame = rooms[roomName];
       let newGameState = currentGame.sendGameState();
-      console.log(newGameState)
+      // console.log(newGameState)
       socket.emit("receiveGameState", newGameState)
   })
 
@@ -232,6 +232,7 @@ io.on('connection', socket => {
     let posPlay = data.posPlay;
     let center = data.center;
     let boneIdx = data.boneIdx;
+    let roomName = data.roomName
 
     let currentGame;
     let newGameState;
@@ -241,7 +242,8 @@ io.on('connection', socket => {
 
 
 
-    const room = rooms[socket.id];
+    // const room = rooms[socket.id];
+    const room = rooms[roomName];
 
     if(room){
       // console.log(room)
@@ -260,13 +262,14 @@ io.on('connection', socket => {
                 console.log(`Show locked Status:? ${room.board.lockedGame}`)
                 console.log("~~")
 
-                currentGame = rooms[socket.id];
+                currentGame = rooms[roomName];
                 newGameState = currentGame.sendGameState();
                 newGameState[showModalBoolean] = showModalBoolean;
                 console.log("sending endGame State")
                 console.log(newGameState)
                 
-                return (socket.emit("receiveGameState", newGameState))
+                // return (socket.emit("receiveGameState", newGameState))
+                return io.in(roomName).emit("receiveGameState", newGameState)
             }
 
             room.board.resetSkipCounter();
@@ -299,11 +302,17 @@ io.on('connection', socket => {
     
     
         
+      //old
+    // currentGame = rooms[socket.id];
+    currentGame = rooms[roomName];
 
-    currentGame = rooms[socket.id];
     newGameState = currentGame.sendGameState();
     console.log("sending game State")
-    socket.emit("receiveGameState", newGameState)
+    //new
+    io.in(roomName).emit("receiveGameState", newGameState);
+    
+    //old
+    // socket.emit("receiveGameState", newGameState)
 
 
   })

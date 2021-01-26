@@ -1,7 +1,7 @@
 import React from "react";
 import Konva from "konva"
 import { Stage, Layer, Group, Text} from 'react-konva';
-import Bone from "./bone"
+// import Bone from "./bone"
 import BoneL from "../classes/bone"
 import Hand from "./handB"
 import Arena from "./arenaB"
@@ -29,7 +29,7 @@ class Board extends React.Component {
         const boneIsRevYPos = (boneWidth / 2);
         const boneNotRevYPos = ((boneWidth / 2) * 3);
 
-        let {arena, currentPlayer} = this.props.gameState;
+        let {arena, currentPlayer, socket} = this.props.gameState;
 
 
         arena = arena.map(boneOptions => {
@@ -37,14 +37,14 @@ class Board extends React.Component {
         })
         // debugger
 
-        const capDom = [<Bone key={"cd"}
-                    draggable={true}
-                    x={0}
-                    width={boneWidth}
-                    height={boneHeight}
-                    src={allDominos["cd"]}
-                    rotation={0}
-                    inArena={true} />]
+        // const capDom = [<Bone key={"cd"}
+        //             draggable={true}
+        //             x={0}
+        //             width={boneWidth}
+        //             height={boneHeight}
+        //             src={allDominos["cd"]}
+        //             rotation={0}
+        //             inArena={true} />]
 
                     // offsetX={boneWidth / 2}
                     // offsetY={boneHeight / 2}
@@ -117,12 +117,12 @@ class Board extends React.Component {
                     boneWidth={boneWidth} boneHeight={boneHeight} boneValToString={boneValToString}/> */}
 
                     <Text x={boardDimen /2} y={boardDimen - (boneHeight * 2)} 
-                    text={currentPlayer.username} fontSize={25} />
+                    text={`Curr Player is : ${currentPlayer.username}`} fontSize={25} />
 
                     <Group x={startBoxforHand} y={boardDimen - boneHeight}>
 
                         <Hand offSetCenter={offSetCenter} gameState={this.props.gameState}
-                        hand={currentPlayer.hand}
+                        // hand={currentPlayer.hand}
                         socket={this.props.socket}
                         boneWidth={boneWidth} boneHeight={boneHeight} 
                         updateGame={this.props.updateGame} allDominos={allDominos}
