@@ -4,14 +4,14 @@
 }
 
 .form-container{
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   /* box-shadow: 2px 2px 20px; */
   background-color:  rgba(0, 0, 0, 0.7);
-  border: 5px solid grey;
+  border: 5px solid rgb(181, 82, 38);
   /* border: 5px solid rgb(255, 121, 115); */
 
 }
@@ -53,20 +53,24 @@
 }
 
 .input-textarea{
-    width: 87%;
-    height: 46px;
+    width: 350px;
+    height: 50;
     font-size: 18px;
-    border: none;
+    border: 0;
+    margin: 0px;
 }
 
 .send-button{
     /* margin-bottom: 8px; */
-    height: 47px;
-    width: 52px;
+    height: 52px;
+    width: 80px;
     background-color: rgb(84, 180, 198);
     font-weight: 900;
-    border: none;
+    border: 0;
     cursor: pointer;
+    margin: 0;
+    font-size: 18px;
+    
 }
 
 .capicua-domino-lrg{

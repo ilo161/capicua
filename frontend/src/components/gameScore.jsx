@@ -25,7 +25,7 @@ class Score extends React.Component {
         return(
             <div className="score-box-container">
             
-                <div className="current-player">{currentPlayer.username} </div>
+                {/* <div className="current-player">{currentPlayer.username} </div> */}
                 
                 <div className="name-and-points">
                 {nameScores}

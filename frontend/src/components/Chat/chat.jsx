@@ -57,12 +57,12 @@ class Chat extends Component {
               onChange={e => this.setState({ name: e.target.value })}
               />
           </div> */}
-          <div className="text-area">
+          {/* <div className="text-area"> */}
             <ChatContext
               ws={this.ws}
               onSubmitMessage={messageString => this.submitMessage(messageString)}
             />
-          </div>
+          {/* </div> */}
         </div>
           <img className="capicua-domino-lrg" src={allDominos["cd"]}></img>
         </div>
