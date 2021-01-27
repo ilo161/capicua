@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 // app.get("/join2playergame", (req,res) => {
 //   console.log("2")
 // })  
+
 // const mongoose = require("mongoose");
 // const db = require("./config/keys").mongoURI;
 // const users = require("./routes/api/users");
@@ -90,7 +91,8 @@ const io = require('socket.io')(server);
 const PORT = process.env.PORT || 5000;
 
 let rooms = {};
-let roomSockets = {}
+let roomAtSocket = {}
+
 
 io.on('connection', socket => { 
   console.log("Connected to Socket yay! Socket id: " + socket.id);
@@ -117,11 +119,12 @@ io.on('connection', socket => {
       // console.log(socket)
       // console.log(socket.id)
 
-      socket.join(roomName)
-      rooms[roomName] = new Room(numPlayers, roomName, io)
+      socket.join(roomName);
+      roomAtSocket[id] = roomName;
+      rooms[roomName] = new Room(numPlayers, roomName, io);
 
-      rooms[roomName].addPlayer(_data)
-      socket.emit("joinRoom", roomName)
+      rooms[roomName].addPlayer(_data);
+      socket.emit("joinRoom", roomName);
 
     }
 
@@ -148,6 +151,7 @@ io.on('connection', socket => {
       console.log(roomName)
 
       socket.join(roomName)
+      roomAtSocket[id] = roomName;
       // console.log(socket.id)
       rooms[roomName].addPlayer(_data)
       // console.log(rooms[roomName])
@@ -268,7 +272,7 @@ io.on('connection', socket => {
                 console.log("sending endGame State")
                 console.log(newGameState)
                 
-                // return (socket.emit("receiveGameState", newGameState))
+                // this
                 return io.in(roomName).emit("receiveGameState", newGameState)
             }
 
@@ -317,117 +321,21 @@ io.on('connection', socket => {
 
   })
 
-  // socket.on("askForAiPlay", (username, roomName) => {
-  //     console.log(`asking...test : ${username}`)
-  //         const room = rooms[socket.id];
-
-  //         if(room){
-  //           // console.log(room)
-  //             if(room.board.inSession){
-  //                 console.log("game is in session")
-  //             }
-  //         }
-          
-
-  //         let currentGame = rooms[socket.id];
-  //         let newGameState = currentGame.sendGameState();
-  //         socket.emit("receiveGameState", newGameState)
-
-  // })
+  socket.on("restartGame", data => {
+    let newGameBoolean = data.newGame;
+    let newRoundBoolean = data.newRound;
+  })
 
 
-  // socket.on("askForAiPlay", (username, roomName) => {
-  //   console.log(`asking...test : ${username}`)
-  //     const room = rooms[socket.id];
-  //     console.log(room.board.inSession)
-  //     if(room.board.inSession){
-  //           // let isCurrentGameOver = room.board.isCurrentGameOver();
-  //           let isCurrentGameOver;
-  //       if(room){
-  //         // if(!isCurrentGameOver){
+  socket.on("disconnect", id => {
+    let roomName = roomAtSocket[socket.id];
+    console.log(socket.id)
+    console.log("has disconnected")
+    io.in(roomName).emit("changePhase", "playerDisconnect");
 
-          
-  //         console.log("getting AI move")
-  //         console.log("Arena Below")
-  //         console.log(room.board.renderArena())
-  //         let aiResponse = room.board.currentPlayer.aiAutoPlay("easy")
-  //         let boneIdx = aiResponse[2];
-  //         let verifyMove;
+  })
 
-  //         let currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
-  //         // console.log(currentBone)
-
-  //         aiResponse[2] = currentBone;
-  //         // console.log(aiResponse)
-
-  //         verifyMove = room.board.makeMove(aiResponse[0], aiResponse[1], aiResponse[2]);
-  //           // while(!room.board.makeMove(...[aiResponse]) === true){
-  //           while(!verifyMove){
-  //             // console.log("try again")
-  //             if(!verifyMove){
-  //                   room.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
-  //             }
-  //               aiResponse = room.board.currentPlayer.aiAutoPlay("easy")
-  //               boneIdx = aiResponse[2];
-  //               currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
-  //               aiResponse[2] = currentBone;
-  //               verifyMove = room.board.makeMove(aiResponse[0], aiResponse[1], aiResponse[2]);
-                
-  //           }
-  //           console.log("exit")
-
-  //           if(verifyMove){
-
-  //               // isCurrentGameOver = room.board.isCurrentGameOver();
-  //               isCurrentGameOver = !room.board.inSession;
-  //               console.log(`currGameIS: ${room.board.currentPlayer.username} ${isCurrentGameOver}`)
-  //             if (isCurrentGameOver){
-  //                 // this.setState({ board: this.state.board });
-  //                 console.log("game is over!")
-  //                 return;
-  //             }
-
-  //               console.log("reset skip")
-  //               room.board.resetSkipCounter();
-
-  //               if(room.board.inSession === true){
-  //                 console.log("next Player time")
-  //                 room.board.nextPlayerAssignTurn()
-
-  //                 } 
-  //               //   else {
-
-  //               //   }
-  //               // } else {
-  //           }
-
-  //           if(!isCurrentGameOver){
-  //               console.log(room.board.renderArena());
-  //               console.log("Arena ^..hand below");
-  //               room.board.currentPlayer.revealHand();
-
-  //               if(room.board.inSession){
-  //                 console.log(aiResponse);
-  //                 let newGameState = room.sendGameState();
-  //                 io.to(room.roomName).emit('receiveGameState', newGameState);
-  //                 // socket.emit("AiAutoPlayData", aiResponse)
-
-  //               }
-  //           } else {
-  //             console.log("no more moves")
-  //             return
-  //           }
-            
-  //         // console.log(this.state.board.currentPlayer.revealHand())
-  //         // debugger
-  //         // console.log(`^^'s points: ${this.state.board.currentPlayer.points}`)
-
-            
-  //       }
-  //     }
-      
-  //   // }
-  // })
+  
 
 });
 
@@ -448,7 +356,7 @@ io.on('connection', socket => {
 
 
 
-// Steven Below
+
 
 
 
@@ -456,7 +364,7 @@ const router = require('./router');
 // const { useParams } = require("react-router-dom");
 // const cors = require('cors');
 
-// const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+
 // let users = [];
 
 // const messages = {
@@ -467,42 +375,8 @@ const router = require('./router');
 // }
 
 
-// io.on("connection", (socket) => {
-//   console.log("New CONNECTION!!");
-  
-//   socket.on("join server", (username)  => {
-//     const user = {
-//       username,
-//       id: socket.id
-//     };
-//     users.push(user);
-//     io.emit("new user", users);
-//   });
 
 
-
-//   socket.on("join room", (roomName, cb)  => {
-//     socket.join(roomName);
-//     cb(messages[roomName]);
-//   });
-
-// })
-
-// io.on('connect', (socket) => {
-//   socket.on('join', ({ name, room }, callback) => {
-//     const { error, user } = addUser({ id: socket.id, name, room });
-
-//     if (error) return callback(error);
-
-//     socket.join(user.room);
-
-//     socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.` });
-//     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-
-//     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-
-//     callback();
-//   });
 
 //   socket.on('sendMessage', (message, callback) => {
 //     const user = getUser(socket.id);
@@ -512,17 +386,8 @@ const router = require('./router');
 //     callback();
 //   });
 
-//   socket.on('disconnect', () => {
-//     const user = removeUser(socket.id);
 
-//     if (user) {
-//       io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
-//       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-//     }
-//   })
-// });
 
-//Steven End
 
 app.use(router);
 

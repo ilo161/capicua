@@ -31,7 +31,8 @@ class Join extends React.Component{
         joinOrCreate: undefined,
         placeholderError: "Choose your Username",
         placeholderErrorRoom: "Room Name",
-        lobbyPlayers: []
+        lobbyPlayers: [],
+        playerDisconnected: undefined
         
       }
 
@@ -47,6 +48,9 @@ class Join extends React.Component{
       this.receiveLobbyPlayers = this.receiveLobbyPlayers.bind(this);
       this.receiveRoomError = this.receiveRoomError.bind(this);
 
+      //disconnect
+      this.handleDisconnect = this.handleDisconnect.bind(this);
+
       //testing
       this.handleStartSoloServer = this.handleStartSoloServer.bind(this);
       this.receiveAiAutoPlayData = this.receiveAiAutoPlayData.bind(this);
@@ -60,7 +64,7 @@ class Join extends React.Component{
     // debugger
     
     if(this.props.location.state.isOnline === true){
-      debugger
+      // debugger
       this.socket = io(HOST);
       this.socket.on('connect', socket => {
 
@@ -73,6 +77,7 @@ class Join extends React.Component{
       this.socket.on("joinRoom", this.receiveJoinRoom)
       this.socket.on("updateRoomPlayers", this.receiveLobbyPlayers)
       this.socket.on("receiveRoomError", this.receiveRoomError)
+
 
       
       })
@@ -193,7 +198,14 @@ class Join extends React.Component{
 
   handlePhaseChange(phase){
     // debugger
-    this.setState({phase: phase})
+
+    if (phase === "playerDisconnect"){
+      this.setState({phase: phase, playerDisconnected: true})
+    } else {
+      this.setState({phase: phase})
+
+    }
+
     // debugger
     // this.receiveGameState()
 
@@ -202,7 +214,7 @@ class Join extends React.Component{
   receiveGameState(gameState) {
     // debugger
     this.setState({ gameState: gameState });
-    debugger
+    // debugger
   }
   
   receiveAiAutoPlayData(aiMove) {
@@ -217,6 +229,12 @@ class Join extends React.Component{
 
   handleSetJoinOrCreate(str){
     this.setState({joinOrCreate: str})
+  }
+
+  handleDisconnect(){
+    console.log(this.socket.id)
+    console.log("has left Join B")
+    // this.socket.emit("disconnect", this.socket.id)
   }
 
     render(){
@@ -418,10 +436,11 @@ class Join extends React.Component{
 
                     
                 } else if(this.state.players){
-                  // debugger
+                  debugger
                     return (<Lobby username={this.state.username} 
                         players={this.state.players}
                         totalPlayers={this.state.numAiPlayers + 1}
+                        isOnline={this.state.isOnline} 
                         handleGameStart={this.handleGameStart}/> )
                 }
 
@@ -446,17 +465,39 @@ class Join extends React.Component{
                       roomName={this.state.roomName}
                       players={this.state.lobbyPlayers}
                       totalPlayers={this.state.totalPlayers}
+                      isOnline={this.state.isOnline} 
                       handleGameStart={this.handleGameStart}/>
                    )
                 }
 
                 case "multiPlayerGameStart":
-                  if(!this.state.gameState) this.socket.emit("askingForGameState", this.state.roomName);
-                  if(this.state.gameState){
-                    return (<GameViewComponent 
-                      socket={this.socket}
-                      gameState={this.state.gameState}/>)
+                //this if statement is redundent, however react would complain without it
+                  if(this.state.isOnline){
+                      if(!this.state.gameState) this.socket.emit("askingForGameState", this.state.roomName);
+                      if(this.state.gameState){
+                        return (<GameViewComponent 
+                          socket={this.socket}
+                          gameState={this.state.gameState}/>)
+                      }
                   }
+                  
+
+                case "playerDisconnect":
+                  debugger
+                  if(this.state.playerDisconnected){
+                      return (<Lobby 
+                      // joinOrCreate={this.state.joinOrCreate}
+                      roomName={this.state.roomName}
+                      playerDisconnected={true}
+                      // players={this.state.lobbyPlayers}
+                      // totalPlayers={this.state.totalPlayers}
+                      // handleGameStart={this.handleGameStart}
+                      /> )
+                  }
+                  
+
+                default:
+                  return
 
               
 

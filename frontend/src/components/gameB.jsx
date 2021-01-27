@@ -20,11 +20,11 @@ class GameB extends React.Component {
         this.previousPlayersArr = undefined;
         this.updateGame = this.updateGame.bind(this);
         this.restartGame = this.restartGame.bind(this);
-        this.countdownTicker = 10;
-        this.countdown = this.countdown.bind(this)
-        this.hasAiGone = false;
-        this.oldArenaLen = undefined;
-        this.oldTimeIds = [];
+        // this.countdownTicker = 10;
+        // this.countdown = this.countdown.bind(this)
+        // this.hasAiGone = false;
+        // this.oldArenaLen = undefined;
+        // this.oldTimeIds = [];
     }
 
     // autoStartNextRound(e, isNewGame = undefined){
@@ -64,25 +64,17 @@ class GameB extends React.Component {
 
 
     componentDidUpdate(prevProps) {
-        debugger
+        // debugger
 
         if(prevProps.gameState.arena !== this.props.gameState.arena){
-            debugger
+            // debugger
             this.setState({gameState: this.props.gameState})
         }
         if(prevProps.gameState.inSession !== this.props.gameState.inSession){
             this.setState({gameState: this.props.gameState})
         }
 
-        // if( prevProps.gameState.currentPlayer.userName != this.props.gameState.currentPlayer.username){
-        // //     debugger
-        // if(this.props.gameState.currentPlayer.isAi){
-        //     debugger
-        //     this.socket.emit("askForAiPlay", this.state.gameState.currentPlayer.username)
-        // }
-        // }
-        // this.forceAiAutoPlay();
-
+        
 
 
 
@@ -108,122 +100,54 @@ class GameB extends React.Component {
             
             
             
-        //     if(this.state.gameState.inSession){
-        //          console.log("B")
-                 
-        //     // this.oldTimeIds.push(setTimeout(()=>{
-        //         this.forceAiAutoPlay();
-        //     // },500))
-            
-        // }
-        // }
+
 
        
         
         
     }
 
-    forceAiAutoPlay(){
-        // if(this.state.board.currentPlayer.isAi === true){
-        // this.oldArenaLen = this.state.board.arena.length;
-        //             while(this.state.board.arena.length === this.oldArenaLen && this.state.board.inSession){
-        //                 this.updateGame(...this.state.board.currentPlayer.aiAutoPlay("easy"))
-        // debugger
-        if(this.state.gameState.currentPlayer.isAi === true){
-                // debugger
-                if(!this.hasAiGone){
+    // forceAiAutoPlay(){
+    //     // if(this.state.board.currentPlayer.isAi === true){
+    //     // this.oldArenaLen = this.state.board.arena.length;
+    //     //             while(this.state.board.arena.length === this.oldArenaLen && this.state.board.inSession){
+    //     //                 this.updateGame(...this.state.board.currentPlayer.aiAutoPlay("easy"))
+    //     // debugger
+    //     if(this.state.gameState.currentPlayer.isAi === true){
+    //             // debugger
+    //             if(!this.hasAiGone){
         
-                    this.oldArenaLen = this.state.gameState.arena.length;
+    //                 this.oldArenaLen = this.state.gameState.arena.length;
 
         
-                    // while(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
-                    if(this.state.gameState.inSession){
-                            if(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
-                                debugger
-                                console.log("re-emit")
-                                  this.socket.emit("askForAiPlay", this.state.gameState.currentPlayer.username)
+    //                 // while(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
+    //                 if(this.state.gameState.inSession){
+    //                         if(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
+    //                             debugger
+    //                             console.log("re-emit")
+    //                               this.socket.emit("askForAiPlay", this.state.gameState.currentPlayer.username)
     
-                        // this.updateGame(...this.state.gameState.currentPlayer.aiAutoPlay("easy"))
-                        }
-                    }
+    //                     // this.updateGame(...this.state.gameState.currentPlayer.aiAutoPlay("easy"))
+    //                     }
+    //                 }
                   
-                    this.hasAiGone = true;
-                }
-                // debugger
-                this.hasAiGone = false;
-        }
-    }
-
-    countdown(e, isNewGame = undefined){
-        // while(this.countdownTicker >= 0){
-        // }
-        // this.countdownTicker = (this.countdownTicker - 1)
-        // // debugger
-        // setTimeout(() =>{
-        //     this.countdown()
-        // }, 1000).bind(this);
-        // console.log(this.countdownTicker)
-        
-        // if (this.countdownTicker === 0){
-        //     if (isNewGame) {
-        //         this.restartGame(e, true)
-        //     } else {
-        //         this.restartGame()
-        //     }
-        //     this.countdownTicker = 10;
-        // }
-        // return this.countdownTicker;
-    }
+    //                 this.hasAiGone = true;
+    //             }
+    //             // debugger
+    //             this.hasAiGone = false;
+    //     }
+    // }
 
     componentDidMount(){
-        // if(this.props.gameState){
-        //     this.setState(board:{arena: this.props.gameState.arena,
-        //         boneyard: this.props.gameState.boneyard,
-        //         players: this.props.gameState.players,
-        //         currentPlayer: this.findCurrentPlayer(this.props.gameState.currentPlayer),
-        //         inSession: this.props.gameState.inSession,
-        //         lockedGame: this.props.gameState.lockedGame,
-        //         winningPlayer: this.props.gameState.winningPlayer,
-        //         skipCounter: this.props.gameState.skipCounter})
-        // }
-        this.setState({gameState: this.props.gameState})
-        // , ()=> {
-        //     debugger
-        //     this.socket.emit("askForAiPlay", this.state.gameState.currentPlayer.username)
-        //     this.setState({state: this.state})
-        // })
-        // debugger
-
-        // if(this.state.board.inSession && this.state.board.arena.length === 1){
-            if(this.state.gameState){
-                // debugger
-                if(this.state.gameState.inSession && this.state.gameState.arena.length === 1){
-                    // this.oldTimeIds.push(setTimeout(()=>{
-                        this.forceAiAutoPlay();
-                    // },500))
-                }
-            }
-        
-            
-        // }
-        // debugger
-        // this._isMounted = true;
-        // this.autoStartNextRound = setTimeout(this.restartGame, 10000); 
-        // clearTimeout(this.autoStartNextRound);
-        // debugger
-        // console.log(this.state.board)
-        
+        this.setState({gameState: this.props.gameState})    
     }
 
     componentWillUnmount(){
-        // clear for AI guesses
-        this._isMounted = false;
-        this.oldTimeIds.forEach((id) => {
-            clearTimeout(id)
-        })
 
-        // this.condownID = [1,2,3,4,5]
 
+        // this.oldTimeIds.forEach((id) => {
+        //     clearTimeout(id)
+        // })
     }
 
     restartGame(e, isNewGame = undefined) {
@@ -244,6 +168,7 @@ class GameB extends React.Component {
 
 
             // multiplayer Function Here.
+            debugger
             this.previousPlayersArr = this.state.gameState.players;
             //emit this data back to server!
             // const board = new BoardObject(axiosPlayerObj, 900)
@@ -264,7 +189,7 @@ class GameB extends React.Component {
     }
 
     updateGame(posPlay, center, boneIdx) {
-        debugger 
+        // debugger 
         this.socket.emit("sentPlayerInput", {posPlay: posPlay,
         center: center, boneIdx: boneIdx, roomName: this.state.gameState.roomName})
         // // here to check state. of playable Bone

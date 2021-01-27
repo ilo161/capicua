@@ -6,6 +6,7 @@ import BoneL from "../classes/bone"
 import Hand from "./handB"
 import Arena from "./arenaB"
 import OtherHands from "./otherHands"
+import Boneyard from "./boneyardServer"
 
 import { allDominos } from "./allDominos"
 
@@ -118,6 +119,12 @@ class Board extends React.Component {
 
                     <Text x={boardDimen /2} y={boardDimen - (boneHeight * 2)} 
                     text={`Curr Player is : ${currentPlayer.username}`} fontSize={25} />
+                    
+                    <Boneyard boneyardLength={this.props.gameState.boneyard.bones.length} 
+                    // playerLength={this.props.gameState.players.length}
+                    // player={this.props.gameState.currentPlayer.username}
+                    currentPlayer={this.props.gameState.currentPlayer}
+                    players={this.props.gameState.players}/>
 
                     <Group x={startBoxforHand} y={boardDimen - boneHeight}>
 

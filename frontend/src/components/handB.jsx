@@ -1,5 +1,6 @@
 import React from "react";
 import {constructBone} from "./constructBoneB";
+import {Text} from 'react-konva';
 
 
 
@@ -25,7 +26,7 @@ class Hand extends React.Component {
         if(prevState.gameState !== undefined){
             // debugger
             if(prevState.gameState.players != this.props.gameState.players){
-                debugger
+                // debugger
                 this.setState({gameState: this.props.gameState })
             }
         }
@@ -53,7 +54,7 @@ class Hand extends React.Component {
         const {gameState, hand, socket, allDominos, boneValToString, offSetCenter,
         boneWidth, boneHeight} = this.props;
 
-        let renderedHand;
+        let renderedHand = <Text text={"not in session"}/>
         let thisPlayerIdx;
 
 
@@ -64,10 +65,11 @@ class Hand extends React.Component {
 
         // if (board){
         if (this.state.gameState){
-            thisPlayerIdx = this.findPlayerOnThisSocket()
-            // debugger
-            // renderedHand = gameState.currentPlayer.hand.map((bone,idx) => {
-            renderedHand = gameState.players[thisPlayerIdx].hand.map((bone,idx) => {
+            if(this.state.gameState.inSession){
+               thisPlayerIdx = this.findPlayerOnThisSocket()
+                 // debugger
+                 // renderedHand = gameState.currentPlayer.hand.map((bone,idx) => {
+               renderedHand = gameState.players[thisPlayerIdx].hand.map((bone,idx) => {
                 // debugger
 
                const singleBoneVal =  boneValToString(bone.boneVal)[0]
@@ -97,8 +99,10 @@ class Hand extends React.Component {
                 
             })
 
+            }
+            
         }
-        debugger
+        // debugger
          return(
                 <>          
                  {renderedHand}
