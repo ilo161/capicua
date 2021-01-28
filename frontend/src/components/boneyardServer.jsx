@@ -68,58 +68,62 @@ class Boneyard extends React.Component{
         debugger
         if (this.props.boneyardLength <= (28 - (this.props.players.length * 7)) && (prevProps.boneyardLength !== this.props.boneyardLength)) {
            
-            // if(this.props.boneyardLength < (28 - (this.props.players.length * 7))){
+
 
             
-                let textPropsBY = Object.assign({},this.state.textPropsBY);
-                textPropsBY.text = `${this.props.boneyardLength}`
-                
-                // debugger
+            let textPropsBY = Object.assign({},this.state.textPropsBY);
+            textPropsBY.text = `${this.props.boneyardLength}`
+            
+            // debugger
 
-                this.diff = prevProps.boneyardLength - this.props.boneyardLength
+            this.diff = prevProps.boneyardLength - this.props.boneyardLength
 
-                if(this.state.allPlayers){
-                    this.currPlayerIdx = this.findPlayerByIndex()
-                    let textProps;
-                    let userName;
+            if(this.diff <= 0 ) {
+                this.setState({textPropsBY})
+            }
 
-                    if (this.state.allPlayers[this.currPlayerIdx].username.length <= 6){
-                        userName = `     ${this.state.allPlayers[this.currPlayerIdx].username} \n    draws ${this.diff}`
-                    } else {
-                        userName = `${this.state.allPlayers[this.currPlayerIdx].username} \n   draws ${this.diff}`
-                    }
-
-                    textProps = {
-                        x: 105,
-                        y: 248,
-                        text: `${userName}`,
-                        fontFamily: "'M PLUS Rounded 1c'",
-                        fontSize: 20,
-                        fill: '#FFFFFF',
-                        stroke: 'white',
-                        strokeWidth: 1,
-                    }
-
-                    setTimeout(() => {
-
-                        let thisPlayer = this.state.allPlayers[this.currPlayerIdx];
-                        thisPlayer.drawImageToggle = true;
-
-                        let allPlayers = this.state.allPlayers;
-                        allPlayers[this.currPlayerIdx] = thisPlayer;
-
-                        this.setState({allPlayers, textProps, textPropsBY}, () => {
-                            // debugger
-                            setTimeout(() => {
-                                thisPlayer.drawImageToggle = false;
-                                let allPlayers = this.state.allPlayers;
-                                allPlayers[this.currPlayerIdx] = thisPlayer;
-                                this.setState({ allPlayers: allPlayers })
-                            }, 1300)
-                        })
-                    }, 1000)
-
+            if(this.state.allPlayers.length > 0 && this.diff > 0){
+                this.currPlayerIdx = this.findPlayerByIndex()
+                let textProps;
+                let userName;
+                debugger
+                if (this.state.allPlayers[this.currPlayerIdx].username.length <= 6){
+                    userName = `     ${this.state.allPlayers[this.currPlayerIdx].username} \n    draws ${this.diff}`
+                } else {
+                    userName = `${this.state.allPlayers[this.currPlayerIdx].username} \n   draws ${this.diff}`
                 }
+
+                textProps = {
+                    x: 105,
+                    y: 248,
+                    text: `${userName}`,
+                    fontFamily: "'M PLUS Rounded 1c'",
+                    fontSize: 20,
+                    fill: '#FFFFFF',
+                    stroke: 'white',
+                    strokeWidth: 1,
+                }
+
+                setTimeout(() => {
+
+                    let thisPlayer = this.state.allPlayers[this.currPlayerIdx];
+                    thisPlayer.drawImageToggle = true;
+
+                    let allPlayers = this.state.allPlayers;
+                    allPlayers[this.currPlayerIdx] = thisPlayer;
+
+                    this.setState({allPlayers, textProps, textPropsBY}, () => {
+                        // debugger
+                        setTimeout(() => {
+                            thisPlayer.drawImageToggle = false;
+                            let allPlayers = this.state.allPlayers;
+                            allPlayers[this.currPlayerIdx] = thisPlayer;
+                            this.setState({ allPlayers: allPlayers })
+                        }, 1300)
+                    })
+                }, 1000)
+
+            }
 
            
 
@@ -135,7 +139,7 @@ class Boneyard extends React.Component{
         // if (prevProps.src !== this.props.src) {
         //     this.loadImage();
         // }
-            // }
+            
         }
     }
     
@@ -181,26 +185,11 @@ class Boneyard extends React.Component{
             })
 
         }
-            // <Group x={this.state.drawImagex} y={this.state.drawImagey}>
-            //         {this.state.drawImageToggle ? <Image
-            //             x={0}
-            //                 y={0}
-            // image={this.state.image}
-            //  ref={node => {
-            //                     this.imageNode = node;
-            //             }}
-            //         /> : null}
-            //         {this.diff && this.state.drawImageToggle ? <Text {...textProps} /> : null}
-            // </Group>
-            // [true, false false, true]
-                    // <Text x={boardDimen - 860} y={boardDimen - (boneHeight)}
-                    //     text={board.boneyard.bones.length} fontSize={25} />
-                    // <Text x={boardDimen - 860} y={boardDimen - (boneHeight - 20)}
-                    //     text={'dominoes remaining'} fontSize={25} />
-
+           
         return (
         <>
-                {this.diff > 0 ?
+                {this.props.inSession ?
+                this.diff > 0 ?
                 drawImageToggle ?
                     <Group x={this.state.drawImagexA} y={this.state.drawImageyA}>
 
@@ -210,7 +199,9 @@ class Boneyard extends React.Component{
                                 this.imageNodeA = node; }} />
                             
                         <Text {...this.state.textProps} />
-                    </Group> : null : null }
+                    </Group> : null : null : null }
+
+                {this.props.inSession ?
                 <Group x={this.state.drawImagexB} y={this.state.drawImageyB}>
 
                     <Image
@@ -224,6 +215,9 @@ class Boneyard extends React.Component{
 
                     <Text {...this.state.textPropsBY} />
                 </Group>
+                :
+                null
+                }
 
         </>
         )

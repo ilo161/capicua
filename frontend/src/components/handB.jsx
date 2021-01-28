@@ -36,11 +36,10 @@ class Hand extends React.Component {
 
     findPlayerOnThisSocket = () => {
             let num;
-            // gameState.players.forEach((player, idx) => {
+
             for(let i = 0; i < this.state.gameState.players.length; i++){
-                // debugger
                 if (this.state.gameState.players[i].id === this.props.socket.id){
-                    // debugger
+
                     num = i;
                 }
             }
@@ -49,13 +48,13 @@ class Hand extends React.Component {
     }
 
     render(){
-        // const {board, allDominos, boneValToString, offSetCenter,
-        // boneWidth, boneHeight} = this.props;
-        const {gameState, hand, socket, allDominos, boneValToString, offSetCenter,
-        boneWidth, boneHeight} = this.props;
 
-        let renderedHand = <Text text={"not in session"}/>
-        let thisPlayerIdx;
+        const {gameState, hand, socket, allDominos, boneValToString, offSetCenter,
+        boneWidth, boneHeight, thisPlayerIdx} = this.props;
+
+        let renderedHand = null
+        // let thisPlayerIdx;
+        let totalLengthHand;
 
 
         // this will need to be changed to the axios player ID. 
@@ -63,10 +62,12 @@ class Hand extends React.Component {
 
 
 
-        // if (board){
+
         if (this.state.gameState){
             if(this.state.gameState.inSession){
-               thisPlayerIdx = this.findPlayerOnThisSocket()
+
+            //    thisPlayerIdx = this.findPlayerOnThisSocket()
+               totalLengthHand = gameState.players[thisPlayerIdx].hand.length;
                  // debugger
                  // renderedHand = gameState.currentPlayer.hand.map((bone,idx) => {
                renderedHand = gameState.players[thisPlayerIdx].hand.map((bone,idx) => {
@@ -84,15 +85,27 @@ class Hand extends React.Component {
                 //offSetCenter, boneIdx, updateGameFN
 
                 if(gameState.currentPlayer.id === socket.id){
-                    // debugger
-                    return constructBone(reactKeyVal, true,
-                    pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
-                    0, false, 0, 0, offSetCenter, idx, this.props.updateGame, gameState.arena, gameState)
+
+                    if(totalLengthHand > 15){
+                        return constructBone(reactKeyVal, true,
+                        (pos / 2), (boneHeight / 2), (boneWidth / 2), (boneHeight / 2), allDominos[singleBoneVal],
+                        0, false, 0, 0, (offSetCenter/2), idx, this.props.updateGame, gameState.arena, gameState)
+                    } else {
+                        return constructBone(reactKeyVal, true,
+                        pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
+                        0, false, 0, 0, offSetCenter, idx, this.props.updateGame, gameState.arena, gameState)
+                    }
+                    
                 } else {
-                    // debugger
-                    return constructBone(reactKeyVal, false,
-                    pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
-                    0, false, 0, 0, offSetCenter, idx, this.props.updateGame, gameState.arena, gameState)
+                    if(totalLengthHand > 15){
+                        return constructBone(reactKeyVal, false,
+                        (pos / 2), (boneHeight / 2), (boneWidth / 2), (boneHeight / 2), allDominos[singleBoneVal],
+                        0, false, 0, 0, (offSetCenter/2), idx, this.props.updateGame, gameState.arena, gameState)
+                    } else {
+                        return constructBone(reactKeyVal, false,
+                        pos, 0, boneWidth, boneHeight, allDominos[singleBoneVal],
+                        0, false, 0, 0, offSetCenter, idx, this.props.updateGame, gameState.arena, gameState)
+                    }
                 }
                 
 

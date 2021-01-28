@@ -113,11 +113,9 @@ io.on('connection', socket => {
       let numPlayers = data.numPlayers;
 
 
-      console.log(roomName)
-      console.log(username)
-      console.log(numPlayers)
-      // console.log(socket)
-      // console.log(socket.id)
+      // console.log(roomName)
+      // console.log(username)
+      // console.log(numPlayers)
 
       socket.join(roomName);
       roomAtSocket[id] = roomName;
@@ -140,7 +138,6 @@ io.on('connection', socket => {
       if (!rooms[roomName]) {
           console.log("room does not exist")  
           socket.emit("receiveRoomError", "Room does not exist") 
-        // socket.emit('receiveRoomError', 'Room already exists!');
     } else {
 
       let username = data.username
@@ -152,14 +149,13 @@ io.on('connection', socket => {
 
       socket.join(roomName)
       roomAtSocket[id] = roomName;
-      // console.log(socket.id)
-      rooms[roomName].addPlayer(_data)
-      // console.log(rooms[roomName])
 
-      //just added this last
+      rooms[roomName].addPlayer(_data)
+
+
+
       socket.emit("joinRoom", roomName)
-      // console.log(rooms[roomName].players)
-      // ^^
+
       io.in(roomName).emit("updateRoomPlayers", {lobbyPlayers: rooms[roomName].players});
 
 
@@ -167,6 +163,7 @@ io.on('connection', socket => {
     }
   })
 
+// this is no longer useful since 1player is offline
   socket.on("startSoloGame", (data) => {
     console.log("starting solo Game")
 
@@ -199,25 +196,21 @@ io.on('connection', socket => {
   })
 
   socket.on("askingForGameState", (roomName) => {
-      console.log("preparing GameState");
-      // console.log(data)
-      // console.log(currentGame.sendGameState())
-      
-      //testing...
+      console.log("socket Asked for GameState");
       
       let currentGame = rooms[roomName];
       let newGameState = currentGame.sendGameState();
-      // console.log(newGameState)
+
       socket.emit("receiveGameState", newGameState)
   })
 
-  //this trigger is on the <Lobby Component>
+  //this trigger is on the <Lobby Component> for multiplayer Games
   socket.on("gameStartRender", (roomName) => {
     // console.log(roomName)
 
     let currentFullRoom = rooms[roomName]
     currentFullRoom.createGame()
-      // socket.emit("changePhase", "multiPlayerGameStart")
+
     io.in(roomName).emit("changePhase", "multiPlayerGameStart");  
 
 
@@ -230,6 +223,7 @@ io.on('connection', socket => {
 
   })
 
+  // here server receives a players move
   socket.on("sentPlayerInput", (data)=> {
     console.log("got player Input")
     console.log(data.boneIdx)
@@ -246,11 +240,11 @@ io.on('connection', socket => {
 
 
 
-    // const room = rooms[socket.id];
+
     const room = rooms[roomName];
 
     if(room){
-      // console.log(room)
+
         
           console.log("game is in session")
           const currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
@@ -259,7 +253,7 @@ io.on('connection', socket => {
           if(verifyMove){
                 isCurrentGameOver = room.board.isCurrentGameOver();
             if (isCurrentGameOver){
-                // this.setState({ board: this.state.board });
+
                 // probably emit here gameState
                 showModalBoolean = (!room.board.inSession || room.board.lockedGame)
                 console.log(`Show modal:? ${showModalBoolean}`)
@@ -272,7 +266,7 @@ io.on('connection', socket => {
                 console.log("sending endGame State")
                 console.log(newGameState)
                 
-                // this
+                // this exits early with extra key in the newGameState object
                 return io.in(roomName).emit("receiveGameState", newGameState)
             }
 
@@ -306,33 +300,19 @@ io.on('connection', socket => {
     
     
         
-      //old
-    // currentGame = rooms[socket.id];
+    // This could stay here or it can go above in else Statements ^^
+    // Once is cleaner
     currentGame = rooms[roomName];
 
     newGameState = currentGame.sendGameState();
     console.log("sending game State")
-    //new
+
     io.in(roomName).emit("receiveGameState", newGameState);
     
-    //old
-    // socket.emit("receiveGameState", newGameState)
-
 
   })
 
-  // socket.on("resetBoneyard", data => {
-  //   console.log("resetBoneyard active")
-  //   let roomName = data.roomName;
-  //   let resetBoneyardNum = data.resetBoneyardNum;
-
-  //   let currentGame = rooms[roomName]
-  //   currentGame.resetFauxBoneyard(resetBoneyardNum)
-
-  //   newGameState = currentGame.sendGameState()
-  //   io.in(roomName).emit("receiveGameState", newGameState);
-  // })
-
+  // This is where the server sends out restart game / new game information.
   socket.on("restartGame", data => {
     let newGameBoolean = data.newGameBoolean;
     let newRoundBoolean = data.newRoundBoolean;
@@ -356,6 +336,8 @@ io.on('connection', socket => {
   })
 
 
+  // Here a player disconnects from server however the room is still available.
+  // I suggest the room is deleted as well
   socket.on("disconnect", id => {
     let roomName = roomAtSocket[socket.id];
     console.log(socket.id)
@@ -368,6 +350,8 @@ io.on('connection', socket => {
 
 });
 
+
+// No need for this since gameState is sent on a per turn basis
 // setInterval(() => {
 //     Object.keys(rooms).forEach(roomName => {
 //         const room = rooms[roomName];

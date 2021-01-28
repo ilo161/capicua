@@ -32,17 +32,20 @@ class Bone extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (oldProps.src !== this.props.src) {
-      this.loadImage();
-    } 
-    if (oldProps.x !== this.props.x){
-      this.loadImage();
-    } 
-    if (oldProps.y !== this.props.y){
-      this.loadImage();
-    } 
-    if(oldProps.draggable != this.props.draggable){
-      // debugger
+    // if (oldProps.src !== this.props.src) {
+    //   this.loadImage();
+    // } 
+    // if (oldProps.x !== this.props.x){
+    //   this.loadImage();
+    // } 
+    // if (oldProps.y !== this.props.y){
+    //   this.loadImage();
+    // } 
+    // if(oldProps.draggable != this.props.draggable){
+    //   // debugger
+    //   this.loadImage();
+    // }
+    if(oldProps != this.props){
       this.loadImage();
     }
     
