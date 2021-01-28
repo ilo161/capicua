@@ -1,14 +1,15 @@
 class Player {
-    constructor(username, board, isAi, roomName = undefined, io = undefined, aiDifficulty) {
+    constructor(username, board, isAi, roomName = undefined, id = undefined, aiDifficulty) {
       this.username = username;
       this.roomName = roomName;
-      this.io = io
+      this.id = id
       this.points = 0;
       this.hand = [];
       this.isAi = isAi ? true : false;
       this.board = board;
       this.winningPlayerPoints = 0;
       this.aiDifficulty = aiDifficulty ? aiDifficulty : "easy";
+
 
     }
 

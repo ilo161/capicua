@@ -20,14 +20,17 @@ class Board extends React.Component {
         // const
     }
 
-    componentDidUpdate(prevProps){
-        let prevPlayer = prevProps.board.currentPlayer.username;
-        let nextPlayer = this.props.board.currentPlayer.username;
-        // debugger
-        if (prevProps.board.currentPlayer.hand.length !== this.props.board.currentPlayer.hand.length) {
-            debugger
-        } 
-    }
+
+
+    // componentDidUpdate(prevProps){
+    //     let prevPlayer = prevProps.board.currentPlayer.username;
+    //     let nextPlayer = this.props.board.currentPlayer.username;
+    //     // debugger
+    //     if (prevProps.board.currentPlayer.hand.length !== this.props.board.currentPlayer.hand.length) {
+    //         debugger
+    //     } 
+    // }
+
 
     render(){
         const boardDimen = 900;

@@ -41,10 +41,10 @@ class Board {
 
             if (playerData.isAi){
                 return new Player(playerData.username, this, true,
-                    this.roomName, this.io);
+                    this.roomName);
             }
             return new Player(playerData.username, this, false, 
-                this.roomName, this.io );
+                this.roomName, playerData.id);
         })
 
         return players
@@ -307,7 +307,7 @@ class Board {
         // second test checks top number of player hand bone second
         //orig below
         // if(bone.boneVal[1] !== arenaLeftBoneVal && bone.boneVal[0] === arenaLeftBoneVal){
-            debugger
+            // debugger
         if((bone.boneVal[1] !== arenaLeftBoneVal) && (bone.boneVal[0] === arenaLeftBoneVal)){
             
             bone.boneReverse();
@@ -338,7 +338,7 @@ class Board {
         
         //orig below
         // if(bone.boneVal[0] !== arenaRightBoneVal && bone.boneVal[1] === arenaRightBoneVal){
-            debugger
+            // debugger
         if((bone.boneVal[0] !== arenaRightBoneVal) && (bone.boneVal[1] === arenaRightBoneVal)){
             
                 bone.boneReverse();

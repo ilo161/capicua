@@ -1,5 +1,6 @@
 // import SoloRoom from "./frontend/src/classes/socketiobackend/solo_room"
 const SoloRoom = require("./frontend/src/classes/socketiobackend/solo_room")
+const Room = require("./frontend/src/classes/socketiobackend/room")
 
 const express = require("express");
 // const request = require("request");
@@ -8,6 +9,11 @@ const app = express();
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
+
+// app.get("/join2playergame", (req,res) => {
+//   console.log("2")
+// })  
+
 // const mongoose = require("mongoose");
 // const db = require("./config/keys").mongoURI;
 // const users = require("./routes/api/users");
@@ -84,30 +90,100 @@ const io = require('socket.io')(server);
 
 const PORT = process.env.PORT || 5000;
 
-// const cfg = require('config.json');
-// const tw = require('node-tweet-stream')(cfg);
-// tw.track('socket.io');
-// tw.track('javascript');
-
 let rooms = {};
-let roomSockets = {}
+let roomAtSocket = {}
+
 
 io.on('connection', socket => { 
   console.log("Connected to Socket yay! Socket id: " + socket.id);
 
+  socket.on("createRoom", (data) => {
+    let roomName = data.roomName;
+    
+
+    if (rooms[roomName]) {
+            socket.emit('receiveRoomError', 'Room already exists!');
+    } else {
+      
+      let username = data.username;
+      let id = socket.id;
+      let _data = {username, id};
+      
+      //total number of expected players
+      let numPlayers = data.numPlayers;
+
+
+      // console.log(roomName)
+      // console.log(username)
+      // console.log(numPlayers)
+
+      socket.join(roomName);
+      roomAtSocket[id] = roomName;
+      rooms[roomName] = new Room(numPlayers, roomName, io);
+
+      rooms[roomName].addPlayer(_data);
+      socket.emit("joinRoom", roomName);
+
+    }
+
+
+
+
+  })
+
+  socket.on("joinExistingRoom", (data) => {
+    let roomName = data.roomName;
+    
+
+      if (!rooms[roomName]) {
+          console.log("room does not exist")  
+          socket.emit("receiveRoomError", "Room does not exist") 
+    } else {
+
+      let username = data.username
+      let id = socket.id;
+      let _data = {username, id}
+
+      console.log("join room success");
+      console.log(roomName)
+
+      socket.join(roomName)
+      roomAtSocket[id] = roomName;
+
+      rooms[roomName].addPlayer(_data)
+
+
+
+      socket.emit("joinRoom", roomName)
+
+      io.in(roomName).emit("updateRoomPlayers", {lobbyPlayers: rooms[roomName].players});
+
+
+
+    }
+  })
+
+// this is no longer useful since 1player is offline
   socket.on("startSoloGame", (data) => {
     console.log("starting solo Game")
 
+    // socket ID is room name
     let roomName = socket.id;
+    // join a room
     socket.join(roomName);
+    
+    //construct data
     const playerData = [{username: "Cyborg", isAi: false},
     {username: data.username, isAi: false}]
 
+    //create Room Object
     let newRoom = new SoloRoom(roomName, io, playerData);
     rooms[roomName] = newRoom;
 
+    //create game inside room object
     newRoom.createGame();
-    // let gameData = {"phase":"solo", "newRoom": newRoom}
+
+    //tell client game is ready
     socket.emit("changePhase", "soloLobby")
     // socket.to(roomName).emit("changePhase", "solo")
 
@@ -119,39 +195,42 @@ io.on('connection', socket => {
 
   })
 
-  socket.on("askingForGameState", (data) => {
-      console.log("preparing GameState");
-      console.log(data)
-      // console.log(currentGame.sendGameState())
+  socket.on("askingForGameState", (roomName) => {
+      console.log("socket Asked for GameState");
       
-      //testing...
-      
-      let currentGame = rooms[socket.id];
+      let currentGame = rooms[roomName];
       let newGameState = currentGame.sendGameState();
-      console.log(newGameState)
+
       socket.emit("receiveGameState", newGameState)
   })
 
-  //this trigger is on the <Lobby Component>
-  socket.on("gameStartRender", () => {
-      socket.emit("changePhase", "soloGameStart")
+  //this trigger is on the <Lobby Component> for multiplayer Games
+  socket.on("gameStartRender", (roomName) => {
+    // console.log(roomName)
+
+    let currentFullRoom = rooms[roomName]
+    currentFullRoom.createGame()
+
+    io.in(roomName).emit("changePhase", "multiPlayerGameStart");  
 
 
       //testing
-          let currentGame = rooms[socket.id];
-          let newGameState = currentGame.sendGameState();
-          socket.emit("receiveGameState", newGameState)
+          // let currentGame = rooms[socket.id];
+          // let newGameState = currentGame.sendGameState();
+          // socket.emit("receiveGameState", newGameState)
 
       //testing
 
   })
 
+  // here server receives a players move
   socket.on("sentPlayerInput", (data)=> {
     console.log("got player Input")
     console.log(data.boneIdx)
     let posPlay = data.posPlay;
     let center = data.center;
     let boneIdx = data.boneIdx;
+    let roomName = data.roomName
 
     let currentGame;
     let newGameState;
@@ -161,10 +240,11 @@ io.on('connection', socket => {
 
 
 
-    const room = rooms[socket.id];
+
+    const room = rooms[roomName];
 
     if(room){
-      // console.log(room)
+
         
           console.log("game is in session")
           const currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
@@ -173,20 +253,21 @@ io.on('connection', socket => {
           if(verifyMove){
                 isCurrentGameOver = room.board.isCurrentGameOver();
             if (isCurrentGameOver){
-                // this.setState({ board: this.state.board });
+
                 // probably emit here gameState
                 showModalBoolean = (!room.board.inSession || room.board.lockedGame)
                 console.log(`Show modal:? ${showModalBoolean}`)
                 console.log(`Show locked Status:? ${room.board.lockedGame}`)
                 console.log("~~")
 
-                currentGame = rooms[socket.id];
+                currentGame = rooms[roomName];
                 newGameState = currentGame.sendGameState();
                 newGameState[showModalBoolean] = showModalBoolean;
                 console.log("sending endGame State")
                 console.log(newGameState)
                 
-                return (socket.emit("receiveGameState", newGameState))
+                // this exits early with extra key in the newGameState object
+                return io.in(roomName).emit("receiveGameState", newGameState)
             }
 
             room.board.resetSkipCounter();
@@ -219,129 +300,58 @@ io.on('connection', socket => {
     
     
         
+    // This could stay here or it can go above in else Statements ^^
+    // Once is cleaner
+    currentGame = rooms[roomName];
 
-    currentGame = rooms[socket.id];
     newGameState = currentGame.sendGameState();
     console.log("sending game State")
-    socket.emit("receiveGameState", newGameState)
 
+    io.in(roomName).emit("receiveGameState", newGameState);
+    
 
   })
 
-  // socket.on("askForAiPlay", (username, roomName) => {
-  //     console.log(`asking...test : ${username}`)
-  //         const room = rooms[socket.id];
+  // This is where the server sends out restart game / new game information.
+  socket.on("restartGame", data => {
+    let newGameBoolean = data.newGameBoolean;
+    let newRoundBoolean = data.newRoundBoolean;
+    let roomName = data.roomName;
 
-  //         if(room){
-  //           // console.log(room)
-  //             if(room.board.inSession){
-  //                 console.log("game is in session")
-  //             }
-  //         }
-          
+    let currentGame = rooms[roomName];
+    let newGameState;
 
-  //         let currentGame = rooms[socket.id];
-  //         let newGameState = currentGame.sendGameState();
-  //         socket.emit("receiveGameState", newGameState)
+    if(newGameBoolean === true){
+      console.log(`newGame: ${newGameBoolean}`)
+      currentGame.createGame()
 
-  // })
+    } else if(newRoundBoolean === true){
+      console.log(`nextRound: ${newRoundBoolean}`)
+      currentGame.newNextRound();
+
+    }
+
+    newGameState = currentGame.sendGameState()
+    io.in(roomName).emit("receiveGameState", newGameState);
+  })
 
 
-  // socket.on("askForAiPlay", (username, roomName) => {
-  //   console.log(`asking...test : ${username}`)
-  //     const room = rooms[socket.id];
-  //     console.log(room.board.inSession)
-  //     if(room.board.inSession){
-  //           // let isCurrentGameOver = room.board.isCurrentGameOver();
-  //           let isCurrentGameOver;
-  //       if(room){
-  //         // if(!isCurrentGameOver){
+  // Here a player disconnects from server however the room is still available.
+  // I suggest the room is deleted as well
+  socket.on("disconnect", id => {
+    let roomName = roomAtSocket[socket.id];
+    console.log(socket.id)
+    console.log("has disconnected")
+    io.in(roomName).emit("changePhase", "playerDisconnect");
 
-          
-  //         console.log("getting AI move")
-  //         console.log("Arena Below")
-  //         console.log(room.board.renderArena())
-  //         let aiResponse = room.board.currentPlayer.aiAutoPlay("easy")
-  //         let boneIdx = aiResponse[2];
-  //         let verifyMove;
+  })
 
-  //         let currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
-  //         // console.log(currentBone)
-
-  //         aiResponse[2] = currentBone;
-  //         // console.log(aiResponse)
-
-  //         verifyMove = room.board.makeMove(aiResponse[0], aiResponse[1], aiResponse[2]);
-  //           // while(!room.board.makeMove(...[aiResponse]) === true){
-  //           while(!verifyMove){
-  //             // console.log("try again")
-  //             if(!verifyMove){
-  //                   room.board.currentPlayer.hand.splice(boneIdx,0, currentBone); 
-  //             }
-  //               aiResponse = room.board.currentPlayer.aiAutoPlay("easy")
-  //               boneIdx = aiResponse[2];
-  //               currentBone = room.board.currentPlayer.hand.splice(boneIdx,1)[0];
-  //               aiResponse[2] = currentBone;
-  //               verifyMove = room.board.makeMove(aiResponse[0], aiResponse[1], aiResponse[2]);
-                
-  //           }
-  //           console.log("exit")
-
-  //           if(verifyMove){
-
-  //               // isCurrentGameOver = room.board.isCurrentGameOver();
-  //               isCurrentGameOver = !room.board.inSession;
-  //               console.log(`currGameIS: ${room.board.currentPlayer.username} ${isCurrentGameOver}`)
-  //             if (isCurrentGameOver){
-  //                 // this.setState({ board: this.state.board });
-  //                 console.log("game is over!")
-  //                 return;
-  //             }
-
-  //               console.log("reset skip")
-  //               room.board.resetSkipCounter();
-
-  //               if(room.board.inSession === true){
-  //                 console.log("next Player time")
-  //                 room.board.nextPlayerAssignTurn()
-
-  //                 } 
-  //               //   else {
-
-  //               //   }
-  //               // } else {
-  //           }
-
-  //           if(!isCurrentGameOver){
-  //               console.log(room.board.renderArena());
-  //               console.log("Arena ^..hand below");
-  //               room.board.currentPlayer.revealHand();
-
-  //               if(room.board.inSession){
-  //                 console.log(aiResponse);
-  //                 let newGameState = room.sendGameState();
-  //                 io.to(room.roomName).emit('receiveGameState', newGameState);
-  //                 // socket.emit("AiAutoPlayData", aiResponse)
-
-  //               }
-  //           } else {
-  //             console.log("no more moves")
-  //             return
-  //           }
-            
-  //         // console.log(this.state.board.currentPlayer.revealHand())
-  //         // debugger
-  //         // console.log(`^^'s points: ${this.state.board.currentPlayer.points}`)
-
-            
-  //       }
-  //     }
-      
-  //   // }
-  // })
+  
 
 });
 
+
+// No need for this since gameState is sent on a per turn basis
 // setInterval(() => {
 //     Object.keys(rooms).forEach(roomName => {
 //         const room = rooms[roomName];
@@ -359,19 +369,15 @@ io.on('connection', socket => {
 
 
 
-// Steven Below
 
-// Socket.io 
-// const socketio = require('socket.io');
-// const http = require('http');
-// const server = http.createServer(app);
-// const io = socketio(server);
+
+
 
 const router = require('./router');
 // const { useParams } = require("react-router-dom");
 // const cors = require('cors');
 
-// const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+
 // let users = [];
 
 // const messages = {
@@ -382,42 +388,8 @@ const router = require('./router');
 // }
 
 
-// io.on("connection", (socket) => {
-//   console.log("New CONNECTION!!");
-  
-//   socket.on("join server", (username)  => {
-//     const user = {
-//       username,
-//       id: socket.id
-//     };
-//     users.push(user);
-//     io.emit("new user", users);
-//   });
 
 
-
-//   socket.on("join room", (roomName, cb)  => {
-//     socket.join(roomName);
-//     cb(messages[roomName]);
-//   });
-
-// })
-
-// io.on('connect', (socket) => {
-//   socket.on('join', ({ name, room }, callback) => {
-//     const { error, user } = addUser({ id: socket.id, name, room });
-
-//     if (error) return callback(error);
-
-//     socket.join(user.room);
-
-//     socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.` });
-//     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-
-//     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-
-//     callback();
-//   });
 
 //   socket.on('sendMessage', (message, callback) => {
 //     const user = getUser(socket.id);
@@ -427,17 +399,8 @@ const router = require('./router');
 //     callback();
 //   });
 
-//   socket.on('disconnect', () => {
-//     const user = removeUser(socket.id);
 
-//     if (user) {
-//       io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
-//       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-//     }
-//   })
-// });
 
-//Steven End
 
 app.use(router);
 

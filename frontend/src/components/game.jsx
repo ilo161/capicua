@@ -160,7 +160,9 @@ class Game extends React.Component {
         const verifyMove = this.state.board.makeMove(posPlay, center, currentBone);
 
         if(this.state.board.currentPlayer.isAi === false){
+
             this.setState({ state: this.state });
+
         }
 
         if(verifyMove){

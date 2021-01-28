@@ -24,6 +24,28 @@
   justify-content: flex-start;
 }
 
+.flex-col-end{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.flex-col-center{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.score-rules-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 33.1vh;
+}
+
 .bodega-img{
   position: absolute;
   width: 100%;
@@ -75,4 +97,9 @@
 .flex-row-start{
   display: flex;
   justify-content: flex-start;
+}
+
+.flex-row-center{
+  display: flex;
+  justify-content: center;
 }

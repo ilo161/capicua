@@ -1,9 +1,9 @@
 .lobbyOuterContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
   text-align: center;
   height: 100vh;
-  align-items: center;
 
 }
 
@@ -22,9 +22,9 @@
   padding: 15px 20px;
   width: 90%;
   box-sizing: border-box;
-  height: 300px;
+  height: 250px;
   background-color: white;
-  margin-left: 20px;
+
 }
 
 .heading {
@@ -32,6 +32,7 @@
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: black;
   font-size: 2.5em;
+  padding-top: 10px;
   padding-bottom: 10px;
 }
 
@@ -46,22 +47,57 @@
   border-radius: 5px;
   display: inline-block;
   border: none;
-  width: 100%;
+  width: 80%;
+}
+
+
+.button-circle{
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  background: #B82032;
+  padding: 5px;
+  border-radius: 35px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+  margin-bottom: 10px;
+}
+
+.attentive-voice{
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
+  color: black;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
 .mt-20 {
   margin-top: 20px;
 }
 
+.lobby-player-p{
+  margin-bottom: 10px;
+}
+
+/* .chooseAi{
+  padding: 100px;
+} */
+
 button:focus {
   outline: 0;
 }
 
 .lds-ripple {
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
   width: 50px;
   height: 50px;
+  padding-right: 5px;
+
 }
 .lds-ripple div {
   position: absolute;

@@ -26,7 +26,7 @@ class Arena extends React.Component {
 
                 // reactKey, draggable?, x, y, width, height, source, rotation, inArena?, 
                 //offSetCenter, boneIdx, updateGame, arena
-                return constructBone(reactKeyVal, true,
+                return constructBone(reactKeyVal, false,
                 0, 0, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                 0, true)
                 // , 0, 99, undefined, )
@@ -38,14 +38,14 @@ class Arena extends React.Component {
                 // prop x is shifted 60 pixels to the right because rotation
                 // auto-shifts it 60 pixels to the left??? (due to Konva)
 
-                return constructBone(reactKeyVal, true,
+                return constructBone(reactKeyVal, false,
                 boneHeight, boneIsRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                 90, true)
 
             } else {
                 //boneVal is NOT reversed. Rotate -90 Degrees
 
-                return constructBone(reactKeyVal, true,
+                return constructBone(reactKeyVal, false,
                 0, boneNotRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                 -90, true)
             }
@@ -181,7 +181,7 @@ class Arena extends React.Component {
                 if (bone.isDouble()){
                     // console.log(`totalXPOS: ${totalXPos}`)
 
-                    return constructBone(reactKeyVal, true,
+                    return constructBone(reactKeyVal, false,
                     totalXPos, 0, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                     0, true)
                 }
@@ -190,7 +190,7 @@ class Arena extends React.Component {
                     //rotate once -90 degrees
 
                     //"top", "notReversed"
-                    return constructBone(reactKeyVal, true,
+                    return constructBone(reactKeyVal, false,
                     totalXPos, boneNotRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                     -90, true)
                 } else {
@@ -200,7 +200,7 @@ class Arena extends React.Component {
                     totalXPos += boneHeight;
                     
                     //"top", "isReversed"
-                    return constructBone(reactKeyVal, true,
+                    return constructBone(reactKeyVal, false,
                     totalXPos, boneIsRevYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                     90, true)
                 }
@@ -221,7 +221,7 @@ class Arena extends React.Component {
                             
                             
                             //"rightSide", "notReversed"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             0, true , offsetX, offsetY)
 
@@ -232,7 +232,7 @@ class Arena extends React.Component {
                             topRowTotalPos = (topRowTotalPos - (boneWidth / 2));
                           
                             // "rightSide", "reversed"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                             180, true , offsetX, offsetY)
 
@@ -245,7 +245,7 @@ class Arena extends React.Component {
                             totalYPos = (totalYPos - (boneWidth / 2));
 
                             // "rightSide", "isdouble"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             90, true , offsetX, offsetY)
 
@@ -257,7 +257,7 @@ class Arena extends React.Component {
                         topRowTotalPos = (topRowTotalPos - (boneWidth / 2));
                         
                         // "rightSide", "notReversed"
-                        return constructBone(reactKeyVal, true,
+                        return constructBone(reactKeyVal, false,
                         topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                         0, true , offsetX, offsetY)
 
@@ -266,7 +266,7 @@ class Arena extends React.Component {
                         topRowTotalPos = (topRowTotalPos - (boneWidth / 2));
 
                         // "rightSide", "isReversed"
-                        return constructBone(reactKeyVal, true,
+                        return constructBone(reactKeyVal, false,
                         topRowTotalPos, totalYPos, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                         180, true , offsetX, offsetY)
                     }
@@ -295,7 +295,7 @@ class Arena extends React.Component {
                             adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
                             // "bottom", "notReversed"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             90, true , offsetX, offsetY)
                     } else {
@@ -307,7 +307,7 @@ class Arena extends React.Component {
                             adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
                             // "bottom", "isReversed"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                             -90, true , offsetX, offsetY)
                     }
@@ -323,7 +323,7 @@ class Arena extends React.Component {
                             adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
                             // "bottom", "isDouble"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             0, true , offsetX, offsetY)
                         }
@@ -338,7 +338,7 @@ class Arena extends React.Component {
                             adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
                             // "bottom", "notReversed"
-                            return constructBone(reactKeyVal, true,
+                            return constructBone(reactKeyVal, false,
                             adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[0]],
                             90, true , offsetX, offsetY)
 
@@ -353,7 +353,7 @@ class Arena extends React.Component {
                         adjustedY = (totalYPos - ((boneWidth / 2) * 3))
 
                         // "bottom", "isReversed"
-                        return constructBone(reactKeyVal, true,
+                        return constructBone(reactKeyVal, false,
                         adjustedX, adjustedY, boneWidth, boneHeight, allDominos[boneStrArr[1]],
                         -90, true , offsetX, offsetY)
                     }

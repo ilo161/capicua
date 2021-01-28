@@ -12,8 +12,7 @@ import Rules from './gameRule.jsx';
 import Navbar from './navbar.jsx';
 
  export const GameViewComponent = (props) => {
-// regular
-// debugger
+
      return (
         <div className="master-game-container flex-col-start">
 

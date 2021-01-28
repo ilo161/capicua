@@ -32,15 +32,22 @@ class Bone extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (oldProps.src !== this.props.src) {
+    // if (oldProps.src !== this.props.src) {
+    //   this.loadImage();
+    // } 
+    // if (oldProps.x !== this.props.x){
+    //   this.loadImage();
+    // } 
+    // if (oldProps.y !== this.props.y){
+    //   this.loadImage();
+    // } 
+    // if(oldProps.draggable != this.props.draggable){
+    //   // debugger
+    //   this.loadImage();
+    // }
+    if(oldProps != this.props){
       this.loadImage();
-    } 
-    if (oldProps.x !== this.props.x){
-      this.loadImage();
-    } 
-    if (oldProps.y !== this.props.y){
-      this.loadImage();
-    } 
+    }
     
     
   }
@@ -125,7 +132,7 @@ class Bone extends React.Component {
       
 
     //   if (this.state.gameState.arena.length <= 15){
-        debugger
+        // debugger
       if (this.state.arena.length <= 15){
         if (yCoord < -50) {
 
