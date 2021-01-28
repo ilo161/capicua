@@ -16,21 +16,27 @@ import Countdown from "./countdownS";
 
 //This is where we choose our players for debugging
 // two player below
-const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!", isAi: true}]
+// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!", isAi: true}]
 // two player AI below
 // const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}]
 
 // three player below
 // const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, {username: "idrakeUfake"} ]
 
+//3 player. 1 human 2 ai
+const axiosPlayerObj = [{ username: "Steven" }, { username: "TinyPigOink!", isAi: true },
+{ username: "idrakeUfake!", isAi: true }]
+
 //three player AI below
 // const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
 // , {username: "idrakeUfake", isAi: true}]
 
 //4 player below
-// const axiosPlayerObj = [{username: "Steven"}, {username: "TinyPigOink!"}, 
-// {username: "idrakeUfake!"},
-// {username: "prophecy!"}]
+// const axiosPlayerObj = [{ username: "Steven" }, { username: "TinyPigOink!", isAi: true}, 
+//     { username: "idrakeUfake!", isAi: true}, { username: "prophecy!", isAi: true}]
+
+
+
 
 // 4 player ai below
 // const axiosPlayerObj = [{username: "Steven", isAi: true}, {username: "TinyPigOink!", isAi: true}
@@ -68,16 +74,14 @@ class Game extends React.Component {
         return currentPlayer
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
 
         if(this.state.board.inSession){
             this.oldTimeIds.push(setTimeout(()=>{
                 this.forceAiAutoPlay();
-            },500))
-            
+            },3000))
         }
-        
-        
+
     }
 
     forceAiAutoPlay(){
@@ -102,7 +106,7 @@ class Game extends React.Component {
         if(this.state.board.inSession && this.state.board.arena.length === 1){
             this.oldTimeIds.push(setTimeout(()=>{
                 this.forceAiAutoPlay();
-            },500))
+            },3000))
             
         }
         
