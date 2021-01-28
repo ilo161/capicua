@@ -1,11 +1,12 @@
 import React from "react";
-import Konva from "konva"
+import Konva from "konva";
 import { Stage, Layer, Group, Text} from 'react-konva';
 import Bone from "./bone"
 import Hand from "./hand"
 import Arena from "./arena"
 import OtherHands from "./otherHands"
-
+import Boneyard from "./boneyard"
+import YourTurn from './yourTurn'
 import { allDominos } from "./allDominos"
 
 
@@ -19,7 +20,14 @@ class Board extends React.Component {
         // const
     }
 
-    
+    componentDidUpdate(prevProps){
+        let prevPlayer = prevProps.board.currentPlayer.username;
+        let nextPlayer = this.props.board.currentPlayer.username;
+        // debugger
+        if (prevProps.board.currentPlayer.hand.length !== this.props.board.currentPlayer.hand.length) {
+            debugger
+        } 
+    }
 
     render(){
         const boardDimen = 900;
@@ -84,7 +92,7 @@ class Board extends React.Component {
         const startBoxforHand = ((boardDimen / 2) - offSetCenter)
 
             
-           
+        // const boneyardInt = this.boneyard.testFunction();
             // the arena is simply to show the current pieces in play
         return (
             <div className="board-game-container">
@@ -108,8 +116,8 @@ class Board extends React.Component {
                     boneWidth={boneWidth} boneHeight={boneHeight} boneValToString={boneValToString}/>
 
                     {/* testing show name */}
-                    <Text x={boardDimen /2} y={boardDimen - (boneHeight * 2)} 
-                    text={board.currentPlayer.username} fontSize={25} />
+                    {/* <Text x={boardDimen / 2} y={boardDimen - (boneHeight * 2)}
+                        text={board.players[0].username} fontSize={25} /> */}
                     {/* testing */}
 
                     <Group x={startBoxforHand} y={boardDimen - boneHeight}>
@@ -119,8 +127,19 @@ class Board extends React.Component {
                         updateGame={this.props.updateGame} allDominos={allDominos}
                         boneValToString={boneValToString}  />
                     </Group>
+                        <Boneyard boneyardLength={board.boneyard.bones.length}
+                        //  playerLength={board.players.length} 
+                         player={board.currentPlayer.username}
+                         currentPlayer={board.currentPlayer}
+                         players={board.players}
+                         arenaLength={board.arena.length}
+                         />
+
+                        <YourTurn currentPlayer={board.currentPlayer} players={board.players}/>
+
                 </Layer>
             </Stage>
+                {/* <p> {boneyardInt}</p> */}
           </div>
         );
     }

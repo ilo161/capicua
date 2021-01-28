@@ -144,10 +144,6 @@ class Bone extends React.Component {
         }
         }
         
-
-
-
-
       }
       
           // console.log(e.target)
