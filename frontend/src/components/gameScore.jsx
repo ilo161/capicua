@@ -16,20 +16,20 @@ class Score extends React.Component {
         const {board} = this.props;
 
         const nameScores = board.players.map((player) => (
-                    <ul className="name-score-container" key={player.username+player.points.toString()}>
-                        <li className="name-score" key={player.username}>Player: {player.username}</li>
-                        <li className="name-score" key={player.points.toString()+player.username}> Score: {player.points}</li>
+                    <ul className="flex-row-start" key={player.username+player.points.toString()}>
+                        <li className="name-score1" key={player.username}>Player: {player.username}</li>
+                        <li className="name-score2" key={player.points.toString()+player.username}> Score: {player.points}</li>
                     </ul>
                                 ))
 
         return(
             <div className="score-box-container">
             
-                <div className="current-player">{currentPlayer.username} </div>
+                {/* <div className="current-player">{currentPlayer.username} </div> */}
                 
-                <div className="score-container">
+                
+                <div className="name-and-points">
                 {nameScores}
-                
                 </div>
         
             </div>

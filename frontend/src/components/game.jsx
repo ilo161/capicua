@@ -266,11 +266,15 @@ class Game extends React.Component {
 
         return (
             <>
-                <div className="board-score-container flex-row-start">
+                <div className="board-sidebar-container flex-row-start">
                     {modal}
                     { this.state.board ? <Board board={this.state.board} updateGame={this.updateGame} /> : null }
-                    <div className="flex-col-start">
+                    <div className="flex-col-start sidebar-occupy-width">
+
                         <Chat key={"chat"}/>
+                            
+
+                        {/* <Score board={this.state.board} key={999}/> */}
                         <Score board={this.state.board} key={999}/>
                     </div>
                 </div>
@@ -279,5 +283,4 @@ class Game extends React.Component {
     }
 
 }
-
 export default Game;
