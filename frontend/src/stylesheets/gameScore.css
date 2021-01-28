@@ -12,7 +12,7 @@
 .name-and-points{
     display: flex;
     flex-direction: column;
-    flex-basis: 92%;
+    flex-basis: 100%;
     
 }
 

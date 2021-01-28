@@ -69,7 +69,7 @@ class Music extends React.Component {
         this.setState({value: event.target.value});
         this.player.volume = event.target.value //this.state.value
         console.log(this.state.value)
-        this.state.value <= 0.1? this.player.muted = true : this.player.muted = false
+        this.state.value <= 0.09 ? this.player.muted = true : this.player.muted = false
     }
 
 
