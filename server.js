@@ -321,17 +321,17 @@ io.on('connection', socket => {
 
   })
 
-  socket.on("resetBoneyard", data => {
-    console.log("resetBoneyard active")
-    let roomName = data.roomName;
-    let resetBoneyardNum = data.resetBoneyardNum;
+  // socket.on("resetBoneyard", data => {
+  //   console.log("resetBoneyard active")
+  //   let roomName = data.roomName;
+  //   let resetBoneyardNum = data.resetBoneyardNum;
 
-    let currentGame = rooms[roomName]
-    currentGame.resetFauxBoneyard(resetBoneyardNum)
+  //   let currentGame = rooms[roomName]
+  //   currentGame.resetFauxBoneyard(resetBoneyardNum)
 
-    newGameState = currentGame.sendGameState()
-    io.in(roomName).emit("receiveGameState", newGameState);
-  })
+  //   newGameState = currentGame.sendGameState()
+  //   io.in(roomName).emit("receiveGameState", newGameState);
+  // })
 
   socket.on("restartGame", data => {
     let newGameBoolean = data.newGameBoolean;

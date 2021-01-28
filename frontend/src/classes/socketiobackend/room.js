@@ -37,10 +37,10 @@ class Room {
         })
     }
 
-    resetFauxBoneyard(numPlayers){
-       this.board.boneyard.bones = this.board.boneyard.resetBoneyardForRestart(numPlayers);
+    // resetFauxBoneyard(numPlayers){
+    //    this.board.boneyard.bones = this.board.boneyard.resetBoneyardForRestart(numPlayers);
 
-    }
+    // }
 
     sendGameState(){
 

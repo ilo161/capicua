@@ -61,17 +61,7 @@ class Boneyard {
         return this.bones.pop()
     }
 
-    resetBoneyardForRestart(numPlayers){
-        let dominosArr = this.getUniqueDominoNums()
-        let chopDominosArr = dominosArr.slice(0, numPlayers)
-
-        let fauxBoneyard = chopDominosArr.map((numberPair, idx) => {
-            return new Bone([parseInt(numberPair[0]),  parseInt(numberPair[1])])
-        })
-
-        return fauxBoneyard
-
-    }
+    
 
     
 
