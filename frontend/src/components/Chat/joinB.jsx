@@ -222,7 +222,9 @@ class Join extends React.Component{
 
   handleSetAiPlayers(num){
     this.setState({numAiPlayers: num}, () => {
+      
       this.generateAiPlayers()
+
     })
   }
 
@@ -277,6 +279,8 @@ class Join extends React.Component{
           //   return players;
           // })
           this.setState({players: players})
+
+
           
 
       }
