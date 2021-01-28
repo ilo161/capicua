@@ -95,7 +95,7 @@ class Board extends React.Component {
         // const boneyardInt = this.boneyard.testFunction();
             // the arena is simply to show the current pieces in play
         return (
-            <div className="board-game-container">
+            <div className="board-arena-container">
             <Stage width={boardDimen} height={boardDimen}>
                 <Layer>
                     {/* y will shift up as length grows until length is 13 then shifting stops */}

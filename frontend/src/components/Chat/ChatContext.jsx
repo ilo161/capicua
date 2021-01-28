@@ -9,6 +9,7 @@ class ChatContext extends Component {
   render() {
     return (
       <form
+        className="flex-row-start"
         onSubmit={e => {
           e.preventDefault()
           this.props.onSubmitMessage(this.state.message)
