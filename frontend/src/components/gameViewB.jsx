@@ -9,7 +9,7 @@ import Game from './gameB.jsx';
 import bodega from "../assets/img/La_Bodega.jpg"
 // import Score from './gameScore.jsx';
 import Rules from './gameRule.jsx';
-import Navbar from './navrbar.jsx';
+import Navbar from './navbar.jsx';
 
  export const GameViewComponent = (props) => {
     // debugger
