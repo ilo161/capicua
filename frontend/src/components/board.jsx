@@ -20,7 +20,7 @@ class Board extends React.Component {
     }
 
     componentDidUpdate(prevProps, nextState){
-        debugger
+
     }
 
     

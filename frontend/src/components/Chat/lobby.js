@@ -23,18 +23,7 @@ const Lobby = (props) => {
 
     buttonText = players.length === totalPlayers ? "Start Game" : "Waiting for players";
   }
-  debugger
     
-
-    // <div className='flex-row-center'>
-    //         <div className="lobbyPlayers flex-col-center">
-    //           {allUsernames}
-    //         </div>
-    //       </div>
-
-
-    
-
   return (
     <div className="lobbyOuterContainer">
       <div className="lobbyInnerContainer flex-col-start">
@@ -47,7 +36,7 @@ const Lobby = (props) => {
               {allUsernames}
             </div>
           </div>}
-          
+
           {/* <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/play_game?name=${name}&room=${room}`}> */}
 
          { playerDisconnected ?

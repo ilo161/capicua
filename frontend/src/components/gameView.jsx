@@ -13,7 +13,7 @@ import Navbar from './navrbar.jsx';
 
  export const GameViewComponent = (props) => {
 // regular
-debugger
+
      return (
         <div className="master-game-container">
            <Navbar/>

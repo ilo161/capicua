@@ -10,6 +10,7 @@ class Room {
 
         }
         this.players = [];
+        this.previousPlayersArr = undefined;
     }
 
     addPlayer(data){
@@ -22,6 +23,23 @@ class Room {
         this.board = new BoardObject(this.players, 900, this.roomName, this.io)
 
         // console.log(this.board)
+    }
+
+    newNextRound(){
+        this.previousPlayersArr = this.board.players;
+        this.createGame();
+        this.giveBackPointsToPlayers(this.board);
+    }
+
+    giveBackPointsToPlayers(board){
+        this.previousPlayersArr.forEach((oldPlayerObj, idx) => {
+            board.players[idx].restorePoints(oldPlayerObj.points)
+        })
+    }
+
+    resetFauxBoneyard(numPlayers){
+       this.board.boneyard.bones = this.board.boneyard.resetBoneyardForRestart(numPlayers);
+
     }
 
     sendGameState(){

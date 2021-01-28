@@ -321,9 +321,38 @@ io.on('connection', socket => {
 
   })
 
+  socket.on("resetBoneyard", data => {
+    console.log("resetBoneyard active")
+    let roomName = data.roomName;
+    let resetBoneyardNum = data.resetBoneyardNum;
+
+    let currentGame = rooms[roomName]
+    currentGame.resetFauxBoneyard(resetBoneyardNum)
+
+    newGameState = currentGame.sendGameState()
+    io.in(roomName).emit("receiveGameState", newGameState);
+  })
+
   socket.on("restartGame", data => {
-    let newGameBoolean = data.newGame;
-    let newRoundBoolean = data.newRound;
+    let newGameBoolean = data.newGameBoolean;
+    let newRoundBoolean = data.newRoundBoolean;
+    let roomName = data.roomName;
+
+    let currentGame = rooms[roomName];
+    let newGameState;
+
+    if(newGameBoolean === true){
+      console.log(`newGame: ${newGameBoolean}`)
+      currentGame.createGame()
+
+    } else if(newRoundBoolean === true){
+      console.log(`nextRound: ${newRoundBoolean}`)
+      currentGame.newNextRound();
+
+    }
+
+    newGameState = currentGame.sendGameState()
+    io.in(roomName).emit("receiveGameState", newGameState);
   })
 
 

@@ -73,70 +73,9 @@ class GameB extends React.Component {
         if(prevProps.gameState.inSession !== this.props.gameState.inSession){
             this.setState({gameState: this.props.gameState})
         }
-
-        
-
-
-
-        //old
-        // if(this.state.gameState.inSession){
-        // if(prevProps.gameState.arena !== this.props.gameState.arena){
-        //     console.log("update Arena State")
-            
-        //     if(prevProps.gameState.inSession === this.props.gameState.inSession){
-        //         this.setState({gameState: this.props.gameState}, () => {
-        //         console.log(this.state.gameState.inSession)
-
-        //         if(this.state.gameState.inSession){
-                 
-        //             // this.oldTimeIds.push(setTimeout(()=>{
-        //                 this.forceAiAutoPlay();
-        //             // },500))
-                    
-        //         }
-        //     })
-
-        //     }
-            
-            
-            
-
-
-       
-        
-        
+ 
     }
 
-    // forceAiAutoPlay(){
-    //     // if(this.state.board.currentPlayer.isAi === true){
-    //     // this.oldArenaLen = this.state.board.arena.length;
-    //     //             while(this.state.board.arena.length === this.oldArenaLen && this.state.board.inSession){
-    //     //                 this.updateGame(...this.state.board.currentPlayer.aiAutoPlay("easy"))
-    //     // debugger
-    //     if(this.state.gameState.currentPlayer.isAi === true){
-    //             // debugger
-    //             if(!this.hasAiGone){
-        
-    //                 this.oldArenaLen = this.state.gameState.arena.length;
-
-        
-    //                 // while(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
-    //                 if(this.state.gameState.inSession){
-    //                         if(this.state.gameState.arena.length === this.oldArenaLen && this.state.gameState.inSession){
-    //                             debugger
-    //                             console.log("re-emit")
-    //                               this.socket.emit("askForAiPlay", this.state.gameState.currentPlayer.username)
-    
-    //                     // this.updateGame(...this.state.gameState.currentPlayer.aiAutoPlay("easy"))
-    //                     }
-    //                 }
-                  
-    //                 this.hasAiGone = true;
-    //             }
-    //             // debugger
-    //             this.hasAiGone = false;
-    //     }
-    // }
 
     componentDidMount(){
         this.setState({gameState: this.props.gameState})    
@@ -151,7 +90,7 @@ class GameB extends React.Component {
     }
 
     restartGame(e, isNewGame = undefined) {
-
+        let resetBoneyardNum = this.state.gameState.players.length * 7
         //start a brand new game with everything reset
         if(isNewGame){
             // debugger
@@ -159,6 +98,12 @@ class GameB extends React.Component {
 
             //emit new game Request
             debugger
+            
+            // this.props.socket.emit("resetBoneyard", {roomName: this.state.gameState.roomName,
+            //                     resetBoneyardNum})
+             this.props.socket.emit("restartGame", {roomName: this.state.gameState.roomName,
+                                 newGameBoolean: true, newRoundBoolean: false })
+               
         } else {
             // debugger
             // continue on to next round.
@@ -169,7 +114,9 @@ class GameB extends React.Component {
 
             // multiplayer Function Here.
             debugger
-            this.previousPlayersArr = this.state.gameState.players;
+            this.props.socket.emit("restartGame", {roomName: this.state.gameState.roomName,
+                                newGameBoolean: false, newRoundBoolean: true })
+            // this.previousPlayersArr = this.state.gameState.players;
             //emit this data back to server!
             // const board = new BoardObject(axiosPlayerObj, 900)
 

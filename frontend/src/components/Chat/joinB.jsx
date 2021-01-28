@@ -114,25 +114,26 @@ class Join extends React.Component{
   update(field){
     let truncated; 
     return e => {
-      if(e.currentTarget.value.length > 12){
-          truncated = truncate(e.currentTarget.value, 12);
-      } else if(e.currentTarget.value.length > 0){
-          this.setState({[field]: truncated ? capitalize(truncated) : capitalize(e.currentTarget.value)})
-      }else{
-        this.setState({[field]:e.currentTarget.value})
+      // if(this.state.username !== e.currentTarget.value){
+          if(e.currentTarget.value.length > 12){
+            truncated = truncate(e.currentTarget.value, 12);
+        } else if(e.currentTarget.value.length > 0){
+            this.setState({[field]: truncated ? capitalize(truncated) : capitalize(e.currentTarget.value)})
+        }else{
+            this.setState({[field]:e.currentTarget.value})
+        }
+      // }
       }
-     }
+     
   }
 
   handleStartSoloServer(e, isOnline) {
-    debugger
+
     if(this.state.username != ""){
         if(isOnline){
-          debugger
           this.socket.emit("startSoloGame", {username: this.state.username});
           this.setState({ roomName: this.socket.id });  
       } else {
-          debugger
           this.setState({phase: "soloLobby"})
       }
     }else if(this.state.username === ""){
@@ -179,12 +180,10 @@ class Join extends React.Component{
   }
 
   receiveRoomError(msg){
-    debugger
     this.setState({placeholderErrorRoom: msg, roomName: ""})
   }
 
   receiveLobbyPlayers(data){
-    debugger
     this.setState({lobbyPlayers: data.lobbyPlayers, phase: "lobby"})
   }
 
@@ -218,13 +217,13 @@ class Join extends React.Component{
   }
   
   receiveAiAutoPlayData(aiMove) {
-      debugger
     this.setState({aiMove: aiMove})
   }
 
   handleSetAiPlayers(num){
-    debugger
-    this.setState({numAiPlayers: num})
+    this.setState({numAiPlayers: num}, () => {
+      this.generateAiPlayers()
+    })
   }
 
   handleSetJoinOrCreate(str){
@@ -237,19 +236,10 @@ class Join extends React.Component{
     // this.socket.emit("disconnect", this.socket.id)
   }
 
-    render(){
+  generateAiPlayers() {
+    let players = []
 
-      let showInputField;
-      let displayPhase;
-      let players = [];
-
-      
-      
-      // FN to generate AI Player objects 
-      const generateAiPlayers = () => {
-        // players.push({username: this.state.username})
-        // debugger
-        players.push({username: capitalize(this.state.username)})
+       players.push({username: capitalize(this.state.username)})
 
         const superHeroes = ["Peter Parker", "Bruce Wayne", "Clark Kent", "Diane Prince", 
           "Barbara Gordon", "Kara Danvers", "Carol Danvers", "Wally West",
@@ -273,7 +263,6 @@ class Join extends React.Component{
             
               //hash access solution
                 while(existingUsernames[aiPlayer.username.toLowerCase()] === aiPlayer.username.toLowerCase()){
-                  debugger
                     randomIdx = Math.floor(Math.random() * superHeroes.length);
                     aiUsername = superHeroes[randomIdx];
                     aiPlayer = {username: aiUsername, isAi: true}
@@ -284,15 +273,33 @@ class Join extends React.Component{
 
           }
 
-          this.setState({players: players}, ()=> {
-            return players;
-          })
+          // this.setState({players: players}, ()=> {
+          //   return players;
+          // })
+          this.setState({players: players})
+          
 
       }
+  
+
+    render(){
+
+      let showInputField;
+      let displayPhase;
+      let players;
+
+      
+      
+      // FN to generate AI Player objects 
+      // const generateAiPlayers = () => {
+        // players.push({username: this.state.username})
+        // debugger
+       
 
       // this sets the State with Random AI usernames
-      if(!this.state.players && this.state.numAiPlayers){
-        players = generateAiPlayers()
+      // if(!this.state.players && this.state.numAiPlayers){
+      if(this.state.players && this.state.numAiPlayers){
+        players = this.state.players
       }
 
       const selectInputFields = () => {
@@ -324,14 +331,16 @@ class Join extends React.Component{
                   </div>
                 )
 
-                case "multiplayer":
-                  // plus lobby phase
-                  switch(this.state.joinOrCreate){
+                break;
 
-                    default: 
-                      return(userAndRoomInput)
+              case "multiplayer":
+                // plus lobby phase
+                switch(this.state.joinOrCreate){
 
-                  }
+                  default: 
+                    return(userAndRoomInput)
+
+                }
               
           }
         }
@@ -405,6 +414,7 @@ class Join extends React.Component{
                   </div>
                 )
 
+                break;
               case "startServer":
                       return(
                         <div className="joinOuterContainer">
@@ -418,25 +428,25 @@ class Join extends React.Component{
                         </div>
                       )
 
-
+                  break;
               case "soloLobby":
                 // debugger
 
                 if(this.state.gameState){
-                  //this starts an online Lobby
-                    return (
-                      // <GameViewComponent board={this.state.gameState}/>
-                      <Lobby players={this.state.gameState.players}
-                      totalPlayers={this.state.totalPlayers}
-                      handleGameStart={this.handleGameStart}/>
-                   )
+                  // //this starts an online Lobby
+                  // debugger
+                  //   return (
+                  //     // <GameViewComponent board={this.state.gameState}/>
+                  //     <Lobby players={this.state.gameState.players}
+                  //     totalPlayers={this.state.totalPlayers}
+                  //     handleGameStart={this.handleGameStart}/>
+                  //  )
                 } else if(!this.state.isOnline && !this.state.numAiPlayers){
                     return (<ChooseAi handleSetAiPlayers={this.handleSetAiPlayers} 
                       username={this.state.username}/>)
 
                     
                 } else if(this.state.players){
-                  debugger
                     return (<Lobby username={this.state.username} 
                         players={this.state.players}
                         totalPlayers={this.state.numAiPlayers + 1}
@@ -444,18 +454,19 @@ class Join extends React.Component{
                         handleGameStart={this.handleGameStart}/> )
                 }
 
+                break;
+
               case "soloGameStart":
-                debugger
+
                 if(this.state.gameState){
-                    // debugger
                     return(<GameViewComponent socket={this.socket} gameState={this.state.gameState}/>)
                 } else if (!this.state.isOnline && this.state.players){
                   debugger
                 }
 
+                break;
               case "lobby":
                 if(this.state.roomName && this.state.lobbyPlayers){
-                  debugger
                      return (
                       // <GameViewComponent board={this.state.gameState}/>
                       // players={this.state.gameState.players}
@@ -470,6 +481,8 @@ class Join extends React.Component{
                    )
                 }
 
+                  break;
+
                 case "multiPlayerGameStart":
                 //this if statement is redundent, however react would complain without it
                   if(this.state.isOnline){
@@ -481,9 +494,9 @@ class Join extends React.Component{
                       }
                   }
                   
+                  break;
 
                 case "playerDisconnect":
-                  debugger
                   if(this.state.playerDisconnected){
                       return (<Lobby 
                       // joinOrCreate={this.state.joinOrCreate}
@@ -494,16 +507,12 @@ class Join extends React.Component{
                       // handleGameStart={this.handleGameStart}
                       /> )
                   }
+
+                  break;
                   
 
                 default:
-                  return
-
-              
-
-                
-              
-
+                  return <p>Loading... </p>
 
           }
       }

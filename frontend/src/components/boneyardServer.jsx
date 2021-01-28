@@ -65,56 +65,61 @@ class Boneyard extends React.Component{
 
     componentDidUpdate(prevProps){
         // this.showDrawAlert()
+        debugger
+        if (this.props.boneyardLength <= (28 - (this.props.players.length * 7)) && (prevProps.boneyardLength !== this.props.boneyardLength)) {
+           
+            // if(this.props.boneyardLength < (28 - (this.props.players.length * 7))){
 
-        if (this.props.boneyardLength < (28 - (this.props.players.length * 7)) && (prevProps.boneyardLength !== this.props.boneyardLength)) {
-            let textPropsBY = Object.assign({},this.state.textPropsBY);
-            textPropsBY.text = `${this.props.boneyardLength}`
             
-            // debugger
-            this.diff = prevProps.boneyardLength - this.props.boneyardLength
+                let textPropsBY = Object.assign({},this.state.textPropsBY);
+                textPropsBY.text = `${this.props.boneyardLength}`
+                
+                // debugger
 
-            if(this.state.allPlayers){
-                this.currPlayerIdx = this.findPlayerByIndex()
-                let textProps;
-                let userName;
+                this.diff = prevProps.boneyardLength - this.props.boneyardLength
 
-                if (this.state.allPlayers[this.currPlayerIdx].username.length <= 6){
-                    userName = `     ${this.state.allPlayers[this.currPlayerIdx].username} \n    draws ${this.diff}`
-                } else {
-                    userName = `${this.state.allPlayers[this.currPlayerIdx].username} \n   draws ${this.diff}`
+                if(this.state.allPlayers){
+                    this.currPlayerIdx = this.findPlayerByIndex()
+                    let textProps;
+                    let userName;
+
+                    if (this.state.allPlayers[this.currPlayerIdx].username.length <= 6){
+                        userName = `     ${this.state.allPlayers[this.currPlayerIdx].username} \n    draws ${this.diff}`
+                    } else {
+                        userName = `${this.state.allPlayers[this.currPlayerIdx].username} \n   draws ${this.diff}`
+                    }
+
+                    textProps = {
+                        x: 105,
+                        y: 248,
+                        text: `${userName}`,
+                        fontFamily: "'M PLUS Rounded 1c'",
+                        fontSize: 20,
+                        fill: '#FFFFFF',
+                        stroke: 'white',
+                        strokeWidth: 1,
+                    }
+
+                    setTimeout(() => {
+
+                        let thisPlayer = this.state.allPlayers[this.currPlayerIdx];
+                        thisPlayer.drawImageToggle = true;
+
+                        let allPlayers = this.state.allPlayers;
+                        allPlayers[this.currPlayerIdx] = thisPlayer;
+
+                        this.setState({allPlayers, textProps, textPropsBY}, () => {
+                            // debugger
+                            setTimeout(() => {
+                                thisPlayer.drawImageToggle = false;
+                                let allPlayers = this.state.allPlayers;
+                                allPlayers[this.currPlayerIdx] = thisPlayer;
+                                this.setState({ allPlayers: allPlayers })
+                            }, 1300)
+                        })
+                    }, 1000)
+
                 }
-
-                textProps = {
-                    x: 105,
-                    y: 248,
-                    text: `${userName}`,
-                    fontFamily: "'M PLUS Rounded 1c'",
-                    fontSize: 20,
-                    fill: '#FFFFFF',
-                    stroke: 'white',
-                    strokeWidth: 1,
-                }
-
-                setTimeout(() => {
-
-                    let thisPlayer = this.state.allPlayers[this.currPlayerIdx];
-                    thisPlayer.drawImageToggle = true;
-
-                    let allPlayers = this.state.allPlayers;
-                    allPlayers[this.currPlayerIdx] = thisPlayer;
-
-                    this.setState({allPlayers, textProps, textPropsBY}, () => {
-                        // debugger
-                        setTimeout(() => {
-                            thisPlayer.drawImageToggle = false;
-                            let allPlayers = this.state.allPlayers;
-                            allPlayers[this.currPlayerIdx] = thisPlayer;
-                            this.setState({ allPlayers: allPlayers })
-                        }, 1300)
-                    })
-                }, 1000)
-
-            }
 
            
 
@@ -130,6 +135,7 @@ class Boneyard extends React.Component{
         // if (prevProps.src !== this.props.src) {
         //     this.loadImage();
         // }
+            // }
         }
     }
     
@@ -194,7 +200,8 @@ class Boneyard extends React.Component{
 
         return (
         <>
-                {drawImageToggle ?
+                {this.diff > 0 ?
+                drawImageToggle ?
                     <Group x={this.state.drawImagexA} y={this.state.drawImageyA}>
 
                         <Image
@@ -203,7 +210,7 @@ class Boneyard extends React.Component{
                                 this.imageNodeA = node; }} />
                             
                         <Text {...this.state.textProps} />
-                    </Group> : null }
+                    </Group> : null : null }
                 <Group x={this.state.drawImagexB} y={this.state.drawImageyB}>
 
                     <Image

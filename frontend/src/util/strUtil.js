@@ -2,7 +2,7 @@ const capitalize = (str) => {
         let parts = str.split(" ");
 
         for(let i = 0; i < parts.length; i++){
-          debugger
+          // debugger
           if(parts[i] !== ""){
             parts[i] = parts[i][0].toUpperCase()+parts[i].slice(1).toLowerCase();
           }
