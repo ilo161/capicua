@@ -17,7 +17,7 @@ class Hand extends React.Component {
 
         if (board){
 
-            renderedHand = board.currentPlayer.hand.map((bone,idx) => {
+            renderedHand = board.players[0].hand.map((bone,idx) => {
 
                const singleBoneVal =  boneValToString(bone.boneVal)[0]
                const reactKeyVal = parseInt(singleBoneVal)

@@ -28,7 +28,7 @@ function App() {
           <Route path="/play_game" component={GameViewComponent}/>
         </Switch>
       
-      {/* <img src={bodega} alt="bodega" className="bodega-img" ></img> */}
+
     </div>
   );
 }

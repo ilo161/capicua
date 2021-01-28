@@ -1,47 +1,37 @@
 .navbar-container{
-    display: flex;
-    top: 0;
     width: 100%;
-    flex-direction: row;
     height: 40px;
     background-color:  rgba(0, 0, 0, 0.7);
 }
 
-.navbar{
-    display: flex;
-    width: auto;
-}
 
 .nav-title{
     display: flex;
     color: white;
     font-size: 40px;
     margin-right: 5%;
-    margin-left: 5%;
+    margin-left: 3%;
     -webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 1.00px
 }
 
 .navbar{
     display: flex;
-    justify-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .engineers-music-rules{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-}
-
-.nav-engineer{
-    display: flex;
 }
 
 .nav-photo{
     height: 40px;
 }
 .nav-name-title{
-    margin-left: 9%;
+    margin-top: 5%;
+    margin-left: 7%;
     margin-right: 9%;
     -webkit-text-stroke-color: black;
     -webkit-text-stroke-width: .20px
@@ -49,11 +39,10 @@
 .nav-engineer{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     color: white;
     
 }
-.music-rules-btn{    
+.music-rules-btn{
     font-size: 30px;
     color: white;
     border-radius: 3px;

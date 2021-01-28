@@ -6,7 +6,6 @@ class Boneyard {
     constructor(board){
         this.bones = this.generateBoneyard()
         this.shuffleBoneYard(this.bones)
-        
     }
 
     //Function generates a 2 length string of Integer values that match the face of a Domino/Bone
@@ -33,6 +32,7 @@ class Boneyard {
         })
 
         return allBones
+        debugger
     }
 
 

@@ -4,7 +4,7 @@ import useImage from 'use-image';
 import Konva from "konva";
 import { Group, Image, Text } from 'react-konva';
 import Draw from '../assets/img/modals/draw.png'
-// import BoneyardRemaining from '../assets/img/modals/boneYardBox.png'
+import BoneyardRemaining from '../assets/img/modals/boneYardBox.png'
 
 
 class Boneyard extends React.Component{
@@ -154,8 +154,8 @@ class Boneyard extends React.Component{
         this.imageA.src = Draw;
         this.imageA.addEventListener('load', this.handleLoad);
         this.imageB = new window.Image();
-        // this.imageB.src = BoneyardRemaining;
-        // this.imageB.addEventListener('load', this.handleLoad);
+        this.imageB.src = BoneyardRemaining;
+        this.imageB.addEventListener('load', this.handleLoad);
     }
 
     handleLoad = () => {

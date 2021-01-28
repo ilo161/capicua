@@ -219,6 +219,7 @@ class Board {
 
         // TESTING PURPOSES ONLY DELETE LATER //
         console.log("*************");
+        debugger
         console.log("NEW CURRENT PLAYER && Hand");
         console.log(this.currentPlayer.username);
         this.currentPlayer.revealHand()
@@ -245,6 +246,7 @@ class Board {
                 while ((!this.currentPlayer.hasPlayableBones()) && (this.boneyard.bones.length > 0)){
                     // debugger
                     this.currentPlayer.drawBone()
+                    
                 }
 
                 //player draws all bones && still has no valid move
@@ -273,6 +275,7 @@ class Board {
         const arenaLeftBoneVal = this.arena[0].boneVal[0];
         // extracting the far right number on the arena
         const arenaRightBoneVal = this.arena[this.arena.length-1].boneVal[1];
+        console.log(`is Ai ${this.currentPlayer.isAi}`)
         console.log(arenaLeftBoneVal)
         console.log(arenaRightBoneVal)
         console.log(bone)
