@@ -1,14 +1,73 @@
-# Capicua
+# README
+
+## Capicua Slam [Live Link](https://capicua-slam.herokuapp.com/#/)
+
+'Capicua Slam' is an Online 2-4 player Dominoes game. Versus up to 3 AI in offline mode or play with a friend. To win, be the first to 80 points. To win Capicua and an extra 25 points, your last domino must be playable on both ends of the board. Can you win and achieve Capicua Slam!?
+
+![Splash](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/game_board.png "Splash Page")
+
+### Technologies Used
+
+This website is built off of the React, Javascript and Konva technologies for gameplay and animations. Backend is handled with Express and MongoDB. 
+
+### Multi Functional Splash Page
+
+The splash page has a diversity of technologies. What looks like 3-4 button sequences to start gameplay, the codebase is creating arguments to drop into the game constructor with every input captured. If the user decides to go online, the codebase is creating a server in the background. 
+
+![Splash](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/start_play.png "Splash Page")
+![Select UserName](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/start_user.png "Select UserName")
+![Select Count](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/start_count.png "Select Count")
+![Start Ready](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/start_rdy.png "Start Ready")
+
+We did this using a master page and holding "state" of the current phase of the game. Once a phase of "multiplayerGameStart" is achieved.
+Then all the essentials are prop threaded.
+
+![Multi Start](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/multi_start.png "Multi Start")
+
+### Technical Difficulties
+
+Developing code that would display the other players invisible hands was a fun achievement because we never knew if there would be one, two, 
+three players joining a game. Creating dynamic code that would handle all scenarios took serious planning and deep thinking and when it was
+ready, it got the job done.
+
+Photo displaying other players hand.
+
+![Other Hand](https://github.com/ilo161/capicua/blob/main/frontend/src/assets/img/other_hand.png "Other Hand")
+
+```
+for(let j = currPlayerIdx; j < (currPlayerIdx + numPlayers); j++){
+
+   allPlayers[j % numPlayers].playerIdx = (j % numPlayers);
+   allPlayers[j % numPlayers].player = board.players[allPlayers[j % numPlayers].playerIdx];
+   allPlayers[j % numPlayers].playerHand = allPlayers[j % numPlayers].player.hand;
+   allPlayers[j % numPlayers].offSetCenter = ((allPlayers[j % numPlayers].playerHand.length / 2) * ((boneWidth / 3) + boneWidth));
+   allPlayers[j % numPlayers].startBoxforPlayerHand = ((boardDimen / 2) - allPlayers[j % numPlayers].offSetCenter);
+   allPlayers[j % numPlayers].renderedHandPlayer = renderHandFn(allPlayers[j % numPlayers].player,
+            allPlayers[j % numPlayers].offSetCenter,
+            allPlayers[j % numPlayers].playerIdx, currPlayerIdx)
+
+}
+```
+
+# Below is our pre planning notes
+
+
+
 
 ## Background and Overview
 
-#### Online 2-4 player Dominoes called 'Capicua Slam'. Filled with robust animations and genuine soundbites to match the authenticity of a real game of dominos. We will also build an AI opponent for offline play and include in game meters to achieve the SLAM! function in the game. We will also add in a game voice chat feature to allow players to interact and influence the game.
+#### 'Capicua Slam' is an Online 2-4 player Dominoes game. You may choose to versus 
+up to 3 AI in offline mode. There exists a rule in Dominos/Dominoes where if the
+player's last domino is playable on both ends of the board
+then a "Capicua" is achieved and is awarded an extra 25 points. Upon succession of 
+"Capicua" the board with trigger the SLAM animation/effect. Can you win and 
+achieve Capicua Slam!?
 
 #### We will need to:
  * Create the board and gameplay logic
- * Create an interactive + mesmerizing graphical interface for said board.
+ * Create an interactive graphical interface for said board.
  * Create an online multiplayer infrastructure(gameplay && player to player interaction).
- * Build a database to store user, bones, and highscore info.
+ * Build a database to store username win loss ratios
  * Create a toggle for an authentic carribean musical experience(audio player).
 
  ## Functionality & MVP
@@ -16,26 +75,23 @@
 ### Board
 * Board Setup Graphics 
     * Placing Bones/Dominoes
-* Background/Graphics
-    * Fire graphics on the screen when player is on fire
-        * Fire is achieved with a certain streak of placed bones
 
   ### Gameplay
-    * Play to win by Points (80 || 120 || 200)
+    * Play to win by Points (80)
         * At the end of a round the total sum of dots on remaining bones are rewarded to the winner
-        * Database will save a Highscore.
+        * Database will save win/loss ratio per username
     * Quickmatch (2 or 4 players and up to 80 points to win)
     * Bonus:
         * AI player 
 
   ### Multiplayer functionality
-    * 2 players versus or 4 players on team
-        * If 4 players then team mode initiates and enables live chat
+    * 2 players versus or 4 players free for all
+    * A chat feature will be availble for online mode.
 
   ### Audio player
     * Carribean music 
-    * Perpetually playing with skip feature
-    * Calm/Mild/Caliente playlist
+    * Perpetually playing(loops)
+    * Plain/Mild/Caliente playlist
 
   ### Bonus
     * Gameplay AI
@@ -47,12 +103,12 @@
 ### <ins>Board</ins>
 ### Technical Challenges
 
-The board set up animations will be technically challenging because game pieces will be shuffled and distributed to multiple player with animation. We also anticpate challenges with the viewbox when the length of the sides of the game pieces exceeds the dimensions of the visible board. Another challenge we foresee is syncing our game logic with our animations.
+ We anticpate challenges with the viewbox when the length of the sides of the game pieces exceeds the dimensions of the visible board. Another challenge we foresee is syncing our game logic with the server.
 
 ### <ins>Gameplay</ins>
- Gameplay begins with players drawing 7 bones/dominoes. First player is decided by whom has the highest double(i.e. double 6 ... 5...4...3..etc.). The following player(s) may only play a bone if one of their bones has the same number of dots as either end of the gameboard. Otherwise... player must draw from the pile of remaining bones, if not bones are available, player skips their turn. A player or team wins when they have no remaining bones in their hand. The opponents dots on all remaining bones are added to the score of the winner.
+ Gameplay begins with players drawing 7 bones/dominoes. First player is decided by whom has the highest double(i.e. double 6 ... 5...4...3..etc.). The following player(s) may only play a bone if one of their bones has the same number of dots as either end of the gameboard. Otherwise... player must draw from the pile of remaining bones, if no bones are available, player skips their turn. A player wins when they have no remaining bones in their hand. The opponents dots on all remaining bones are added to the score of the winner. Except when the game achieves a "locked game" status (all players have no playable bones) then the winner of that rounds get all points from opponents minus their own dots on their remaining hand.
 
-A capicua occurs when a player's winning bone can be played on either side of the board.(A capicua triggers a graphical effect). Please note that our games involves high levels of flashing lights and background music.
+A capicua occurs when a player's winning bone can be played on either side of the board.(A capicua triggers a graphical effect).
         
 ### Technical Challenges
 
@@ -63,14 +119,10 @@ A capicua occurs when a player's winning bone can be played on either side of th
 
 ### Technical Challenges
 
- Learning how to use Web Sockets for the joined online experience. Implementing external peripherals such as microphones for voice chat. Implementing a countdown timer to encourage continuous gameplay.
+ Learning how to use Socket.io for the joined online experience. Implementing a countdown timer to encourage continuous gameplay.
 
 ### <ins>Audio player</ins>
  A docked audio player for that authentic carribean music experience.
-
-### Technical Challenges
-
- Harmonizing with voice chat. Disallowing music to be louder than incomming voice data to other players but then restoring volume to the music when voice chat stops.
 
 
 ## Accomplished over the Weekend
@@ -87,7 +139,7 @@ A capicua occurs when a player's winning bone can be played on either side of th
 
 
 
-### November 30 - Day 1
+### Phase 1
  * Build skeleton of all components in React site - Yangel  & Sergio
     * By days end, render visual board component, bones components, highscore box
  * Setting up Database and creating guest player auth - Steven
@@ -97,23 +149,24 @@ A capicua occurs when a player's winning bone can be played on either side of th
  * Grab soundtracks from internets - Chris || Steven
 
 
-### December 1 - Day 2
+### Phase 2
  * Beautify our component(s) CSS until game logic is ready - Yangel & Sergio
  * Test all the methods on the window - Steven
  * Setting up game and player logic - Steven & Chris
 
 
-### December 2 - Day 3
+### Phase 3
  * Test gameplay functionality with css - Steven & Sergio
     * Directly followed by websocket interface setup (multiplayer)
- * Add graphical animations to end of game scene as well as "player on fire" - Yangel
- * Websocket integration and peripheral permissions for voice chat - Chris
+ * Add graphical animations to end of game scene - Yangel
+ * Websocket integration - Chris
 
 
-### December 3 - Day 4
+### Phase 4
  * Testing multiplayer functionality and debugging - Steven & Sergio
  * Cleaning up CSS - Yangel & Chris
 
 
-### December 4 - Day 5
+### Phase 5
  * Complete Production ReadMe & Prepare for Presentation - All
+
